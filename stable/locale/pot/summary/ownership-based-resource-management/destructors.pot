@@ -1,0 +1,142 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/destructors.md:1
+msgid "Destructors"
+msgstr ""
+
+#: src/destructors.md:3
+msgid ""
+"What the language _does_ provide is full-blown automatic destructors through "
+"the `Drop` trait, which provides the following method:"
+msgstr ""
+
+#: src/destructors.md:11
+msgid "This method gives the type time to somehow finish what it was doing."
+msgstr ""
+
+#: src/destructors.md:13
+msgid ""
+"**After `drop` is run, Rust will recursively try to drop all of the fields "
+"of `self`.**"
+msgstr ""
+
+#: src/destructors.md:16
+msgid ""
+"This is a convenience feature so that you don't have to write \"destructor "
+"boilerplate\" to drop children. If a struct has no special logic for being "
+"dropped other than dropping its children, then it means `Drop` doesn't need "
+"to be implemented at all!"
+msgstr ""
+
+#: src/destructors.md:21
+msgid "**There is no stable way to prevent this behavior in Rust 1.0.**"
+msgstr ""
+
+#: src/destructors.md:23
+msgid ""
+"Note that taking `&mut self` means that even if you could suppress recursive "
+"Drop, Rust will prevent you from e.g. moving fields out of self. For most "
+"types, this is totally fine."
+msgstr ""
+
+#: src/destructors.md:27
+msgid ""
+"For instance, a custom implementation of `Box` might write `Drop` like this:"
+msgstr ""
+
+#: src/destructors.md:50
+msgid ""
+"and this works fine because when Rust goes to drop the `ptr` field it just "
+"sees a [Unique](phantom-data.html) that has no actual `Drop` implementation. "
+"Similarly nothing can use-after-free the `ptr` because when drop exits, it "
+"becomes inaccessible."
+msgstr ""
+
+#: src/destructors.md:54
+msgid "However this wouldn't work:"
+msgstr ""
+
+#: src/destructors.md:80
+msgid ""
+"// Hyper-optimized: deallocate the box's contents for it\n"
+"            // without `drop`ing the contents\n"
+msgstr ""
+
+#: src/destructors.md:90
+msgid ""
+"After we deallocate the `box`'s ptr in SuperBox's destructor, Rust will "
+"happily proceed to tell the box to Drop itself and everything will blow up "
+"with use-after-frees and double-frees."
+msgstr ""
+
+#: src/destructors.md:94
+msgid ""
+"Note that the recursive drop behavior applies to all structs and enums "
+"regardless of whether they implement Drop. Therefore something like"
+msgstr ""
+
+#: src/destructors.md:105
+msgid ""
+"will have the destructors of its `data1` and `data2` fields called whenever "
+"it \"would\" be dropped, even though it itself doesn't implement Drop. We "
+"say that such a type _needs Drop_, even though it is not itself Drop."
+msgstr ""
+
+#: src/destructors.md:109
+msgid "Similarly,"
+msgstr ""
+
+#: src/destructors.md:118
+msgid ""
+"will have its inner Box field dropped if and only if an instance stores the "
+"Next variant."
+msgstr ""
+
+#: src/destructors.md:121
+msgid ""
+"In general this works really nicely because you don't need to worry about "
+"adding/removing drops when you refactor your data layout. Still there's "
+"certainly many valid use cases for needing to do trickier things with "
+"destructors."
+msgstr ""
+
+#: src/destructors.md:126
+msgid ""
+"The classic safe solution to overriding recursive drop and allowing moving "
+"out of Self during `drop` is to use an Option:"
+msgstr ""
+
+#: src/destructors.md:153
+msgid ""
+"// Hyper-optimized: deallocate the box's contents for it\n"
+"            // without `drop`ing the contents. Need to set the `box`\n"
+"            // field as `None` to prevent Rust from trying to Drop it.\n"
+msgstr ""
+
+#: src/destructors.md:166
+msgid ""
+"However this has fairly odd semantics: you are saying that a field that "
+"_should_ always be Some _may_ be None, just because of what happens in the "
+"destructor. Of course this conversely makes a lot of sense: you can call "
+"arbitrary methods on self during the destructor, and this should prevent you "
+"from ever doing so after deinitializing the field. Not that it will prevent "
+"you from producing any other arbitrarily invalid state in there."
+msgstr ""
+
+#: src/destructors.md:173
+msgid ""
+"On balance this is an ok choice. Certainly what you should reach for by "
+"default. However, in the future we expect there to be a first-class way to "
+"announce that a field shouldn't be automatically dropped."
+msgstr ""
