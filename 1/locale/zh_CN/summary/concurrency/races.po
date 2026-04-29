@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/races.md:1
+msgid "Data Races and Race Conditions"
+msgstr ""
+
+#: src/races.md:3
+msgid "Safe Rust guarantees an absence of data races, which are defined as:"
+msgstr ""
+
+#: src/races.md:5
+msgid "two or more threads concurrently accessing a location of memory"
+msgstr ""
+
+#: src/races.md:6
+msgid "one or more of them is a write"
+msgstr ""
+
+#: src/races.md:7
+msgid "one or more of them is unsynchronized"
+msgstr ""
+
+#: src/races.md:9
+msgid ""
+"A data race has Undefined Behavior, and is therefore impossible to perform "
+"in Safe Rust. Data races are prevented _mostly_ through Rust's ownership "
+"system alone: it's impossible to alias a mutable reference, so it's "
+"impossible to perform a data race. Interior mutability makes this more "
+"complicated, which is largely why we have the Send and Sync traits (see the "
+"next section for more on this)."
+msgstr ""
+
+#: src/races.md:15
+msgid "**However Rust does not prevent general race conditions.**"
+msgstr ""
+
+#: src/races.md:17
+msgid ""
+"This is mathematically impossible in situations where you do not control the "
+"scheduler, which is true for the normal OS environment. If you do control "
+"preemption, it _can be_ possible to prevent general races - this technique "
+"is used by frameworks such as [RTIC](https://github.com/rtic-rs/rtic). "
+"However, actually having control over scheduling is a very uncommon case."
+msgstr ""
+
+#: src/races.md:23
+msgid ""
+"For this reason, it is considered \"safe\" for Rust to get deadlocked or do "
+"something nonsensical with incorrect synchronization: this is known as a "
+"general race condition or resource race. Obviously such a program isn't very "
+"good, but Rust of course cannot prevent all logic errors."
+msgstr ""
+
+#: src/races.md:28
+msgid ""
+"In any case, a race condition cannot violate memory safety in a Rust program "
+"on its own. Only in conjunction with some other unsafe code can a race "
+"condition actually violate memory safety. For instance, a correct program "
+"looks like this:"
+msgstr ""
+
+#: src/races.md:37
+msgid ""
+"// Arc so that the memory the AtomicUsize is stored in still exists for\n"
+"// the other thread to increment, even if we completely finish executing\n"
+"// before it. Rust won't compile the program without it, because of the\n"
+"// lifetime requirements of thread::spawn!\n"
+msgstr ""
+
+#: src/races.md:44 src/races.md:75
+msgid "// `move` captures other_idx by-value, moving it into this thread\n"
+msgstr ""
+
+#: src/races.md:47 src/races.md:78
+msgid ""
+"// It's ok to mutate idx because this value\n"
+"    // is an atomic, so it can't cause a Data Race.\n"
+msgstr ""
+
+#: src/races.md:51
+msgid ""
+"// Index with the value loaded from the atomic. This is safe because we\n"
+"// read the atomic memory only once, and then pass a copy of that value\n"
+"// to the Vec's indexing implementation. This indexing will be correctly\n"
+"// bounds checked, and there's no chance of the value getting changed\n"
+"// in the middle. However our program may panic if the thread we spawned\n"
+"// managed to increment before this ran. A race condition because correct\n"
+"// program execution (panicking is rarely correct) depends on order of\n"
+"// thread execution.\n"
+msgstr ""
+
+#: src/races.md:60 src/races.md:88
+msgid "\"{}\""
+msgstr ""
+
+#: src/races.md:63
+msgid ""
+"We can cause a race condition to violate memory safety if we instead do the "
+"bound check in advance, and then unsafely access the data with an unchecked "
+"value:"
+msgstr ""
+
+#: src/races.md:85
+msgid ""
+"// Incorrectly loading the idx after we did the bounds check.\n"
+"        // It could have changed. This is a race condition, *and dangerous*\n"
+"        // because we decided to do `get_unchecked`, which is `unsafe`.\n"
+msgstr ""

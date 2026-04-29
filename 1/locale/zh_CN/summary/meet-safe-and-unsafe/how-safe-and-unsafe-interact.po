@@ -1,0 +1,278 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/safe-unsafe-meaning.md:1
+msgid "How Safe and Unsafe Interact"
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:3
+msgid ""
+"What's the relationship between Safe Rust and Unsafe Rust? How do they "
+"interact?"
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:6
+msgid ""
+"The separation between Safe Rust and Unsafe Rust is controlled with the "
+"`unsafe` keyword, which acts as an interface from one to the other. This is "
+"why we can say Safe Rust is a safe language: all the unsafe parts are kept "
+"exclusively behind the `unsafe` boundary. If you wish, you can even toss `#!"
+"[forbid(unsafe_code)]` into your code base to statically guarantee that "
+"you're only writing Safe Rust."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:13
+msgid ""
+"The `unsafe` keyword has two uses: to declare the existence of contracts the "
+"compiler can't check, and to declare that a programmer has checked that "
+"these contracts have been upheld."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:17
+msgid ""
+"You can use `unsafe` to indicate the existence of unchecked contracts on "
+"_functions_ and _trait declarations_. On functions, `unsafe` means that "
+"users of the function must check that function's documentation to ensure "
+"they are using it in a way that maintains the contracts the function "
+"requires. On trait declarations, `unsafe` means that implementors of the "
+"trait must check the trait documentation to ensure their implementation "
+"maintains the contracts the trait requires."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:25
+msgid ""
+"You can use `unsafe` on a block to declare that all unsafe actions performed "
+"within are verified to uphold the contracts of those operations. For "
+"instance, the index passed to [`slice::get_unchecked`](../std/primitive."
+"slice.html#method.get_unchecked) is in-bounds."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:29
+msgid ""
+"You can use `unsafe` on a trait implementation to declare that the "
+"implementation upholds the trait's contract. For instance, that a type "
+"implementing [`Send`](../std/marker/trait.Send.html) is really safe to move "
+"to another thread."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:33
+msgid "The standard library has a number of unsafe functions, including:"
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:35
+msgid ""
+"[`slice::get_unchecked`](../std/primitive.slice.html#method.get_unchecked), "
+"which performs unchecked indexing, allowing memory safety to be freely "
+"violated."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:37
+msgid ""
+"[`mem::transmute`](../std/mem/fn.transmute.html) reinterprets some value as "
+"having a given type, bypassing type safety in arbitrary ways (see "
+"[conversions](conversions.html) for details)."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:39
+msgid ""
+"Every raw pointer to a sized type has an [`offset`](../std/primitive.pointer."
+"html#method.offset) method that invokes Undefined Behavior if the passed "
+"offset is not [\"in bounds\"](../std/primitive.pointer.html#method.offset)."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:41
+msgid ""
+"All FFI (Foreign Function Interface) functions are `unsafe` to call because "
+"the other language can do arbitrary operations that the Rust compiler can't "
+"check."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:44
+msgid ""
+"As of Rust 1.29.2, the standard library defines the following unsafe traits "
+"(there are others, but they are not stabilized yet and some of them may "
+"never be):"
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:48
+msgid ""
+"[`Send`](../std/marker/trait.Send.html) is a marker trait (a trait with no "
+"API) that promises implementors are safe to send (move) to another thread."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:50
+msgid ""
+"[`Sync`](../std/marker/trait.Sync.html) is a marker trait that promises "
+"threads can safely share implementors through a shared reference."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:52
+msgid ""
+"[`GlobalAlloc`](../std/alloc/trait.GlobalAlloc.html) allows customizing the "
+"memory allocator of the whole program."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:54
+msgid ""
+"Much of the Rust standard library also uses Unsafe Rust internally. These "
+"implementations have generally been rigorously manually checked, so the Safe "
+"Rust interfaces built on top of these implementations can be assumed to be "
+"safe."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:58
+msgid ""
+"The need for all of this separation boils down to a single fundamental "
+"property of Safe Rust, the _soundness property_:"
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:61
+msgid "**No matter what, Safe Rust can't cause Undefined Behavior.**"
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:63
+msgid ""
+"The design of the safe/unsafe split means that there is an asymmetric trust "
+"relationship between Safe and Unsafe Rust. Safe Rust inherently has to trust "
+"that any Unsafe Rust it touches has been written correctly. On the other "
+"hand, Unsafe Rust cannot trust Safe Rust without care."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:68
+msgid ""
+"As an example, Rust has the [`PartialOrd`](../std/cmp/trait.PartialOrd.html) "
+"and [`Ord`](../std/cmp/trait.Ord.html) traits to differentiate between types "
+"which can \"just\" be compared, and those that provide a \"total\" ordering "
+"(which basically means that comparison behaves reasonably)."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:72
+msgid ""
+"[`BTreeMap`](../std/collections/struct.BTreeMap.html) doesn't really make "
+"sense for partially-ordered types, and so it requires that its keys "
+"implement `Ord`. However, `BTreeMap` has Unsafe Rust code inside of its "
+"implementation. Because it would be unacceptable for a sloppy `Ord` "
+"implementation (which is Safe to write) to cause Undefined Behavior, the "
+"Unsafe code in BTreeMap must be written to be robust against `Ord` "
+"implementations which aren't actually total — even though that's the whole "
+"point of requiring `Ord`."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:79
+msgid ""
+"The Unsafe Rust code just can't trust the Safe Rust code to be written "
+"correctly. That said, `BTreeMap` will still behave completely erratically if "
+"you feed in values that don't have a total ordering. It just won't ever "
+"cause Undefined Behavior."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:84
+msgid ""
+"One may wonder, if `BTreeMap` cannot trust `Ord` because it's Safe, why can "
+"it trust _any_ Safe code? For instance `BTreeMap` relies on integers and "
+"slices to be implemented correctly. Those are safe too, right?"
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:88
+msgid ""
+"The difference is one of scope. When `BTreeMap` relies on integers and "
+"slices, it's relying on one very specific implementation. This is a measured "
+"risk that can be weighed against the benefit. In this case there's basically "
+"zero risk; if integers and slices are broken, _everyone_ is broken. Also, "
+"they're maintained by the same people who maintain `BTreeMap`, so it's easy "
+"to keep tabs on them."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:94
+msgid ""
+"On the other hand, `BTreeMap`'s key type is generic. Trusting its `Ord` "
+"implementation means trusting every `Ord` implementation in the past, "
+"present, and future. Here the risk is high: someone somewhere is going to "
+"make a mistake and mess up their `Ord` implementation, or even just straight "
+"up lie about providing a total ordering because \"it seems to work\". When "
+"that happens, `BTreeMap` needs to be prepared."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:101
+msgid ""
+"The same logic applies to trusting a closure that's passed to you to behave "
+"correctly."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:104
+msgid ""
+"This problem of unbounded generic trust is the problem that `unsafe` traits "
+"exist to resolve. The `BTreeMap` type could theoretically require that keys "
+"implement a new trait called `UnsafeOrd`, rather than `Ord`, that might look "
+"like this:"
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:117
+msgid ""
+"Then, a type would use `unsafe` to implement `UnsafeOrd`, indicating that "
+"they've ensured their implementation maintains whatever contracts the trait "
+"expects. In this situation, the Unsafe Rust in the internals of `BTreeMap` "
+"would be justified in trusting that the key type's `UnsafeOrd` "
+"implementation is correct. If it isn't, it's the fault of the unsafe trait "
+"implementation, which is consistent with Rust's safety guarantees."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:124
+msgid ""
+"The decision of whether to mark a trait `unsafe` is an API design choice. A "
+"safe trait is easier to implement, but any unsafe code that relies on it "
+"must defend against incorrect behavior. Marking a trait `unsafe` shifts this "
+"responsibility to the implementor. Rust has traditionally avoided marking "
+"traits `unsafe` because it makes Unsafe Rust pervasive, which isn't "
+"desirable."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:130
+msgid ""
+"`Send` and `Sync` are marked unsafe because thread safety is a _fundamental "
+"property_ that unsafe code can't possibly hope to defend against in the way "
+"it could defend against a buggy `Ord` implementation. Similarly, "
+"`GlobalAlloc` is keeping accounts of all the memory in the program and other "
+"things like `Box` or `Vec` that build on top of it. If it does something "
+"weird (giving the same chunk of memory to another request when it is still "
+"in use), there's no chance to detect that and do anything about it."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:138
+msgid ""
+"The decision of whether to mark your own traits `unsafe` depends on the same "
+"sort of consideration. If `unsafe` code can't reasonably expect to defend "
+"against a broken implementation of the trait, then marking the trait "
+"`unsafe` is a reasonable choice."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:143
+msgid ""
+"As an aside, while `Send` and `Sync` are `unsafe` traits, they are _also_ "
+"automatically implemented for types when such derivations are provably safe "
+"to do. `Send` is automatically derived for all types composed only of values "
+"whose types also implement `Send`. `Sync` is automatically derived for all "
+"types composed only of values whose types also implement `Sync`. This "
+"minimizes the pervasive unsafety of making these two traits `unsafe`. And "
+"not many people are going to _implement_ memory allocators (or use them "
+"directly, for that matter)."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:152
+msgid ""
+"This is the balance between Safe and Unsafe Rust. The separation is designed "
+"to make using Safe Rust as ergonomic as possible, but requires extra effort "
+"and care when writing Unsafe Rust. The rest of this book is largely a "
+"discussion of the sort of care that must be taken, and what contracts Unsafe "
+"Rust must uphold."
+msgstr ""

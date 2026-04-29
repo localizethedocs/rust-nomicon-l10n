@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/casts.md:1
+msgid "Casts"
+msgstr ""
+
+#: src/casts.md:3
+msgid ""
+"Casts are a superset of coercions: every coercion can be explicitly invoked "
+"via a cast. However some conversions require a cast. While coercions are "
+"pervasive and largely harmless, these \"true casts\" are rare and "
+"potentially dangerous. As such, casts must be explicitly invoked using the "
+"`as` keyword: `expr as Type`."
+msgstr ""
+
+#: src/casts.md:8
+msgid ""
+"You can find an exhaustive list of [all the true casts](../reference/"
+"expressions/operator-expr.html#type-cast-expressions) and [casting semantics]"
+"(../reference/expressions/operator-expr.html#semantics) on the reference."
+msgstr ""
+
+#: src/casts.md:10
+msgid "Safety of casting"
+msgstr ""
+
+#: src/casts.md:12
+msgid ""
+"True casts generally revolve around raw pointers and the primitive numeric "
+"types. Even though they're dangerous, these casts are infallible at runtime. "
+"If a cast triggers some subtle corner case no indication will be given that "
+"this occurred. The cast will simply succeed. That said, casts must be valid "
+"at the type level, or else they will be prevented statically. For instance, "
+"`7u8 as bool` will not compile."
+msgstr ""
+
+#: src/casts.md:19
+msgid ""
+"That said, casts aren't `unsafe` because they generally can't violate memory "
+"safety _on their own_. For instance, converting an integer to a raw pointer "
+"can very easily lead to terrible things. However the act of creating the "
+"pointer itself is safe, because actually using a raw pointer is already "
+"marked as `unsafe`."
+msgstr ""
+
+#: src/casts.md:23
+msgid "Some notes about casting"
+msgstr ""
+
+#: src/casts.md:25
+msgid "Lengths when casting raw slices"
+msgstr ""
+
+#: src/casts.md:27
+msgid ""
+"Note that lengths are not adjusted when casting raw slices; `*const [u16] as "
+"*const [u8]` creates a slice that only includes half of the original memory."
+msgstr ""
+
+#: src/casts.md:29
+msgid "Transitivity"
+msgstr ""
+
+#: src/casts.md:31
+msgid ""
+"Casting is not transitive, that is, even if `e as U1 as U2` is a valid "
+"expression, `e as U2` is not necessarily so."
+msgstr ""

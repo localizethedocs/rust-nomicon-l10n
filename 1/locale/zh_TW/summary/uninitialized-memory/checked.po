@@ -1,0 +1,130 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/checked-uninit.md:1
+msgid "Checked Uninitialized Memory"
+msgstr ""
+
+#: src/checked-uninit.md:3
+msgid ""
+"Like C, all stack variables in Rust are uninitialized until a value is "
+"explicitly assigned to them. Unlike C, Rust statically prevents you from "
+"ever reading them until you do:"
+msgstr ""
+
+#: src/checked-uninit.md:10 src/checked-uninit.md:39 src/checked-uninit.md:51
+#: src/checked-uninit.md:68 src/checked-uninit.md:95
+msgid "\"{}\""
+msgstr ""
+
+#: src/checked-uninit.md:14
+msgid ""
+"```text\n"
+"  |\n"
+"3 |     println!(\"{}\", x);\n"
+"  |                    ^ use of possibly uninitialized `x`\n"
+"```"
+msgstr ""
+
+#: src/checked-uninit.md:20
+msgid ""
+"This is based off of a basic branch analysis: every branch must assign a "
+"value to `x` before it is first used. For short, we also say that \"`x` is "
+"init\" or \"`x` is uninit\"."
+msgstr ""
+
+#: src/checked-uninit.md:24
+msgid ""
+"Interestingly, Rust doesn't require the variable to be mutable to perform a "
+"delayed initialization if every branch assigns exactly once. However the "
+"analysis does not take advantage of constant analysis or anything like that. "
+"So this compiles:"
+msgstr ""
+
+#: src/checked-uninit.md:43
+msgid "but this doesn't:"
+msgstr ""
+
+#: src/checked-uninit.md:55
+msgid ""
+"```text\n"
+"  |\n"
+"6 |     println!(\"{}\", x);\n"
+"  |                    ^ use of possibly uninitialized `x`\n"
+"```"
+msgstr ""
+
+#: src/checked-uninit.md:61
+msgid "while this does:"
+msgstr ""
+
+#: src/checked-uninit.md:70
+msgid ""
+"// Don't care that there are branches where it's not initialized\n"
+"    // since we don't use the value in those branches\n"
+msgstr ""
+
+#: src/checked-uninit.md:75
+msgid ""
+"Of course, while the analysis doesn't consider actual values, it does have a "
+"relatively sophisticated understanding of dependencies and control flow. For "
+"instance, this works:"
+msgstr ""
+
+#: src/checked-uninit.md:83
+msgid ""
+"// Rust doesn't understand that this branch will be taken unconditionally,\n"
+"    // because it relies on actual values.\n"
+msgstr ""
+
+#: src/checked-uninit.md:86
+msgid ""
+"// But it does understand that it will only be taken once because\n"
+"        // we unconditionally break out of it. Therefore `x` doesn't\n"
+"        // need to be marked as mutable.\n"
+msgstr ""
+
+#: src/checked-uninit.md:92
+msgid ""
+"// It also knows that it's impossible to get here without reaching the "
+"break.\n"
+"// And therefore that `x` must be initialized here!\n"
+msgstr ""
+
+#: src/checked-uninit.md:98
+msgid ""
+"If a value is moved out of a variable, that variable becomes logically "
+"uninitialized if the type of the value isn't Copy. That is:"
+msgstr ""
+
+#: src/checked-uninit.md:105
+msgid "// x is still valid because i32 is Copy\n"
+msgstr ""
+
+#: src/checked-uninit.md:106 src/checked-uninit.md:116
+msgid "// y is now logically uninitialized because Box isn't Copy\n"
+msgstr ""
+
+#: src/checked-uninit.md:110
+msgid ""
+"However reassigning `y` in this example _would_ require `y` to be marked as "
+"mutable, as a Safe Rust program could observe that the value of `y` changed:"
+msgstr ""
+
+#: src/checked-uninit.md:117
+msgid "// reinitialize y\n"
+msgstr ""
+
+#: src/checked-uninit.md:121
+msgid "Otherwise it's like `y` is a brand new variable."
+msgstr ""

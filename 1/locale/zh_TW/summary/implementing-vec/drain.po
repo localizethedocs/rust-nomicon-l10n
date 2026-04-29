@@ -1,0 +1,89 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/vec/vec-drain.md:1
+msgid "Drain"
+msgstr ""
+
+#: src/vec/vec-drain.md:3
+msgid ""
+"Let's move on to Drain. Drain is largely the same as IntoIter, except that "
+"instead of consuming the Vec, it borrows the Vec and leaves its allocation "
+"untouched. For now we'll only implement the \"basic\" full-range version."
+msgstr ""
+
+#: src/vec/vec-drain.md:12
+msgid ""
+"// Need to bound the lifetime here, so we do it with `&'a mut Vec<T>`\n"
+"    // because that's semantically what we contain. We're \"just\" calling\n"
+"    // `pop()` and `remove(0)`.\n"
+msgstr ""
+
+#: src/vec/vec-drain.md:27
+msgid ""
+"\\-- wait, this is seeming familiar. Let's do some more compression. Both "
+"IntoIter and Drain have the exact same structure, let's just factor it out."
+msgstr ""
+
+#: src/vec/vec-drain.md:38
+msgid ""
+"// unsafe to construct because it has no associated lifetimes.\n"
+"    // This is necessary to store a RawValIter in the same struct as\n"
+"    // its actual allocation. OK since it's a private implementation\n"
+"    // detail.\n"
+msgstr ""
+
+#: src/vec/vec-drain.md:46
+msgid ""
+"// if `len = 0`, then this is not actually allocated memory.\n"
+"                // Need to avoid offsetting because that will give wrong\n"
+"                // information to LLVM via GEP.\n"
+msgstr ""
+
+#: src/vec/vec-drain.md:56
+msgid "// Iterator and DoubleEndedIterator impls identical to IntoIter.\n"
+msgstr ""
+
+#: src/vec/vec-drain.md:60
+msgid "And IntoIter becomes the following:"
+msgstr ""
+
+#: src/vec/vec-drain.md:65
+msgid "// we don't actually care about this. Just need it to live.\n"
+msgstr ""
+
+#: src/vec/vec-drain.md:104
+msgid ""
+"Note that I've left a few quirks in this design to make upgrading Drain to "
+"work with arbitrary subranges a bit easier. In particular we _could_ have "
+"RawValIter drain itself on drop, but that won't work right for a more "
+"complex Drain. We also take a slice to simplify Drain initialization."
+msgstr ""
+
+#: src/vec/vec-drain.md:109
+msgid "Alright, now Drain is really easy:"
+msgstr ""
+
+#: src/vec/vec-drain.md:140
+msgid ""
+"// this is a mem::forget safety thing. If Drain is forgotten, we just\n"
+"        // leak the whole Vec's contents. Also we need to do this "
+"*eventually*\n"
+"        // anyway, so why not do it now?\n"
+msgstr ""
+
+#: src/vec/vec-drain.md:153
+msgid ""
+"For more details on the `mem::forget` problem, see the [section on leaks](../"
+"leaking.html)."
+msgstr ""
