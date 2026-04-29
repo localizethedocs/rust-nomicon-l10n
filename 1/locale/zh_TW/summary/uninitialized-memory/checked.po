@@ -5,10 +5,10 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/checked-uninit.md:1
@@ -63,6 +63,11 @@ msgid ""
 "  |                    ^ use of possibly uninitialized `x`\n"
 "```"
 msgstr ""
+"```text\n"
+"  |\n"
+"6 |     println!(\"{}\", x);\n"
+"  |                    ^ use of possibly uninitialized `x`\n"
+"```"
 
 #: src/checked-uninit.md:61
 msgid "while this does:"
@@ -123,7 +128,7 @@ msgstr ""
 
 #: src/checked-uninit.md:117
 msgid "// reinitialize y\n"
-msgstr ""
+msgstr "// 重新初始化 y\n"
 
 #: src/checked-uninit.md:121
 msgid "Otherwise it's like `y` is a brand new variable."

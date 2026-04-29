@@ -5,15 +5,15 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/intro.md:1
 msgid "The Rustonomicon"
-msgstr ""
+msgstr "Rust 死靈之書"
 
 #: src/intro.md:5
 msgid ""
@@ -26,7 +26,7 @@ msgstr ""
 
 #: src/intro.md:14
 msgid "The Dark Arts of Unsafe Rust"
-msgstr ""
+msgstr "不安全 Rust 的黑魔法"
 
 #: src/intro.md:16
 msgid ""
@@ -41,6 +41,8 @@ msgid ""
 "The Rustonomicon digs into all the awful details that you need to understand "
 "when writing Unsafe Rust programs."
 msgstr ""
+"Rust 死靈之書深入探討了在編寫不安全 Rust 程式時，所有你必須了解的各種可怕細"
+"節。"
 
 #: src/intro.md:20
 msgid ""
@@ -108,4 +110,4 @@ msgstr ""
 #: src/intro.md:42
 msgid ""
 "Unless otherwise noted, Rust code in this book uses the Rust 2024 edition."
-msgstr ""
+msgstr "除非另有說明，否則本手冊中的 Rust 程式碼均使用 Rust 2024 版次。"
