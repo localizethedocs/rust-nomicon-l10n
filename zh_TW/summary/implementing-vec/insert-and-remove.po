@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/vec/vec-insert-remove.md:1
+msgid "Insert and Remove"
+msgstr ""
+
+#: src/vec/vec-insert-remove.md:3
+msgid ""
+"Something _not_ provided by slice is `insert` and `remove`, so let's do "
+"those next."
+msgstr ""
+
+#: src/vec/vec-insert-remove.md:6
+msgid ""
+"Insert needs to shift all the elements at the target index to the right by "
+"one. To do this we need to use `ptr::copy`, which is our version of C's "
+"`memmove`. This copies some chunk of memory from one location to another, "
+"correctly handling the case where the source and destination overlap (which "
+"will definitely happen here)."
+msgstr ""
+
+#: src/vec/vec-insert-remove.md:12
+msgid ""
+"If we insert at index `i`, we want to shift the `[i .. len]` to `[i+1 .. "
+"len+1]` using the old len."
+msgstr ""
+
+#: src/vec/vec-insert-remove.md:18
+msgid ""
+"// Note: `<=` because it's valid to insert after everything\n"
+"    // which would be equivalent to push.\n"
+msgstr ""
+
+#: src/vec/vec-insert-remove.md:20 src/vec/vec-insert-remove.md:44
+msgid "\"index out of bounds\""
+msgstr ""
+
+#: src/vec/vec-insert-remove.md:24
+msgid "// ptr::copy(src, dest, len): \"copy from src to dest len elems\"\n"
+msgstr ""
+
+#: src/vec/vec-insert-remove.md:37
+msgid ""
+"Remove behaves in the opposite manner. We need to shift all the elements "
+"from `[i+1 .. len + 1]` to `[i .. len]` using the _new_ len."
+msgstr ""
+
+#: src/vec/vec-insert-remove.md:43
+msgid "// Note: `<` because it's *not* valid to remove after everything\n"
+msgstr ""

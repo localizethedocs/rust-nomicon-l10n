@@ -1,0 +1,111 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/transmutes.md:1
+msgid "Transmutes"
+msgstr ""
+
+#: src/transmutes.md:3
+msgid ""
+"Get out of our way type system! We're going to reinterpret these bits or die "
+"trying! Even though this book is all about doing things that are unsafe, I "
+"really can't emphasize enough that you should deeply think about finding "
+"Another Way than the operations covered in this section. This is really, "
+"truly, the most horribly unsafe thing you can do in Rust. The guardrails "
+"here are dental floss."
+msgstr ""
+
+#: src/transmutes.md:9
+msgid ""
+"[`mem::transmute<T, U>`](../std/mem/fn.transmute.html) takes a value of type "
+"`T` and reinterprets it to have type `U`. The only restriction is that the "
+"`T` and `U` are verified to have the same size. The ways to cause Undefined "
+"Behavior with this are mind boggling."
+msgstr ""
+
+#: src/transmutes.md:14
+msgid ""
+"First and foremost, creating an instance of _any_ type with an invalid state "
+"is going to cause arbitrary chaos that can't really be predicted. Do not "
+"transmute `3` to `bool`. Even if you never _do_ anything with the `bool`. "
+"Just don't."
+msgstr ""
+
+#: src/transmutes.md:19
+msgid ""
+"Transmute has an overloaded return type. If you do not specify the return "
+"type it may produce a surprising type to satisfy inference."
+msgstr ""
+
+#: src/transmutes.md:22
+msgid ""
+"Transmuting an `&` to `&mut` is Undefined Behavior. While certain usages may "
+"_appear_ safe, note that the Rust optimizer is free to assume that a shared "
+"reference won't change through its lifetime and thus such transmutation will "
+"run afoul of those assumptions. So:"
+msgstr ""
+
+#: src/transmutes.md:26
+msgid "Transmuting an `&` to `&mut` is _always_ Undefined Behavior."
+msgstr ""
+
+#: src/transmutes.md:27
+msgid "No you can't do it."
+msgstr ""
+
+#: src/transmutes.md:28
+msgid "No you're not special."
+msgstr ""
+
+#: src/transmutes.md:30
+msgid ""
+"Transmuting to a reference without an explicitly provided lifetime produces "
+"an [unbounded lifetime](./unbounded-lifetimes.md)."
+msgstr ""
+
+#: src/transmutes.md:33
+msgid ""
+"When transmuting between different compound types, you have to make sure "
+"they are laid out the same way! If layouts differ, the wrong fields are "
+"going to get filled with the wrong data, which will make you unhappy and can "
+"also be Undefined Behavior (see above)."
+msgstr ""
+
+#: src/transmutes.md:38
+msgid ""
+"So how do you know if the layouts are the same? For `repr(C)` types and "
+"`repr(transparent)` types, layout is precisely defined. But for your run-of-"
+"the-mill `repr(Rust)`, it is not. Even different instances of the same "
+"generic type can have wildly different layout. `Vec<i32>` and `Vec<u32>` "
+"_might_ have their fields in the same order, or they might not. The details "
+"of what exactly is and is not guaranteed for data layout are still being "
+"worked out over [at the UCG WG](https://rust-lang.github.io/unsafe-code-"
+"guidelines/layout.html)."
+msgstr ""
+
+#: src/transmutes.md:46
+msgid ""
+"[`mem::transmute_copy<T, U>`](../std/mem/fn.transmute_copy.html) somehow "
+"manages to be _even more_ wildly unsafe than this. It copies `size_of<U>` "
+"bytes out of an `&T` and interprets them as a `U`.  The size check that "
+"`mem::transmute` has is gone (as it may be valid to copy out a prefix), "
+"though it is Undefined Behavior for `U` to be larger than `T`."
+msgstr ""
+
+#: src/transmutes.md:52
+msgid ""
+"Also of course you can get all of the functionality of these functions using "
+"raw pointer casts or `union`s, but without any of the lints or other basic "
+"sanity checks. Raw pointer casts and `union`s do not magically avoid the "
+"above rules."
+msgstr ""
