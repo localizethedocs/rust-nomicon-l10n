@@ -1,0 +1,260 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/SUMMARY.md:1
+msgid "Summary"
+msgstr ""
+
+#: src/SUMMARY.md:3
+msgid "Introduction"
+msgstr ""
+
+#: src/SUMMARY.md:5
+msgid "Meet Safe and Unsafe"
+msgstr ""
+
+#: src/SUMMARY.md:6
+msgid "How Safe and Unsafe Interact"
+msgstr ""
+
+#: src/SUMMARY.md:7
+msgid "What Unsafe Can Do"
+msgstr ""
+
+#: src/SUMMARY.md:8
+msgid "Working with Unsafe"
+msgstr ""
+
+#: src/SUMMARY.md:9
+msgid "Data Layout"
+msgstr ""
+
+#: src/SUMMARY.md:10
+msgid "repr(Rust)"
+msgstr ""
+
+#: src/SUMMARY.md:11
+msgid "Exotically Sized Types"
+msgstr ""
+
+#: src/SUMMARY.md:12
+msgid "Other reprs"
+msgstr ""
+
+#: src/SUMMARY.md:13
+msgid "Ownership"
+msgstr ""
+
+#: src/SUMMARY.md:14
+msgid "References"
+msgstr ""
+
+#: src/SUMMARY.md:15
+msgid "Aliasing"
+msgstr ""
+
+#: src/SUMMARY.md:16
+msgid "Lifetimes"
+msgstr ""
+
+#: src/SUMMARY.md:17
+msgid "Limits of Lifetimes"
+msgstr ""
+
+#: src/SUMMARY.md:18
+msgid "Lifetime Elision"
+msgstr ""
+
+#: src/SUMMARY.md:19
+msgid "Unbounded Lifetimes"
+msgstr ""
+
+#: src/SUMMARY.md:20
+msgid "Higher-Rank Trait Bounds"
+msgstr ""
+
+#: src/SUMMARY.md:21
+msgid "Subtyping and Variance"
+msgstr ""
+
+#: src/SUMMARY.md:22
+msgid "Drop Check"
+msgstr ""
+
+#: src/SUMMARY.md:23
+msgid "PhantomData"
+msgstr ""
+
+#: src/SUMMARY.md:24
+msgid "Splitting Borrows"
+msgstr ""
+
+#: src/SUMMARY.md:25
+msgid "Type Conversions"
+msgstr ""
+
+#: src/SUMMARY.md:26
+msgid "Coercions"
+msgstr ""
+
+#: src/SUMMARY.md:27
+msgid "The Dot Operator"
+msgstr ""
+
+#: src/SUMMARY.md:28
+msgid "Casts"
+msgstr ""
+
+#: src/SUMMARY.md:29
+msgid "Transmutes"
+msgstr ""
+
+#: src/SUMMARY.md:30
+msgid "Uninitialized Memory"
+msgstr ""
+
+#: src/SUMMARY.md:31
+msgid "Checked"
+msgstr ""
+
+#: src/SUMMARY.md:32
+msgid "Drop Flags"
+msgstr ""
+
+#: src/SUMMARY.md:33
+msgid "Unchecked"
+msgstr ""
+
+#: src/SUMMARY.md:34
+msgid "Ownership Based Resource Management"
+msgstr ""
+
+#: src/SUMMARY.md:35
+msgid "Constructors"
+msgstr ""
+
+#: src/SUMMARY.md:36
+msgid "Destructors"
+msgstr ""
+
+#: src/SUMMARY.md:37
+msgid "Leaking"
+msgstr ""
+
+#: src/SUMMARY.md:38
+msgid "Unwinding"
+msgstr ""
+
+#: src/SUMMARY.md:39
+msgid "Exception Safety"
+msgstr ""
+
+#: src/SUMMARY.md:40
+msgid "Poisoning"
+msgstr ""
+
+#: src/SUMMARY.md:41
+msgid "Concurrency"
+msgstr ""
+
+#: src/SUMMARY.md:42
+msgid "Races"
+msgstr ""
+
+#: src/SUMMARY.md:43
+msgid "Send and Sync"
+msgstr ""
+
+#: src/SUMMARY.md:44
+msgid "Atomics"
+msgstr ""
+
+#: src/SUMMARY.md:45
+msgid "Implementing Vec"
+msgstr ""
+
+#: src/SUMMARY.md:46 src/SUMMARY.md:59
+msgid "Layout"
+msgstr ""
+
+#: src/SUMMARY.md:47
+msgid "Allocating"
+msgstr ""
+
+#: src/SUMMARY.md:48
+msgid "Push and Pop"
+msgstr ""
+
+#: src/SUMMARY.md:49
+msgid "Deallocating"
+msgstr ""
+
+#: src/SUMMARY.md:50
+msgid "Deref"
+msgstr ""
+
+#: src/SUMMARY.md:51
+msgid "Insert and Remove"
+msgstr ""
+
+#: src/SUMMARY.md:52
+msgid "IntoIter"
+msgstr ""
+
+#: src/SUMMARY.md:53
+msgid "RawVec"
+msgstr ""
+
+#: src/SUMMARY.md:54
+msgid "Drain"
+msgstr ""
+
+#: src/SUMMARY.md:55
+msgid "Handling Zero-Sized Types"
+msgstr ""
+
+#: src/SUMMARY.md:56 src/SUMMARY.md:63
+msgid "Final Code"
+msgstr ""
+
+#: src/SUMMARY.md:57
+msgid "Implementing Arc and Mutex"
+msgstr ""
+
+#: src/SUMMARY.md:58
+msgid "Arc"
+msgstr ""
+
+#: src/SUMMARY.md:60
+msgid "Base Code"
+msgstr ""
+
+#: src/SUMMARY.md:61
+msgid "Cloning"
+msgstr ""
+
+#: src/SUMMARY.md:62
+msgid "Dropping"
+msgstr ""
+
+#: src/SUMMARY.md:64
+msgid "FFI"
+msgstr ""
+
+#: src/SUMMARY.md:65
+msgid "Beneath `std`"
+msgstr ""
+
+#: src/SUMMARY.md:66
+msgid "\\#\\[panic_handler\\]"
+msgstr ""

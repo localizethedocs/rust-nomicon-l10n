@@ -1,0 +1,190 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/exception-safety.md:1
+msgid "Exception Safety"
+msgstr ""
+
+#: src/exception-safety.md:3
+msgid ""
+"Although programs should use unwinding sparingly, there's a lot of code that "
+"_can_ panic. If you unwrap a None, index out of bounds, or divide by 0, your "
+"program will panic. On debug builds, every arithmetic operation can panic if "
+"it overflows. Unless you are very careful and tightly control what code "
+"runs, pretty much everything can unwind, and you need to be ready for it."
+msgstr ""
+
+#: src/exception-safety.md:9
+msgid ""
+"Being ready for unwinding is often referred to as _exception safety_ in the "
+"broader programming world. In Rust, there are two levels of exception safety "
+"that one may concern themselves with:"
+msgstr ""
+
+#: src/exception-safety.md:13
+msgid ""
+"In unsafe code, we _must_ be exception safe to the point of not violating "
+"memory safety. We'll call this _minimal_ exception safety."
+msgstr ""
+
+#: src/exception-safety.md:16
+msgid ""
+"In safe code, it is _good_ to be exception safe to the point of your program "
+"doing the right thing. We'll call this _maximal_ exception safety."
+msgstr ""
+
+#: src/exception-safety.md:19
+msgid ""
+"As is the case in many places in Rust, Unsafe code must be ready to deal "
+"with bad Safe code when it comes to unwinding. Code that transiently creates "
+"unsound states must be careful that a panic does not cause that state to be "
+"used. Generally this means ensuring that only non-panicking code is run "
+"while these states exist, or making a guard that cleans up the state in the "
+"case of a panic. This does not necessarily mean that the state a panic "
+"witnesses is a fully coherent state. We need only guarantee that it's a "
+"_safe_ state."
+msgstr ""
+
+#: src/exception-safety.md:27
+msgid ""
+"Most Unsafe code is leaf-like, and therefore fairly easy to make exception-"
+"safe. It controls all the code that runs, and most of that code can't panic. "
+"However it is not uncommon for Unsafe code to work with arrays of "
+"temporarily uninitialized data while repeatedly invoking caller-provided "
+"code. Such code needs to be careful and consider exception safety."
+msgstr ""
+
+#: src/exception-safety.md:33
+msgid "Vec::push_all"
+msgstr ""
+
+#: src/exception-safety.md:35
+msgid ""
+"`Vec::push_all` is a temporary hack to get extending a Vec by a slice "
+"reliably efficient without specialization. Here's a simple implementation:"
+msgstr ""
+
+#: src/exception-safety.md:44
+msgid "// can't overflow because we just reserved this\n"
+msgstr ""
+
+#: src/exception-safety.md:55
+msgid ""
+"We bypass `push` in order to avoid redundant capacity and `len` checks on "
+"the Vec that we definitely know has capacity. The logic is totally correct, "
+"except there's a subtle problem with our code: it's not exception-safe! "
+"`set_len`, `add`, and `write` are all fine; `clone` is the panic bomb we "
+"over-looked."
+msgstr ""
+
+#: src/exception-safety.md:60
+msgid ""
+"Clone is completely out of our control, and is totally free to panic. If it "
+"does, our function will exit early with the length of the Vec set too large. "
+"If the Vec is looked at or dropped, uninitialized memory will be read!"
+msgstr ""
+
+#: src/exception-safety.md:64
+msgid ""
+"The fix in this case is fairly simple. If we want to guarantee that the "
+"values we _did_ clone are dropped, we can set the `len` every loop "
+"iteration. If we just want to guarantee that uninitialized memory can't be "
+"observed, we can set the `len` after the loop."
+msgstr ""
+
+#: src/exception-safety.md:69
+msgid "BinaryHeap::sift_up"
+msgstr ""
+
+#: src/exception-safety.md:71
+msgid ""
+"Bubbling an element up a heap is a bit more complicated than extending a "
+"Vec. The pseudocode is as follows:"
+msgstr ""
+
+#: src/exception-safety.md:81
+msgid ""
+"A literal transcription of this code to Rust is totally fine, but has an "
+"annoying performance characteristic: the `self` element is swapped over and "
+"over again uselessly. We would rather have the following:"
+msgstr ""
+
+#: src/exception-safety.md:94
+msgid ""
+"This code ensures that each element is copied as little as possible (it is "
+"in fact necessary that elem be copied twice in general). However it now "
+"exposes some exception safety trouble! At all times, there exists two copies "
+"of one value. If we panic in this function something will be double-dropped. "
+"Unfortunately, we also don't have full control of the code: that comparison "
+"is user-defined!"
+msgstr ""
+
+#: src/exception-safety.md:101
+msgid ""
+"Unlike Vec, the fix isn't as easy here. One option is to break the user-"
+"defined code and the unsafe code into two separate phases:"
+msgstr ""
+
+#: src/exception-safety.md:117
+msgid ""
+"If the user-defined code blows up, that's no problem anymore, because we "
+"haven't actually touched the state of the heap yet. Once we do start messing "
+"with the heap, we're working with only data and functions that we trust, so "
+"there's no concern of panics."
+msgstr ""
+
+#: src/exception-safety.md:122
+msgid ""
+"Perhaps you're not happy with this design. Surely it's cheating! And we have "
+"to do the complex heap traversal _twice_! Alright, let's bite the bullet. "
+"Let's intermix untrusted and unsafe code _for reals_."
+msgstr ""
+
+#: src/exception-safety.md:126
+msgid ""
+"If Rust had `try` and `finally` like in Java, we could do the following:"
+msgstr ""
+
+#: src/exception-safety.md:139
+msgid ""
+"The basic idea is simple: if the comparison panics, we just toss the loose "
+"element in the logically uninitialized index and bail out. Anyone who "
+"observes the heap will see a potentially _inconsistent_ heap, but at least "
+"it won't cause any double-drops! If the algorithm terminates normally, then "
+"this operation happens to coincide precisely with how we finish up "
+"regardless."
+msgstr ""
+
+#: src/exception-safety.md:145
+msgid ""
+"Sadly, Rust has no such construct, so we're going to need to roll our own! "
+"The way to do this is to store the algorithm's state in a separate struct "
+"with a destructor for the \"finally\" logic. Whether we panic or not, that "
+"destructor will run and clean up after us."
+msgstr ""
+
+#: src/exception-safety.md:154
+msgid "/// `elt` is always `Some` from new until drop.\n"
+msgstr ""
+
+#: src/exception-safety.md:187
+msgid "// fill the hole again\n"
+msgstr ""
+
+#: src/exception-safety.md:198
+msgid "// Take out the value at `pos` and create a hole.\n"
+msgstr ""
+
+#: src/exception-safety.md:206
+msgid "// Hole will be unconditionally filled here; panic or not!\n"
+msgstr ""

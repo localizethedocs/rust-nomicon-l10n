@@ -1,0 +1,212 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/aliasing.md:1
+msgid "Aliasing"
+msgstr ""
+
+#: src/aliasing.md:3
+msgid "First off, let's get some important caveats out of the way:"
+msgstr ""
+
+#: src/aliasing.md:5
+msgid ""
+"We will be using the broadest possible definition of aliasing for the sake "
+"of discussion. Rust's definition will probably be more restricted to factor "
+"in mutations and liveness."
+msgstr ""
+
+#: src/aliasing.md:9
+msgid ""
+"We will be assuming a single-threaded, interrupt-free, execution. We will "
+"also be ignoring things like memory-mapped hardware. Rust assumes these "
+"things don't happen unless you tell it otherwise. For more details, see the "
+"[Concurrency Chapter](concurrency.html)."
+msgstr ""
+
+#: src/aliasing.md:14
+msgid ""
+"With that said, here's our working definition: variables and pointers "
+"_alias_ if they refer to overlapping regions of memory."
+msgstr ""
+
+#: src/aliasing.md:17
+msgid "Why Aliasing Matters"
+msgstr ""
+
+#: src/aliasing.md:19
+msgid "So why should we care about aliasing?"
+msgstr ""
+
+#: src/aliasing.md:21
+msgid "Consider this simple function:"
+msgstr ""
+
+#: src/aliasing.md:31
+msgid "// remember that `output` will be `2` if `input > 10`\n"
+msgstr ""
+
+#: src/aliasing.md:35
+msgid "We would _like_ to be able to optimize it to the following function:"
+msgstr ""
+
+#: src/aliasing.md:39
+msgid "// keep `*input` in a register\n"
+msgstr ""
+
+#: src/aliasing.md:41
+msgid ""
+"// If the input is greater than 10, the previous code would set the output "
+"to 1 and then double it,\n"
+"        // resulting in an output of 2 (because `>10` implies `>5`).\n"
+"        // Here, we avoid the double assignment and just set it directly to "
+"2.\n"
+msgstr ""
+
+#: src/aliasing.md:51
+msgid ""
+"In Rust, this optimization should be sound. For almost any other language, "
+"it wouldn't be (barring global analysis). This is because the optimization "
+"relies on knowing that aliasing doesn't occur, which most languages are "
+"fairly liberal with. Specifically, we need to worry about function arguments "
+"that make `input` and `output` overlap, such as `compute(&x, &mut x)`."
+msgstr ""
+
+#: src/aliasing.md:57
+msgid "With that input, we could get this execution:"
+msgstr ""
+
+#: src/aliasing.md:61
+msgid ""
+"//  input ==  output == 0xabad1dea\n"
+"                    // *input == *output == 20\n"
+msgstr ""
+
+#: src/aliasing.md:63
+msgid "// true  (*input == 20)\n"
+msgstr ""
+
+#: src/aliasing.md:64
+msgid "// also overwrites *input, because they are the same\n"
+msgstr ""
+
+#: src/aliasing.md:66
+msgid "// false (*input == 1)\n"
+msgstr ""
+
+#: src/aliasing.md:69
+msgid "// *input == *output == 1\n"
+msgstr ""
+
+#: src/aliasing.md:72
+msgid ""
+"Our optimized function would produce `*output == 2` for this input, so the "
+"correctness of our optimization relies on this input being impossible."
+msgstr ""
+
+#: src/aliasing.md:75
+msgid ""
+"In Rust we know this input should be impossible because `&mut` isn't allowed "
+"to be aliased. So we can safely reject its possibility and perform this "
+"optimization. In most other languages, this input would be entirely "
+"possible, and must be considered."
+msgstr ""
+
+#: src/aliasing.md:79
+msgid ""
+"This is why alias analysis is important: it lets the compiler perform useful "
+"optimizations! Some examples:"
+msgstr ""
+
+#: src/aliasing.md:82
+msgid ""
+"keeping values in registers by proving no pointers access the value's memory"
+msgstr ""
+
+#: src/aliasing.md:83
+msgid ""
+"eliminating reads by proving some memory hasn't been written to since last "
+"we read it"
+msgstr ""
+
+#: src/aliasing.md:84
+msgid ""
+"eliminating writes by proving some memory is never read before the next "
+"write to it"
+msgstr ""
+
+#: src/aliasing.md:85
+msgid ""
+"moving or reordering reads and writes by proving they don't depend on each "
+"other"
+msgstr ""
+
+#: src/aliasing.md:87
+msgid ""
+"These optimizations also tend to prove the soundness of bigger optimizations "
+"such as loop vectorization, constant propagation, and dead code elimination."
+msgstr ""
+
+#: src/aliasing.md:90
+msgid ""
+"In the previous example, we used the fact that `&mut u32` can't be aliased "
+"to prove that writes to `*output` can't possibly affect `*input`. This lets "
+"us cache `*input` in a register, eliminating a read."
+msgstr ""
+
+#: src/aliasing.md:94
+msgid ""
+"By caching this read, we knew that the write in the `> 10` branch couldn't "
+"affect whether we take the `> 5` branch, allowing us to also eliminate a "
+"read-modify-write (doubling `*output`) when `*input > 10`."
+msgstr ""
+
+#: src/aliasing.md:98
+msgid ""
+"The key thing to remember about alias analysis is that writes are the "
+"primary hazard for optimizations. That is, the only thing that prevents us "
+"from moving a read to any other part of the program is the possibility of us "
+"re-ordering it with a write to the same location."
+msgstr ""
+
+#: src/aliasing.md:103
+msgid ""
+"For instance, we have no concern for aliasing in the following modified "
+"version of our function, because we've moved the only write to `*output` to "
+"the very end of our function. This allows us to freely reorder the reads of "
+"`*input` that occur before it:"
+msgstr ""
+
+#: src/aliasing.md:121
+msgid ""
+"We're still relying on alias analysis to assume that `input` doesn't alias "
+"`temp`, but the proof is much simpler: the value of a local variable can't "
+"be aliased by things that existed before it was declared. This is an "
+"assumption every language freely makes, and so this version of the function "
+"could be optimized the way we want in any language."
+msgstr ""
+
+#: src/aliasing.md:127
+msgid ""
+"This is why the definition of \"alias\" that Rust will use likely involves "
+"some notion of liveness and mutation: we don't actually care if aliasing "
+"occurs if there aren't any actual writes to memory happening."
+msgstr ""
+
+#: src/aliasing.md:131
+msgid ""
+"Of course, a full aliasing model for Rust must also take into consideration "
+"things like function calls (which may mutate things we don't see), raw "
+"pointers (which have no aliasing requirements on their own), and UnsafeCell "
+"(which lets the referent of an `&` be mutated)."
+msgstr ""

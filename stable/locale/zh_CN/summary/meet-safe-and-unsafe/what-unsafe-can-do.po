@@ -1,0 +1,234 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/what-unsafe-does.md:1
+msgid "What Unsafe Rust Can Do"
+msgstr ""
+
+#: src/what-unsafe-does.md:3
+msgid "The only things that are different in Unsafe Rust are that you can:"
+msgstr ""
+
+#: src/what-unsafe-does.md:5
+msgid "Dereference raw pointers"
+msgstr ""
+
+#: src/what-unsafe-does.md:6
+msgid ""
+"Call `unsafe` functions (including C functions, compiler intrinsics, and the "
+"raw allocator)"
+msgstr ""
+
+#: src/what-unsafe-does.md:7
+msgid "Implement `unsafe` traits"
+msgstr ""
+
+#: src/what-unsafe-does.md:8
+msgid "Access or modify mutable statics"
+msgstr ""
+
+#: src/what-unsafe-does.md:9
+msgid "Access fields of `union`s"
+msgstr ""
+
+#: src/what-unsafe-does.md:11
+msgid ""
+"That's it. The reason these operations are relegated to Unsafe is that "
+"misusing any of these things will cause the ever dreaded Undefined Behavior. "
+"Invoking Undefined Behavior gives the compiler full rights to do arbitrarily "
+"bad things to your program. You definitely _should not_ invoke Undefined "
+"Behavior."
+msgstr ""
+
+#: src/what-unsafe-does.md:16
+msgid ""
+"Unlike C, Undefined Behavior is pretty limited in scope in Rust. All the "
+"core language cares about is preventing the following things:"
+msgstr ""
+
+#: src/what-unsafe-does.md:19
+msgid ""
+"Dereferencing (using the `*` operator on) dangling or unaligned pointers "
+"(see below)"
+msgstr ""
+
+#: src/what-unsafe-does.md:20
+msgid "Breaking the [pointer aliasing rules](references.html)"
+msgstr ""
+
+#: src/what-unsafe-does.md:21
+msgid ""
+"Calling a function with the wrong call ABI or unwinding from a function with "
+"the wrong unwind ABI."
+msgstr ""
+
+#: src/what-unsafe-does.md:22
+msgid "Causing a [data race](races.html)"
+msgstr ""
+
+#: src/what-unsafe-does.md:23
+msgid ""
+"Executing code compiled with [target features](../reference/attributes/"
+"codegen.html#the-target_feature-attribute) that the current thread of "
+"execution does not support"
+msgstr ""
+
+#: src/what-unsafe-does.md:25
+msgid ""
+"Producing invalid values (either alone or as a field of a compound type such "
+"as `enum`/`struct`/array/tuple):"
+msgstr ""
+
+#: src/what-unsafe-does.md:27
+msgid "a `bool` that isn't 0 or 1"
+msgstr ""
+
+#: src/what-unsafe-does.md:28
+msgid "an `enum` with an invalid discriminant"
+msgstr ""
+
+#: src/what-unsafe-does.md:29
+msgid "a null `fn` pointer"
+msgstr ""
+
+#: src/what-unsafe-does.md:30
+msgid ""
+"a `char` outside the ranges \\[0x0, 0xD7FF\\] and \\[0xE000, 0x10FFFF\\]"
+msgstr ""
+
+#: src/what-unsafe-does.md:31
+msgid "a `!` (all values are invalid for this type)"
+msgstr ""
+
+#: src/what-unsafe-does.md:32
+msgid ""
+"an integer (`i*`/`u*`), floating point value (`f*`), or raw pointer read "
+"from [uninitialized memory](uninitialized.html), or uninitialized memory in "
+"a `str`."
+msgstr ""
+
+#: src/what-unsafe-does.md:34
+msgid ""
+"a reference/`Box` that is dangling, unaligned, or points to an invalid value."
+msgstr ""
+
+#: src/what-unsafe-does.md:35
+msgid "a wide reference, `Box`, or raw pointer that has invalid metadata:"
+msgstr ""
+
+#: src/what-unsafe-does.md:36
+msgid ""
+"`dyn Trait` metadata is invalid if it is not a pointer to a vtable for "
+"`Trait` that matches the actual dynamic trait the pointer or reference "
+"points to"
+msgstr ""
+
+#: src/what-unsafe-does.md:38
+msgid ""
+"slice metadata is invalid if the length is not a valid `usize` (i.e., it "
+"must not be read from uninitialized memory)"
+msgstr ""
+
+#: src/what-unsafe-does.md:40
+msgid ""
+"a type with custom invalid values that is one of those values, such as a "
+"[`NonNull`](../std/ptr/struct.NonNull.html) that is null. (Requesting custom "
+"invalid values is an unstable feature, but some stable libstd types, like "
+"`NonNull`, make use of it.)"
+msgstr ""
+
+#: src/what-unsafe-does.md:44
+msgid ""
+"For a more detailed explanation about \"Undefined Behavior\", you may refer "
+"to [the reference](../reference/behavior-considered-undefined.html)."
+msgstr ""
+
+#: src/what-unsafe-does.md:47
+msgid ""
+"\"Producing\" a value happens any time a value is assigned, passed to a "
+"function/primitive operation or returned from a function/primitive operation."
+msgstr ""
+
+#: src/what-unsafe-does.md:50
+msgid ""
+"A reference/pointer is \"dangling\" if it is null or not all of the bytes it "
+"points to are part of the same allocation (so in particular they all have to "
+"be part of _some_ allocation). The span of bytes it points to is determined "
+"by the pointer value and the size of the pointee type. As a consequence, if "
+"the span is empty, \"dangling\" is the same as \"null\". Note that slices "
+"and strings point to their entire range, so it's important that the length "
+"metadata is never too large (in particular, allocations and therefore slices "
+"and strings cannot be bigger than `isize::MAX` bytes). If for some reason "
+"this is too cumbersome, consider using raw pointers."
+msgstr ""
+
+#: src/what-unsafe-does.md:60
+msgid ""
+"That's it. That's all the causes of Undefined Behavior baked into Rust. Of "
+"course, unsafe functions and traits are free to declare arbitrary other "
+"constraints that a program must maintain to avoid Undefined Behavior. For "
+"instance, the allocator APIs declare that deallocating unallocated memory is "
+"Undefined Behavior."
+msgstr ""
+
+#: src/what-unsafe-does.md:66
+msgid ""
+"However, violations of these constraints generally will just transitively "
+"lead to one of the above problems. Some additional constraints may also "
+"derive from compiler intrinsics that make special assumptions about how code "
+"can be optimized. For instance, Vec and Box make use of intrinsics that "
+"require their pointers to be non-null at all times."
+msgstr ""
+
+#: src/what-unsafe-does.md:71
+msgid ""
+"Rust is otherwise quite permissive with respect to other dubious operations. "
+"Rust considers it \"safe\" to:"
+msgstr ""
+
+#: src/what-unsafe-does.md:74
+msgid "Deadlock"
+msgstr ""
+
+#: src/what-unsafe-does.md:75
+msgid "Have a [race condition](races.html)"
+msgstr ""
+
+#: src/what-unsafe-does.md:76
+msgid "Leak memory"
+msgstr ""
+
+#: src/what-unsafe-does.md:77
+msgid "Overflow integers (with the built-in operators such as `+` etc.)"
+msgstr ""
+
+#: src/what-unsafe-does.md:78
+msgid "Abort the program"
+msgstr ""
+
+#: src/what-unsafe-does.md:79
+msgid "Delete the production database"
+msgstr ""
+
+#: src/what-unsafe-does.md:81
+msgid ""
+"For more detailed information, you may refer to [the reference](../reference/"
+"behavior-not-considered-unsafe.html)."
+msgstr ""
+
+#: src/what-unsafe-does.md:83
+msgid ""
+"However any program that actually manages to do such a thing is _probably_ "
+"incorrect. Rust provides lots of tools to make these things rare, but these "
+"problems are considered impractical to categorically prevent."
+msgstr ""
