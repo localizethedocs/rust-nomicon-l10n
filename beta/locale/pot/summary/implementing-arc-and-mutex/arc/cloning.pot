@@ -1,0 +1,112 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/arc-mutex/arc-clone.md:1
+msgid "Cloning"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:3
+msgid ""
+"Now that we've got some basic code set up, we'll need a way to clone the "
+"`Arc`."
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:5
+msgid "Basically, we need to:"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:7
+msgid "Increment the atomic reference count"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:8
+msgid "Construct a new instance of the `Arc` from the inner pointer"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:10
+msgid "First, we need to get access to the `ArcInner`:"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:17
+msgid "We can update the atomic reference count as follows:"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:24
+msgid ""
+"But what ordering should we use here? We don't really have any code that "
+"will need atomic synchronization when cloning, as we do not modify the "
+"internal value while cloning. Thus, we can use a Relaxed ordering here, "
+"which implies no happens-before relationship but is atomic. When `Drop`ping "
+"the Arc, however, we'll need to atomically synchronize when decrementing the "
+"reference count. This is described more in [the section on the `Drop` "
+"implementation for `Arc`](arc-drop.md). For more information on atomic "
+"relationships and Relaxed ordering, see [the section on atomics](../atomics."
+"md)."
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:33
+msgid "Thus, the code becomes this:"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:40
+msgid "We'll need to add another import to use `Ordering`:"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:46
+msgid ""
+"However, we have one problem with this implementation right now. What if "
+"someone decides to `mem::forget` a bunch of Arcs? The code we have written "
+"so far (and will write) assumes that the reference count accurately portrays "
+"how many Arcs are in memory, but with `mem::forget` this is false. Thus, "
+"when more and more Arcs are cloned from this one without them being "
+"`Drop`ped and the reference count being decremented, we can overflow! This "
+"will cause use-after-free which is **INCREDIBLY BAD!**"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:54
+msgid ""
+"To handle this, we need to check that the reference count does not go over "
+"some arbitrary value (below `usize::MAX`, as we're storing the reference "
+"count as an `AtomicUsize`), and do _something_."
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:58
+msgid ""
+"The standard library's implementation decides to just abort the program (as "
+"it is an incredibly unlikely case in normal code and if it happens, the "
+"program is probably incredibly degenerate) if the reference count reaches "
+"`isize::MAX` (about half of `usize::MAX`) on any thread, on the assumption "
+"that there are probably not about 2 billion threads (or about **9 "
+"quintillion** on some 64-bit machines) incrementing the reference count at "
+"once. This is what we'll do."
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:65
+msgid "It's pretty simple to implement this behavior:"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:74
+msgid "Then, we need to return a new instance of the `Arc`:"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:84
+msgid "Now, let's wrap this all up inside the `Clone` implementation:"
+msgstr ""
+
+#: src/arc-mutex/arc-clone.md:93
+msgid ""
+"// Using a relaxed ordering is alright here as we don't need any atomic\n"
+"        // synchronization here as we're not modifying or accessing the "
+"inner\n"
+"        // data.\n"
+msgstr ""
