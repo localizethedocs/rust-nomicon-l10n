@@ -5,10 +5,10 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/ffi.md:1
@@ -47,6 +47,10 @@ msgid ""
 "libc = \"0.2.0\"\n"
 "```"
 msgstr ""
+"```toml\n"
+"[dependencies]\n"
+"libc = \"0.2.0\"\n"
+"```"
 
 #: src/ffi.md:24
 msgid "Prepare the build script"
@@ -73,6 +77,11 @@ msgid ""
 "build = \"build.rs\"\n"
 "```"
 msgstr ""
+"```toml\n"
+"[package]\n"
+"...\n"
+"build = \"build.rs\"\n"
+"```"
 
 #: src/ffi.md:37
 msgid "Then create a new file at the root of your workspace, named `build.rs`:"
@@ -84,7 +93,7 @@ msgstr ""
 
 #: src/ffi.md:41
 msgid "\"cargo:rustc-link-lib=dylib=stdc++\""
-msgstr ""
+msgstr "\"cargo:rustc-link-lib=dylib=stdc++\""
 
 #: src/ffi.md:41
 msgid "// This line may be unnecessary for some environments.\n"
@@ -457,11 +466,11 @@ msgstr ""
 
 #: src/ffi.md:484
 msgid "`#[link(name = \"foo\")]`"
-msgstr ""
+msgstr "`#[link(name = \"foo\")]`"
 
 #: src/ffi.md:485
 msgid "`#[link(name = \"foo\", kind = \"bar\")]`"
-msgstr ""
+msgstr "`#[link(name = \"foo\", kind = \"bar\")]`"
 
 #: src/ffi.md:487
 msgid ""

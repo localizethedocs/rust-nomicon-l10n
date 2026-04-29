@@ -5,10 +5,10 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/beneath-std.md:1
@@ -24,7 +24,7 @@ msgstr ""
 
 #: src/beneath-std.md:7
 msgid "Using `libc`"
-msgstr ""
+msgstr "使用 `libc`"
 
 #: src/beneath-std.md:9
 msgid ""
@@ -39,6 +39,10 @@ msgid ""
 "libc = { version = \"0.2.146\", default-features = false }\n"
 "```"
 msgstr ""
+"```toml\n"
+"[dependencies]\n"
+"libc = { version = \"0.2.146\", default-features = false }\n"
+"```"
 
 #: src/beneath-std.md:17
 msgid ""
@@ -94,7 +98,7 @@ msgstr ""
 
 #: src/beneath-std.md:54
 msgid "// Entry point for this program.\n"
-msgstr ""
+msgstr "// 該程式的進入點。\n"
 
 #: src/beneath-std.md:56
 msgid "// ensure that this symbol is included in the output as `main`\n"
