@@ -13,22 +13,22 @@
     },
     "zh_CN" : 
     {
-      "branch" : "",
+      "branch" : "beta",
       "commit" : 
       {
-        "date" : "",
-        "hash" : "",
-        "title" : ""
+        "date" : "2026-04-20 06:11:26 +0000",
+        "hash" : "8489f1adbe1c8f8921cf18b9962cf565237a5489",
+        "title" : "Auto merge of #155402 - cuviper:beta-next, r=cuviper"
       }
     },
     "zh_TW" : 
     {
-      "branch" : "",
+      "branch" : "beta",
       "commit" : 
       {
-        "date" : "",
-        "hash" : "",
-        "title" : ""
+        "date" : "2026-04-20 06:11:26 +0000",
+        "hash" : "8489f1adbe1c8f8921cf18b9962cf565237a5489",
+        "title" : "Auto merge of #155402 - cuviper:beta-next, r=cuviper"
       }
     }
   },

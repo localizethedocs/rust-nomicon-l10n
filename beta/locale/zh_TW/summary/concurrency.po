@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/concurrency.md:1
+msgid "Concurrency and Parallelism"
+msgstr ""
+
+#: src/concurrency.md:3
+msgid ""
+"Rust as a language doesn't _really_ have an opinion on how to do concurrency "
+"or parallelism. The standard library exposes OS threads and blocking sys-"
+"calls because everyone has those, and they're uniform enough that you can "
+"provide an abstraction over them in a relatively uncontroversial way. "
+"Message passing, green threads, and async APIs are all diverse enough that "
+"any abstraction over them tends to involve trade-offs that we weren't "
+"willing to commit to for 1.0."
+msgstr ""
+
+#: src/concurrency.md:10
+msgid ""
+"However the way Rust models concurrency makes it relatively easy to design "
+"your own concurrency paradigm as a library and have everyone else's code "
+"Just Work with yours. Just require the right lifetimes and Send and Sync "
+"where appropriate and you're off to the races. Or rather, off to the... "
+"not... having... races."
+msgstr ""

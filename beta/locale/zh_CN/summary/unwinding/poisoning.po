@@ -1,0 +1,67 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/poisoning.md:1
+msgid "Poisoning"
+msgstr ""
+
+#: src/poisoning.md:3
+msgid ""
+"Although all unsafe code _must_ ensure it has minimal exception safety, not "
+"all types ensure _maximal_ exception safety. Even if the type does, your "
+"code may ascribe additional meaning to it. For instance, an integer is "
+"certainly exception-safe, but has no semantics on its own. It's possible "
+"that code that panics could fail to correctly update the integer, producing "
+"an inconsistent program state."
+msgstr ""
+
+#: src/poisoning.md:10
+msgid ""
+"This is _usually_ fine, because anything that witnesses an exception is "
+"about to get destroyed. For instance, if you send a Vec to another thread "
+"and that thread panics, it doesn't matter if the Vec is in a weird state. It "
+"will be dropped and go away forever. However some types are especially good "
+"at smuggling values across the panic boundary."
+msgstr ""
+
+#: src/poisoning.md:16
+msgid ""
+"These types may choose to explicitly _poison_ themselves if they witness a "
+"panic. Poisoning doesn't entail anything in particular. Generally it just "
+"means preventing normal usage from proceeding. The most notable example of "
+"this is the standard library's Mutex type. A Mutex will poison itself if one "
+"of its MutexGuards (the thing it returns when a lock is obtained) is dropped "
+"during a panic. Any future attempts to lock the Mutex will return an `Err` "
+"or panic."
+msgstr ""
+
+#: src/poisoning.md:23
+msgid ""
+"Mutex poisons not for true safety in the sense that Rust normally cares "
+"about. It poisons as a safety-guard against blindly using the data that "
+"comes out of a Mutex that has witnessed a panic while locked. The data in "
+"such a Mutex was likely in the middle of being modified, and as such may be "
+"in an inconsistent or incomplete state. It is important to note that one "
+"cannot violate memory safety with such a type if it is correctly written. "
+"After all, it must be minimally exception-safe!"
+msgstr ""
+
+#: src/poisoning.md:30
+msgid ""
+"However if the Mutex contained, say, a BinaryHeap that does not actually "
+"have the heap property, it's unlikely that any code that uses it will do "
+"what the author intended. As such, the program should not proceed normally. "
+"Still, if you're double-plus-sure that you can do _something_ with the "
+"value, the Mutex exposes a method to get the lock anyway. It _is_ safe, "
+"after all. Just maybe nonsense."
+msgstr ""

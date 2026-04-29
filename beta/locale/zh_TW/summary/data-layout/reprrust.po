@@ -1,0 +1,185 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/repr-rust.md:1
+msgid "repr(Rust)"
+msgstr ""
+
+#: src/repr-rust.md:3
+msgid ""
+"First and foremost, all types have an alignment specified in bytes. The "
+"alignment of a type specifies what addresses are valid to store the value "
+"at. A value with alignment `n` must only be stored at an address that is a "
+"multiple of `n`. So alignment 2 means you must be stored at an even address, "
+"and 1 means that you can be stored anywhere. Alignment is at least 1, and "
+"always a power of 2."
+msgstr ""
+
+#: src/repr-rust.md:10
+msgid ""
+"Primitives are usually aligned to their size, although this is platform-"
+"specific behavior. For example, on x86 `u64` and `f64` are often aligned to "
+"4 bytes (32 bits)."
+msgstr ""
+
+#: src/repr-rust.md:14
+msgid ""
+"A type's size must always be a multiple of its alignment (Zero being a valid "
+"size for any alignment). This ensures that an array of that type may always "
+"be indexed by offsetting by a multiple of its size. Note that the size and "
+"alignment of a type may not be known statically in the case of [dynamically "
+"sized types](exotic-sizes.html#dynamically-sized-types-dsts)."
+msgstr ""
+
+#: src/repr-rust.md:19
+msgid "Rust gives you the following ways to lay out composite data:"
+msgstr ""
+
+#: src/repr-rust.md:21
+msgid "structs (named product types)"
+msgstr ""
+
+#: src/repr-rust.md:22
+msgid "tuples (anonymous product types)"
+msgstr ""
+
+#: src/repr-rust.md:23
+msgid "arrays (homogeneous product types)"
+msgstr ""
+
+#: src/repr-rust.md:24
+msgid "enums (named sum types -- tagged unions)"
+msgstr ""
+
+#: src/repr-rust.md:25
+msgid "unions (untagged unions)"
+msgstr ""
+
+#: src/repr-rust.md:27
+msgid ""
+"An enum is said to be _field-less_ if none of its variants have associated "
+"data."
+msgstr ""
+
+#: src/repr-rust.md:29
+msgid ""
+"By default, composite structures have an alignment equal to the maximum of "
+"their fields' alignments. Rust will consequently insert padding where "
+"necessary to ensure that all fields are properly aligned and that the "
+"overall type's size is a multiple of its alignment. For instance:"
+msgstr ""
+
+#: src/repr-rust.md:42
+msgid ""
+"will be 32-bit aligned on a target that aligns these primitives to their "
+"respective sizes. The whole struct will therefore have a size that is a "
+"multiple of 32-bits. It may become:"
+msgstr ""
+
+#: src/repr-rust.md:49
+msgid "// to align `b`\n"
+msgstr ""
+
+#: src/repr-rust.md:52
+msgid "// to make overall size multiple of 4\n"
+msgstr ""
+
+#: src/repr-rust.md:56
+msgid "or maybe:"
+msgstr ""
+
+#: src/repr-rust.md:67
+msgid ""
+"There is _no indirection_ for these types; all data is stored within the "
+"struct, as you would expect in C. However with the exception of arrays "
+"(which are densely packed and in-order), the layout of data is not specified "
+"by default. Given the two following struct definitions:"
+msgstr ""
+
+#: src/repr-rust.md:84
+msgid ""
+"Rust _does_ guarantee that two instances of A have their data laid out in "
+"exactly the same way. However Rust _does not_ currently guarantee that an "
+"instance of A has the same field ordering or padding as an instance of B."
+msgstr ""
+
+#: src/repr-rust.md:88
+msgid ""
+"With A and B as written, this point would seem to be pedantic, but several "
+"other features of Rust make it desirable for the language to play with data "
+"layout in complex ways."
+msgstr ""
+
+#: src/repr-rust.md:92
+msgid "For instance, consider this struct:"
+msgstr ""
+
+#: src/repr-rust.md:102
+msgid ""
+"Now consider the monomorphizations of `Foo<u32, u16>` and `Foo<u16, u32>`. "
+"If Rust lays out the fields in the order specified, we expect it to pad the "
+"values in the struct to satisfy their alignment requirements. So if Rust "
+"didn't reorder fields, we would expect it to produce the following:"
+msgstr ""
+
+#: src/repr-rust.md:124
+msgid ""
+"The latter case quite simply wastes space. An optimal use of space requires "
+"different monomorphizations to have _different field orderings_."
+msgstr ""
+
+#: src/repr-rust.md:127
+msgid ""
+"Enums make this consideration even more complicated. Naively, an enum such "
+"as:"
+msgstr ""
+
+#: src/repr-rust.md:137
+msgid "might be laid out as:"
+msgstr ""
+
+#: src/repr-rust.md:141
+msgid "// this is either a u64, u32, or u8 based on `tag`\n"
+msgstr ""
+
+#: src/repr-rust.md:142
+msgid "// 0 = A, 1 = B, 2 = C\n"
+msgstr ""
+
+#: src/repr-rust.md:146
+msgid ""
+"And indeed this is approximately how it would be laid out (modulo the size "
+"and position of `tag`)."
+msgstr ""
+
+#: src/repr-rust.md:149
+msgid ""
+"However there are several cases where such a representation is inefficient. "
+"The classic case of this is Rust's \"null pointer optimization\": an enum "
+"consisting of a single outer unit variant (e.g. `None`) and a (potentially "
+"nested) non- nullable pointer variant (e.g. `Some(&T)`) makes the tag "
+"unnecessary. A null pointer can safely be interpreted as the unit (`None`) "
+"variant. The net result is that, for example, `size_of::<Option<&T>>() == "
+"size_of::<&T>()`."
+msgstr ""
+
+#: src/repr-rust.md:156
+msgid ""
+"There are many types in Rust that are, or contain, non-nullable pointers "
+"such as `Box<T>`, `Vec<T>`, `String`, `&T`, and `&mut T`. Similarly, one can "
+"imagine nested enums pooling their tags into a single discriminant, as they "
+"are by definition known to have a limited range of valid values. In "
+"principle enums could use fairly elaborate algorithms to store bits "
+"throughout nested types with forbidden values. As such it is _especially_ "
+"desirable that we leave enum layout unspecified today."
+msgstr ""

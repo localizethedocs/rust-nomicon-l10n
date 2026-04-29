@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/leaking.md:1
+msgid "Leaking"
+msgstr ""
+
+#: src/leaking.md:3
+msgid ""
+"Ownership-based resource management is intended to simplify composition. You "
+"acquire resources when you create the object, and you release the resources "
+"when it gets destroyed. Since destruction is handled for you, it means you "
+"can't forget to release the resources, and it happens as soon as possible! "
+"Surely this is perfect and all of our problems are solved."
+msgstr ""
+
+#: src/leaking.md:9
+msgid ""
+"Everything is terrible and we have new and exotic problems to try to solve."
+msgstr ""
+
+#: src/leaking.md:11
+msgid ""
+"Many people like to believe that Rust eliminates resource leaks. In "
+"practice, this is basically true. You would be surprised to see a Safe Rust "
+"program leak resources in an uncontrolled way."
+msgstr ""
+
+#: src/leaking.md:15
+msgid ""
+"However from a theoretical perspective this is absolutely not the case, no "
+"matter how you look at it. In the strictest sense, \"leaking\" is so "
+"abstract as to be unpreventable. It's quite trivial to initialize a "
+"collection at the start of a program, fill it with tons of objects with "
+"destructors, and then enter an infinite event loop that never refers to it. "
+"The collection will sit around uselessly, holding on to its precious "
+"resources until the program terminates (at which point all those resources "
+"would have been reclaimed by the OS anyway)."
+msgstr ""
+
+#: src/leaking.md:23
+msgid ""
+"We may consider a more restricted form of leak: failing to drop a value that "
+"is unreachable. Rust also doesn't prevent this. In fact Rust _has a function "
+"for doing this_: `mem::forget`. This function consumes the value it is "
+"passed _and then doesn't run its destructor_."
+msgstr ""
+
+#: src/leaking.md:28
+msgid ""
+"In the past `mem::forget` was marked as unsafe as a sort of lint against "
+"using it, since failing to call a destructor is generally not a well-behaved "
+"thing to do (though useful for some special unsafe code). However this was "
+"generally determined to be an untenable stance to take: there are many ways "
+"to fail to call a destructor in safe code. The most famous example is "
+"creating a cycle of reference-counted pointers using interior mutability."
+msgstr ""
+
+#: src/leaking.md:35
+msgid ""
+"It is reasonable for safe code to assume that destructor leaks do not "
+"happen, as any program that leaks destructors is probably wrong. However "
+"_unsafe_ code cannot rely on destructors to be run in order to be safe. For "
+"most types this doesn't matter: if you leak the destructor then the type is "
+"by definition inaccessible, so it doesn't matter, right? For instance, if "
+"you leak a `Box<u8>` then you waste some memory but that's hardly going to "
+"violate memory-safety."
+msgstr ""
+
+#: src/leaking.md:42
+msgid ""
+"However where we must be careful with destructor leaks are _proxy_ types. "
+"These are types which manage access to a distinct object, but don't actually "
+"own it. Proxy objects are quite rare. Proxy objects you'll need to care "
+"about are even rarer. However we'll focus on three interesting examples in "
+"the standard library:"
+msgstr ""
+
+#: src/leaking.md:48
+msgid "`vec::Drain`"
+msgstr ""
+
+#: src/leaking.md:49
+msgid "`Rc`"
+msgstr ""
+
+#: src/leaking.md:50
+msgid "`thread::scoped::JoinGuard`"
+msgstr ""
+
+#: src/leaking.md:52
+msgid "Drain"
+msgstr ""
+
+#: src/leaking.md:54
+msgid ""
+"`drain` is a collections API that moves data out of the container without "
+"consuming the container. This enables us to reuse the allocation of a `Vec` "
+"after claiming ownership over all of its contents. It produces an iterator "
+"(Drain) that returns the contents of the Vec by-value."
+msgstr ""
+
+#: src/leaking.md:59
+msgid ""
+"Now, consider Drain in the middle of iteration: some values have been moved "
+"out, and others haven't. This means that part of the Vec is now full of "
+"logically uninitialized data! We could backshift all the elements in the Vec "
+"every time we remove a value, but this would have pretty catastrophic "
+"performance consequences."
+msgstr ""
+
+#: src/leaking.md:65
+msgid ""
+"Instead, we would like Drain to fix the Vec's backing storage when it is "
+"dropped. It should run itself to completion, backshift any elements that "
+"weren't removed (drain supports subranges), and then fix Vec's `len`. It's "
+"even unwinding-safe! Easy!"
+msgstr ""
+
+#: src/leaking.md:70
+msgid "Now consider the following:"
+msgstr ""
+
+#: src/leaking.md:77
+msgid "// start draining, vec can no longer be accessed\n"
+msgstr ""
+
+#: src/leaking.md:80
+msgid "// pull out two elements and immediately drop them\n"
+msgstr ""
+
+#: src/leaking.md:84
+msgid "// get rid of drainer, but don't call its destructor\n"
+msgstr ""
+
+#: src/leaking.md:87
+msgid ""
+"// Oops, vec[0] was dropped, we're reading a pointer into free'd memory!\n"
+msgstr ""
+
+#: src/leaking.md:89
+msgid "\"{}\""
+msgstr ""
+
+#: src/leaking.md:92
+msgid ""
+"This is pretty clearly Not Good. Unfortunately, we're kind of stuck between "
+"a rock and a hard place: maintaining consistent state at every step has an "
+"enormous cost (and would negate any benefits of the API). Failing to "
+"maintain consistent state gives us Undefined Behavior in safe code (making "
+"the API unsound)."
+msgstr ""
+
+#: src/leaking.md:98
+msgid ""
+"So what can we do? Well, we can pick a trivially consistent state: set the "
+"Vec's len to be 0 when we start the iteration, and fix it up if necessary in "
+"the destructor. That way, if everything executes like normal we get the "
+"desired behavior with minimal overhead. But if someone has the _audacity_ to "
+"mem::forget us in the middle of the iteration, all that does is _leak even "
+"more_ (and possibly leave the Vec in an unexpected but otherwise consistent "
+"state). Since we've accepted that mem::forget is safe, this is definitely "
+"safe. We call leaks causing more leaks a _leak amplification_."
+msgstr ""
+
+#: src/leaking.md:107
+msgid "Rc"
+msgstr ""
+
+#: src/leaking.md:109
+msgid ""
+"Rc is an interesting case because at first glance it doesn't appear to be a "
+"proxy value at all. After all, it manages the data it points to, and "
+"dropping all the Rcs for a value will drop that value. Leaking an Rc doesn't "
+"seem like it would be particularly dangerous. It will leave the refcount "
+"permanently incremented and prevent the data from being freed or dropped, "
+"but that seems just like Box, right?"
+msgstr ""
+
+#: src/leaking.md:116
+msgid "Nope."
+msgstr ""
+
+#: src/leaking.md:118
+msgid "Let's consider a simplified implementation of Rc:"
+msgstr ""
+
+#: src/leaking.md:134
+msgid "// Wouldn't it be nice if heap::allocate worked like this?\n"
+msgstr ""
+
+#: src/leaking.md:157
+msgid "// drop the data and then free it\n"
+msgstr ""
+
+#: src/leaking.md:166
+msgid ""
+"This code contains an implicit and subtle assumption: `ref_count` can fit in "
+"a `usize`, because there can't be more than `usize::MAX` Rcs in memory. "
+"However this itself assumes that the `ref_count` accurately reflects the "
+"number of Rcs in memory, which we know is false with `mem::forget`. Using "
+"`mem::forget` we can overflow the `ref_count`, and then get it down to 0 "
+"with outstanding Rcs. Then we can happily use-after-free the inner data. Bad "
+"Bad Not Good."
+msgstr ""
+
+#: src/leaking.md:173
+msgid ""
+"This can be solved by just checking the `ref_count` and doing _something_. "
+"The standard library's stance is to just abort, because your program has "
+"become horribly degenerate. Also _oh my gosh_ it's such a ridiculous corner "
+"case."
+msgstr ""
+
+#: src/leaking.md:177
+msgid "thread::scoped::JoinGuard"
+msgstr ""
+
+#: src/leaking.md:179
+msgid ""
+"Note: This API has already been removed from std, for more information you "
+"may refer [issue #24292](https://github.com/rust-lang/rust/issues/24292)."
+msgstr ""
+
+#: src/leaking.md:182
+msgid ""
+"This section remains here because we think this example is still important, "
+"regardless of whether it is part of std or not."
+msgstr ""
+
+#: src/leaking.md:185
+msgid ""
+"The thread::scoped API intended to allow threads to be spawned that "
+"reference data on their parent's stack without any synchronization over that "
+"data by ensuring the parent joins the thread before any of the shared data "
+"goes out of scope."
+msgstr ""
+
+#: src/leaking.md:196
+msgid ""
+"Here `f` is some closure for the other thread to execute. Saying that `F: "
+"Send + 'a` is saying that it closes over data that lives for `'a`, and it "
+"either owns that data or the data was Sync (implying `&data` is Send)."
+msgstr ""
+
+#: src/leaking.md:200
+msgid ""
+"Because JoinGuard has a lifetime, it keeps all the data it closes over "
+"borrowed in the parent thread. This means the JoinGuard can't outlive the "
+"data that the other thread is working on. When the JoinGuard _does_ get "
+"dropped it blocks the parent thread, ensuring the child terminates before "
+"any of the closed-over data goes out of scope in the parent."
+msgstr ""
+
+#: src/leaking.md:206
+msgid "Usage looked like:"
+msgstr ""
+
+#: src/leaking.md:214
+msgid ""
+"// Move the mutable reference into the closure, and execute\n"
+"        // it on a different thread. The closure has a lifetime bound\n"
+"        // by the lifetime of the mutable reference `x` we store in it.\n"
+"        // The guard that is returned is in turn assigned the lifetime\n"
+"        // of the closure, so it also mutably borrows `data` as `x` did.\n"
+"        // This means we cannot access `data` until the guard goes away.\n"
+msgstr ""
+
+#: src/leaking.md:223
+msgid "// store the thread's guard for later\n"
+msgstr ""
+
+#: src/leaking.md:226
+msgid ""
+"// All guards are dropped here, forcing the threads to join\n"
+"    // (this thread blocks here until the others terminate).\n"
+"    // Once the threads join, the borrow expires and the data becomes\n"
+"    // accessible again in this thread.\n"
+msgstr ""
+
+#: src/leaking.md:230
+msgid "// data is definitely mutated here.\n"
+msgstr ""
+
+#: src/leaking.md:234
+msgid ""
+"In principle, this totally works! Rust's ownership system perfectly ensures "
+"it! ...except it relies on a destructor being called to be safe."
+msgstr ""
+
+#: src/leaking.md:242
+msgid "// This is at best a data race. At worst, it's also a use-after-free.\n"
+msgstr ""
+
+#: src/leaking.md:245
+msgid ""
+"// Because the guard is forgotten, expiring the loan without blocking this\n"
+"    // thread.\n"
+msgstr ""
+
+#: src/leaking.md:248
+msgid ""
+"// So the Box is dropped here while the scoped thread may or may not be "
+"trying\n"
+"// to access it.\n"
+msgstr ""
+
+#: src/leaking.md:253
+msgid ""
+"Dang. Here the destructor running was pretty fundamental to the API, and it "
+"had to be scrapped in favor of a completely different design."
+msgstr ""

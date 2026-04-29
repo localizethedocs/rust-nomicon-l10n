@@ -1,0 +1,92 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/lifetime-mismatch.md:1
+msgid "Limits of Lifetimes"
+msgstr ""
+
+#: src/lifetime-mismatch.md:3
+msgid "Given the following code:"
+msgstr ""
+
+#: src/lifetime-mismatch.md:18 src/lifetime-mismatch.md:60
+msgid "\"{:?}\""
+msgstr ""
+
+#: src/lifetime-mismatch.md:22
+msgid ""
+"One might expect it to compile. We call `mutate_and_share`, which mutably "
+"borrows `foo` temporarily, but then returns only a shared reference. "
+"Therefore we would expect `foo.share()` to succeed as `foo` shouldn't be "
+"mutably borrowed."
+msgstr ""
+
+#: src/lifetime-mismatch.md:26
+msgid "However when we try to compile it:"
+msgstr ""
+
+#: src/lifetime-mismatch.md:28
+msgid ""
+"```text\n"
+"error[E0502]: cannot borrow `foo` as immutable because it is also borrowed "
+"as mutable\n"
+"  --> src/main.rs:12:5\n"
+"   |\n"
+"11 |     let loan = foo.mutate_and_share();\n"
+"   |                --- mutable borrow occurs here\n"
+"12 |     foo.share();\n"
+"   |     ^^^ immutable borrow occurs here\n"
+"13 |     println!(\"{:?}\", loan);\n"
+"```"
+msgstr ""
+
+#: src/lifetime-mismatch.md:39
+msgid ""
+"What happened? Well, we got the exact same reasoning as we did for [Example "
+"2 in the previous section](lifetimes.html#example-aliasing-a-mutable-"
+"reference). We desugar the program and we get the following:"
+msgstr ""
+
+#: src/lifetime-mismatch.md:66
+msgid ""
+"The lifetime system is forced to extend the `&mut foo` to have lifetime "
+"`'c`, due to the lifetime of `loan` and `mutate_and_share`'s signature. Then "
+"when we try to call `share`, it sees we're trying to alias that `&'c mut "
+"foo` and blows up in our face!"
+msgstr ""
+
+#: src/lifetime-mismatch.md:71
+msgid ""
+"This program is clearly correct according to the reference semantics we "
+"actually care about, but the lifetime system is too coarse-grained to handle "
+"that."
+msgstr ""
+
+#: src/lifetime-mismatch.md:74
+msgid "Improperly reduced borrows"
+msgstr ""
+
+#: src/lifetime-mismatch.md:76
+msgid ""
+"The following code fails to compile, because Rust sees that a variable, "
+"`map`, is borrowed twice, and can not infer that the first borrow ceases to "
+"be needed before the second one occurs. This is caused by Rust "
+"conservatively falling back to using a whole scope for the first borrow. "
+"This will eventually get fixed."
+msgstr ""
+
+#: src/lifetime-mismatch.md:99
+msgid ""
+"Because of the lifetime restrictions imposed, `&mut map`'s lifetime overlaps "
+"other mutable borrows, resulting in a compile error:"
+msgstr ""

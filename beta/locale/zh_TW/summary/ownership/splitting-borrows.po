@@ -1,0 +1,140 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/borrow-splitting.md:1
+msgid "Splitting Borrows"
+msgstr ""
+
+#: src/borrow-splitting.md:3
+msgid ""
+"The mutual exclusion property of mutable references can be very limiting "
+"when working with a composite structure. The borrow checker (a.k.a. "
+"borrowck) understands some basic stuff, but will fall over pretty easily. It "
+"does understand structs sufficiently to know that it's possible to borrow "
+"disjoint fields of a struct simultaneously. So this works today:"
+msgstr ""
+
+#: src/borrow-splitting.md:23
+msgid "\"{} {} {} {}\""
+msgstr ""
+
+#: src/borrow-splitting.md:26
+msgid ""
+"However borrowck doesn't understand arrays or slices in any way, so this "
+"doesn't work:"
+msgstr ""
+
+#: src/borrow-splitting.md:33
+msgid "\"{} {}\""
+msgstr ""
+
+#: src/borrow-splitting.md:36
+msgid ""
+"```text\n"
+"error[E0499]: cannot borrow `x[..]` as mutable more than once at a time\n"
+" --> src/lib.rs:4:18\n"
+"  |\n"
+"3 |     let a = &mut x[0];\n"
+"  |                  ---- first mutable borrow occurs here\n"
+"4 |     let b = &mut x[1];\n"
+"  |                  ^^^^ second mutable borrow occurs here\n"
+"5 |     println!(\"{} {}\", a, b);\n"
+"6 | }\n"
+"  | - first borrow ends here\n"
+"\n"
+"error: aborting due to previous error\n"
+"```"
+msgstr ""
+
+#: src/borrow-splitting.md:51
+msgid ""
+"While it was plausible that borrowck could understand this simple case, it's "
+"pretty clearly hopeless for borrowck to understand disjointness in general "
+"container types like a tree, especially if distinct keys actually _do_ map "
+"to the same value."
+msgstr ""
+
+#: src/borrow-splitting.md:56
+msgid ""
+"In order to \"teach\" borrowck that what we're doing is ok, we need to drop "
+"down to unsafe code. For instance, mutable slices expose a `split_at_mut` "
+"function that consumes the slice and returns two mutable slices. One for "
+"everything to the left of the index, and one for everything to the right. "
+"Intuitively we know this is safe because the slices don't overlap, and "
+"therefore alias. However the implementation requires some unsafety:"
+msgstr ""
+
+#: src/borrow-splitting.md:83
+msgid ""
+"This is actually a bit subtle. So as to avoid ever making two `&mut`'s to "
+"the same value, we explicitly construct brand-new slices through raw "
+"pointers."
+msgstr ""
+
+#: src/borrow-splitting.md:86
+msgid ""
+"However more subtle is how iterators that yield mutable references work. The "
+"iterator trait is defined as follows:"
+msgstr ""
+
+#: src/borrow-splitting.md:97
+msgid ""
+"Given this definition, Self::Item has _no_ connection to `self`. This means "
+"that we can call `next` several times in a row, and hold onto all the "
+"results _concurrently_. This is perfectly fine for by-value iterators, which "
+"have exactly these semantics. It's also actually fine for shared references, "
+"as they admit arbitrarily many references to the same thing (although the "
+"iterator needs to be a separate object from the thing being shared)."
+msgstr ""
+
+#: src/borrow-splitting.md:104
+msgid ""
+"But mutable references make this a mess. At first glance, they might seem "
+"completely incompatible with this API, as it would produce multiple mutable "
+"references to the same object!"
+msgstr ""
+
+#: src/borrow-splitting.md:108
+msgid ""
+"However it actually _does_ work, exactly because iterators are one-shot "
+"objects. Everything an IterMut yields will be yielded at most once, so we "
+"don't actually ever yield multiple mutable references to the same piece of "
+"data."
+msgstr ""
+
+#: src/borrow-splitting.md:112
+msgid ""
+"Perhaps surprisingly, mutable iterators don't require unsafe code to be "
+"implemented for many types!"
+msgstr ""
+
+#: src/borrow-splitting.md:115
+msgid "For instance here's a singly linked list:"
+msgstr ""
+
+#: src/borrow-splitting.md:150
+msgid "Here's a mutable slice:"
+msgstr ""
+
+#: src/borrow-splitting.md:184
+msgid "And here's a binary tree:"
+msgstr ""
+
+#: src/borrow-splitting.md:289
+msgid ""
+"All of these are completely safe and work on stable Rust! This ultimately "
+"falls out of the simple struct case we saw before: Rust understands that you "
+"can safely split a mutable reference into subfields. We can then encode "
+"permanently consuming a reference via Options (or in the case of slices, "
+"replacing with an empty slice)."
+msgstr ""

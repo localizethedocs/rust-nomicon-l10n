@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/vec/vec-final.md:1
+msgid "The Final Code"
+msgstr ""
+
+#: src/vec/vec-final.md:20
+msgid "// !0 is usize::MAX. This branch should be stripped at compile time.\n"
+msgstr ""
+
+#: src/vec/vec-final.md:23
+msgid ""
+"// `NonNull::dangling()` doubles as \"unallocated\" and \"zero-sized "
+"allocation\"\n"
+msgstr ""
+
+#: src/vec/vec-final.md:31
+msgid ""
+"// since we set the capacity to usize::MAX when T has size 0,\n"
+"        // getting to here necessarily means the Vec is overfull.\n"
+msgstr ""
+
+#: src/vec/vec-final.md:33
+msgid "\"capacity overflow\""
+msgstr ""
+
+#: src/vec/vec-final.md:38
+msgid "// This can't overflow since self.cap <= isize::MAX.\n"
+msgstr ""
+
+#: src/vec/vec-final.md:43
+msgid ""
+"// `Layout::array` checks that the number of bytes allocated is\n"
+"        // in 1..=isize::MAX and will error otherwise.  An allocation of\n"
+"        // 0 bytes isn't possible thanks to the above condition.\n"
+msgstr ""
+
+#: src/vec/vec-final.md:46
+msgid "\"Allocation too large\""
+msgstr ""
+
+#: src/vec/vec-final.md:56
+msgid ""
+"// If allocation fails, `new_ptr` will be null, in which case we abort.\n"
+msgstr ""
+
+#: src/vec/vec-final.md:109
+msgid "// Can't overflow, we'll OOM first.\n"
+msgstr ""
+
+#: src/vec/vec-final.md:123 src/vec/vec-final.md:141
+msgid "\"index out of bounds\""
+msgstr ""
+
+#: src/vec/vec-final.md:159
+msgid ""
+"// this is a mem::forget safety thing. If Drain is forgotten, we just\n"
+"        // leak the whole Vec's contents. Also we need to do this "
+"*eventually*\n"
+"        // anyway, so why not do it now?\n"
+msgstr ""
+
+#: src/vec/vec-final.md:174
+msgid "// deallocation is handled by RawVec\n"
+msgstr ""
+
+#: src/vec/vec-final.md:274
+msgid "// we don't actually care about this. Just need it to live.\n"
+msgstr ""
+
+#: src/vec/vec-final.md:323
+msgid "// pre-drain the iter\n"
+msgstr ""
+
+#: src/vec/vec-final.md:333
+msgid "\"All tests finished OK\""
+msgstr ""
