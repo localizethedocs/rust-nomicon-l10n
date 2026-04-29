@@ -44,11 +44,11 @@ msgstr ""
 
 #: src/unbounded-lifetimes.md:27
 msgid "\"hello\""
-msgstr ""
+msgstr "\"hello\""
 
 #: src/unbounded-lifetimes.md:30
 msgid "\"Invalid str: {}\""
-msgstr ""
+msgstr "\"Invalid str: {}\""
 
 #: src/unbounded-lifetimes.md:30
 msgid "// Invalid str: gӚ_`\n"

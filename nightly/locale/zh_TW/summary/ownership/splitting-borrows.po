@@ -26,7 +26,7 @@ msgstr ""
 
 #: src/borrow-splitting.md:23
 msgid "\"{} {} {} {}\""
-msgstr ""
+msgstr "\"{} {} {} {}\""
 
 #: src/borrow-splitting.md:26
 msgid ""
@@ -36,7 +36,7 @@ msgstr ""
 
 #: src/borrow-splitting.md:33
 msgid "\"{} {}\""
-msgstr ""
+msgstr "\"{} {}\""
 
 #: src/borrow-splitting.md:36
 msgid ""

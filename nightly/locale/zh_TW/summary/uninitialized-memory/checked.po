@@ -63,6 +63,11 @@ msgid ""
 "  |                    ^ use of possibly uninitialized `x`\n"
 "```"
 msgstr ""
+"```text\n"
+"  |\n"
+"6 |     println!(\"{}\", x);\n"
+"  |                    ^ use of possibly uninitialized `x`\n"
+"```"
 
 #: src/checked-uninit.md:61
 msgid "while this does:"
@@ -123,7 +128,7 @@ msgstr ""
 
 #: src/checked-uninit.md:117
 msgid "// reinitialize y\n"
-msgstr ""
+msgstr "// 重新初始化 y\n"
 
 #: src/checked-uninit.md:121
 msgid "Otherwise it's like `y` is a brand new variable."

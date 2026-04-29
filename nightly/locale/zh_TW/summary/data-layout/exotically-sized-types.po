@@ -20,10 +20,12 @@ msgid ""
 "Most of the time, we expect types to have a statically known and positive "
 "size. This isn't always the case in Rust."
 msgstr ""
+"大多數情況下，我們預期型別具有靜態已知且大於零的大小。但在 Rust 中並不總是如"
+"此。"
 
 #: src/exotic-sizes.md:6
 msgid "Dynamically Sized Types (DSTs)"
-msgstr ""
+msgstr "動態大小型別（Dynamically Sized Types, DSTs）"
 
 #: src/exotic-sizes.md:8
 msgid ""
@@ -86,7 +88,7 @@ msgstr ""
 
 #: src/exotic-sizes.md:61
 msgid "// prints: \"17 [0, 0, 0, 0, 0, 0, 0, 0]\"\n"
-msgstr ""
+msgstr "// 列印：\"17 [0, 0, 0, 0, 0, 0, 0, 0]\"\n"
 
 #: src/exotic-sizes.md:62
 msgid "\"{} {:?}\""
@@ -169,7 +171,7 @@ msgstr ""
 
 #: src/exotic-sizes.md:116
 msgid "Empty Types"
-msgstr ""
+msgstr "空型別"
 
 #: src/exotic-sizes.md:118
 msgid ""
