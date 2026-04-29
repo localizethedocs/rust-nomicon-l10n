@@ -1,0 +1,609 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/subtyping.md:1
+msgid "Subtyping and Variance"
+msgstr ""
+
+#: src/subtyping.md:3
+msgid ""
+"Rust uses lifetimes to track the relationships between borrows and "
+"ownership. However, a naive implementation of lifetimes would be either too "
+"restrictive, or permit undefined behavior."
+msgstr ""
+
+#: src/subtyping.md:7
+msgid ""
+"In order to allow flexible usage of lifetimes while also preventing their "
+"misuse, Rust uses **subtyping** and **variance**."
+msgstr ""
+
+#: src/subtyping.md:10
+msgid "Let's start with an example."
+msgstr ""
+
+#: src/subtyping.md:13
+msgid "// Note: debug expects two parameters with the *same* lifetime\n"
+msgstr ""
+
+#: src/subtyping.md:15 src/subtyping.md:80 src/subtyping.md:233
+msgid "\"a = {a:?} b = {b:?}\""
+msgstr ""
+
+#: src/subtyping.md:19 src/subtyping.md:84 src/subtyping.md:104
+#: src/subtyping.md:186 src/subtyping.md:252 src/subtyping.md:322
+msgid "\"hello\""
+msgstr ""
+
+#: src/subtyping.md:21 src/subtyping.md:86 src/subtyping.md:106
+#: src/subtyping.md:188
+msgid "\"world\""
+msgstr ""
+
+#: src/subtyping.md:22 src/subtyping.md:87
+msgid "// 'world has a shorter lifetime than 'static\n"
+msgstr ""
+
+#: src/subtyping.md:28
+msgid ""
+"In a conservative implementation of lifetimes, since `hello` and `world` "
+"have different lifetimes, we might see the following error:"
+msgstr ""
+
+#: src/subtyping.md:41
+msgid ""
+"This would be rather unfortunate. In this case, what we want is to accept "
+"any type that lives _at least as long_ as `'world`. Let's try using "
+"subtyping with our lifetimes."
+msgstr ""
+
+#: src/subtyping.md:45
+msgid "Subtyping"
+msgstr ""
+
+#: src/subtyping.md:47
+msgid "Subtyping is the idea that one type can be used in place of another."
+msgstr ""
+
+#: src/subtyping.md:49
+msgid ""
+"Let's define that `Sub` is a subtype of `Super` (we'll be using the notation "
+"`Sub <: Super` throughout this chapter)."
+msgstr ""
+
+#: src/subtyping.md:51
+msgid ""
+"What this is suggesting to us is that the set of _requirements_ that `Super` "
+"defines are completely satisfied by `Sub`. `Sub` may then have more "
+"requirements."
+msgstr ""
+
+#: src/subtyping.md:54
+msgid ""
+"Now, in order to use subtyping with lifetimes, we need to define the "
+"requirement of a lifetime:"
+msgstr ""
+
+#: src/subtyping.md:56
+msgid "`'a` defines a region of code."
+msgstr ""
+
+#: src/subtyping.md:58
+msgid ""
+"Now that we have a defined set of requirements for lifetimes, we can define "
+"how they relate to each other:"
+msgstr ""
+
+#: src/subtyping.md:60
+msgid ""
+"`'long <: 'short` if and only if `'long` defines a region of code that "
+"**completely contains** `'short`."
+msgstr ""
+
+#: src/subtyping.md:62
+msgid ""
+"`'long` may define a region larger than `'short`, but that still fits our "
+"definition."
+msgstr ""
+
+#: src/subtyping.md:64
+msgid ""
+"As we will see throughout the rest of this chapter, subtyping is a lot more "
+"complicated and subtle than this, but this simple rule is a very good 99% "
+"intuition. And unless you write unsafe code, the compiler will automatically "
+"handle all the corner cases for you."
+msgstr ""
+
+#: src/subtyping.md:69
+msgid ""
+"But this is the Rustonomicon. We're writing unsafe code, so we need to "
+"understand how this stuff really works, and how we can mess it up."
+msgstr ""
+
+#: src/subtyping.md:72
+msgid ""
+"Going back to our example above, we can say that `'static <: 'world`. For "
+"now, let's also accept the idea that subtypes of lifetimes can be passed "
+"through references (more on this in [Variance](#variance)), _e.g._ `&'static "
+"str` is a subtype of `&'world str`, then we can \"downgrade\" `&'static str` "
+"into a `&'world str`. With that, the example above will compile:"
+msgstr ""
+
+#: src/subtyping.md:88
+msgid "// hello silently downgrades from `&'static str` into `&'world str`\n"
+msgstr ""
+
+#: src/subtyping.md:93
+msgid "Variance"
+msgstr ""
+
+#: src/subtyping.md:95
+msgid ""
+"Above, we glossed over the fact that `'static <: 'b` implied that `&'static "
+"T <: &'b T`. This uses a property known as _variance_. It's not always as "
+"simple as this example, though. To understand that, let's try to extend this "
+"example a bit:"
+msgstr ""
+
+#: src/subtyping.md:109 src/subtyping.md:191
+msgid "\"{hello}\""
+msgstr ""
+
+#: src/subtyping.md:109 src/subtyping.md:333
+msgid "// use after free 😿\n"
+msgstr ""
+
+#: src/subtyping.md:113
+msgid ""
+"In `assign`, we are setting the `hello` reference to point to `world`. But "
+"then `world` goes out of scope, before the later use of `hello` in the "
+"println!"
+msgstr ""
+
+#: src/subtyping.md:116
+msgid "This is a classic use-after-free bug!"
+msgstr ""
+
+#: src/subtyping.md:118
+msgid ""
+"Our first instinct might be to blame the `assign` impl, but there's really "
+"nothing wrong here. It shouldn't be surprising that we might want to assign "
+"a `T` into a `T`."
+msgstr ""
+
+#: src/subtyping.md:121
+msgid ""
+"The problem is that we cannot assume that `&mut &'static str` and `&mut &'b "
+"str` are compatible. This means that `&mut &'static str` **cannot** be a "
+"_subtype_ of `&mut &'b str`, even if `'static` is a subtype of `'b`."
+msgstr ""
+
+#: src/subtyping.md:125
+msgid ""
+"Variance is the concept that Rust borrows to define relationships about "
+"subtypes through their generic parameters."
+msgstr ""
+
+#: src/subtyping.md:127
+msgid ""
+"NOTE: For convenience we will define a generic type `F<T>` so that we can "
+"easily talk about `T`. Hopefully this is clear in context."
+msgstr ""
+
+#: src/subtyping.md:130
+msgid ""
+"The type `F`'s _variance_ is how the subtyping of its inputs affects the "
+"subtyping of its outputs. There are three kinds of variance in Rust. Given "
+"two types `Sub` and `Super`, where `Sub` is a subtype of `Super`:"
+msgstr ""
+
+#: src/subtyping.md:134
+msgid ""
+"`F` is **covariant** if `F<Sub>` is a subtype of `F<Super>` (the subtype "
+"property is passed through)"
+msgstr ""
+
+#: src/subtyping.md:135
+msgid ""
+"`F` is **contravariant** if `F<Super>` is a subtype of `F<Sub>` (the subtype "
+"property is \"inverted\")"
+msgstr ""
+
+#: src/subtyping.md:136
+msgid "`F` is **invariant** otherwise (no subtyping relationship exists)"
+msgstr ""
+
+#: src/subtyping.md:138
+msgid ""
+"If we remember from the above examples, it was ok for us to treat `&'a T` as "
+"a subtype of `&'b T` if `'a <: 'b`, therefore we can say that `&'a T` is "
+"_covariant_ over `'a`."
+msgstr ""
+
+#: src/subtyping.md:142
+msgid ""
+"Also, we saw that it was not ok for us to treat `&mut &'a T` as a subtype of "
+"`&mut &'b T`, therefore we can say that `&mut T` is _invariant_ over `T`"
+msgstr ""
+
+#: src/subtyping.md:145
+msgid "Here is a table of some other generic types and their variances:"
+msgstr ""
+
+#: src/subtyping.md:147
+msgid "'a"
+msgstr ""
+
+#: src/subtyping.md:147
+msgid "T"
+msgstr ""
+
+#: src/subtyping.md:147
+msgid "U"
+msgstr ""
+
+#: src/subtyping.md:149
+msgid "`&'a T `"
+msgstr ""
+
+#: src/subtyping.md:149 src/subtyping.md:150 src/subtyping.md:151
+#: src/subtyping.md:152 src/subtyping.md:155 src/subtyping.md:156
+msgid "covariant"
+msgstr ""
+
+#: src/subtyping.md:150
+msgid "`&'a mut T`"
+msgstr ""
+
+#: src/subtyping.md:150 src/subtyping.md:153 src/subtyping.md:154
+#: src/subtyping.md:157
+msgid "invariant"
+msgstr ""
+
+#: src/subtyping.md:151
+msgid "`Box<T>`"
+msgstr ""
+
+#: src/subtyping.md:152
+msgid "`Vec<T>`"
+msgstr ""
+
+#: src/subtyping.md:153
+msgid "`UnsafeCell<T>`"
+msgstr ""
+
+#: src/subtyping.md:154
+msgid "`Cell<T>`"
+msgstr ""
+
+#: src/subtyping.md:155
+msgid "`fn(T) -> U`"
+msgstr ""
+
+#: src/subtyping.md:155
+msgid "**contra**variant"
+msgstr ""
+
+#: src/subtyping.md:156
+msgid "`*const T`"
+msgstr ""
+
+#: src/subtyping.md:157
+msgid "`*mut T`"
+msgstr ""
+
+#: src/subtyping.md:159
+msgid "Some of these can be explained simply in relation to the others:"
+msgstr ""
+
+#: src/subtyping.md:161
+msgid ""
+"`Vec<T>` and all other owning pointers and collections follow the same logic "
+"as `Box<T>`"
+msgstr ""
+
+#: src/subtyping.md:162
+msgid ""
+"`Cell<T>` and all other interior mutability types follow the same logic as "
+"`UnsafeCell<T>`"
+msgstr ""
+
+#: src/subtyping.md:163
+msgid ""
+"`UnsafeCell<T>` having interior mutability gives it the same variance "
+"properties as `&mut T`"
+msgstr ""
+
+#: src/subtyping.md:164
+msgid "`*const T` follows the logic of `&T`"
+msgstr ""
+
+#: src/subtyping.md:165
+msgid "`*mut T` follows the logic of `&mut T` (or `UnsafeCell<T>`)"
+msgstr ""
+
+#: src/subtyping.md:167
+msgid ""
+"For more types, see the [\"Variance\" section](../reference/subtyping."
+"html#variance) on the reference."
+msgstr ""
+
+#: src/subtyping.md:171
+msgid ""
+"NOTE: the _only_ source of contravariance in the language is the arguments "
+"to a function, which is why it really doesn't come up much in practice. "
+"Invoking contravariance involves higher-order programming with function "
+"pointers that take references with specific lifetimes (as opposed to the "
+"usual \"any lifetime\", which gets into higher rank lifetimes, which work "
+"independently of subtyping)."
+msgstr ""
+
+#: src/subtyping.md:177
+msgid ""
+"Now that we have some more formal understanding of variance, let's go "
+"through some more examples in more detail."
+msgstr ""
+
+#: src/subtyping.md:195
+msgid "And what do we get when we run this?"
+msgstr ""
+
+#: src/subtyping.md:197
+msgid ""
+"```text\n"
+"error[E0597]: `world` does not live long enough\n"
+"  --> src/main.rs:9:28\n"
+"   |\n"
+"6  |     let mut hello: &'static str = \"hello\";\n"
+"   |                    ------------ type annotation requires that `world` "
+"is borrowed for `'static`\n"
+"...\n"
+"9  |         assign(&mut hello, &world);\n"
+"   |                            ^^^^^^ borrowed value does not live long "
+"enough\n"
+"10 |     }\n"
+"   |     - `world` dropped here while still borrowed\n"
+"```"
+msgstr ""
+
+#: src/subtyping.md:210
+msgid ""
+"Good, it doesn't compile! Let's break down what's happening here in detail."
+msgstr ""
+
+#: src/subtyping.md:212
+msgid "First let's look at the `assign` function:"
+msgstr ""
+
+#: src/subtyping.md:220
+msgid ""
+"All it does is take a mutable reference and a value and overwrite the "
+"referent with it. What's important about this function is that it creates a "
+"type equality constraint. It clearly says in its signature the referent and "
+"the value must be the _exact same_ type."
+msgstr ""
+
+#: src/subtyping.md:224
+msgid ""
+"Meanwhile, in the caller we pass in `&mut &'static str` and `&'world str`."
+msgstr ""
+
+#: src/subtyping.md:226
+msgid ""
+"Because `&mut T` is invariant over `T`, the compiler concludes it can't "
+"apply any subtyping to the first argument, and so `T` must be exactly "
+"`&'static str`."
+msgstr ""
+
+#: src/subtyping.md:229
+msgid "This is counter to the `&T` case:"
+msgstr ""
+
+#: src/subtyping.md:237
+msgid ""
+"where similarly `a` and `b` must have the same type `T`. But since `&'a T` "
+"_is_ covariant over `'a`, we are allowed to perform subtyping. So the "
+"compiler decides that `&'static str` can become `&'b str` if and only if "
+"`&'static str` is a subtype of `&'b str`, which will hold if `'static <: "
+"'b`. This is true, so the compiler is happy to continue compiling this code."
+msgstr ""
+
+#: src/subtyping.md:243
+msgid ""
+"As it turns out, the argument for why it's ok for Box (and Vec, HashMap, "
+"etc.) to be covariant is pretty similar to the argument for why it's ok for "
+"lifetimes to be covariant: as soon as you try to stuff them in something "
+"like a mutable reference, they inherit invariance and you're prevented from "
+"doing anything bad."
+msgstr ""
+
+#: src/subtyping.md:245
+msgid ""
+"However Box makes it easier to focus on the by-value aspect of references "
+"that we partially glossed over."
+msgstr ""
+
+#: src/subtyping.md:247
+msgid ""
+"Unlike a lot of languages which allow values to be freely aliased at all "
+"times, Rust has a very strict rule: if you're allowed to mutate or move a "
+"value, you are guaranteed to be the only one with access to it."
+msgstr ""
+
+#: src/subtyping.md:249
+msgid "Consider the following code:"
+msgstr ""
+
+#: src/subtyping.md:258
+msgid ""
+"There is no problem at all with the fact that we have forgotten that `hello` "
+"was alive for `'static`, because as soon as we moved `hello` to a variable "
+"that only knew it was alive for `'b`, **we destroyed the only thing in the "
+"universe that remembered it lived for longer**!"
+msgstr ""
+
+#: src/subtyping.md:262
+msgid "Only one thing left to explain: function pointers."
+msgstr ""
+
+#: src/subtyping.md:264
+msgid ""
+"To see why `fn(T) -> U` should be covariant over `U`, consider the following "
+"signature:"
+msgstr ""
+
+#: src/subtyping.md:271
+msgid ""
+"This function claims to produce a `str` bound by some lifetime `'a`. As "
+"such, it is perfectly valid to provide a function with the following "
+"signature instead:"
+msgstr ""
+
+#: src/subtyping.md:279
+msgid ""
+"So when the function is called, all it's expecting is a `&str` which lives "
+"at least the lifetime of `'a`, it doesn't matter if the value actually lives "
+"longer."
+msgstr ""
+
+#: src/subtyping.md:282
+msgid ""
+"However, the same logic does not apply to _arguments_. Consider trying to "
+"satisfy:"
+msgstr ""
+
+#: src/subtyping.md:289
+msgid "with:"
+msgstr ""
+
+#: src/subtyping.md:296
+msgid ""
+"The first function can accept any string reference as long as it lives at "
+"least for `'a`, but the second cannot accept a string reference that lives "
+"for any duration less than `'static`, which would cause a conflict. "
+"Covariance doesn't work here. But if we flip it around, it actually _does_ "
+"work! If we need a function that can handle `&'static str`, a function that "
+"can handle _any_ reference lifetime will surely work fine."
+msgstr ""
+
+#: src/subtyping.md:303
+msgid "Let's see this in practice"
+msgstr ""
+
+#: src/subtyping.md:310
+msgid "/// saves the input given into a thread local `Vec<&'static str>`\n"
+msgstr ""
+
+#: src/subtyping.md:315
+msgid "/// Calls the function with it's input (must have the same lifetime!)\n"
+msgstr ""
+
+#: src/subtyping.md:322
+msgid "// \"hello\" is 'static. Can call `store` fine\n"
+msgstr ""
+
+#: src/subtyping.md:325
+msgid "\"smuggle\""
+msgstr ""
+
+#: src/subtyping.md:327
+msgid ""
+"// `&smuggle` is not static. If we were to call `store` with `&smuggle`,\n"
+"        // we would have pushed an invalid lifetime into the `StaticVecs`.\n"
+"        // Therefore, `fn(&'static str)` cannot be a subtype of `fn(&'a "
+"str)`\n"
+msgstr ""
+
+#: src/subtyping.md:334
+msgid "\"{v:?}\""
+msgstr ""
+
+#: src/subtyping.md:338
+msgid ""
+"And that's why function types, unlike anything else in the language, are "
+"**contra**variant over their arguments."
+msgstr ""
+
+#: src/subtyping.md:341
+msgid ""
+"Now, this is all well and good for the types the standard library provides, "
+"but how is variance determined for types that _you_ define? A struct, "
+"informally speaking, inherits the variance of its fields. If a struct "
+"`MyType` has a generic argument `A` that is used in a field `a`, then "
+"MyType's variance over `A` is exactly `a`'s variance over `A`."
+msgstr ""
+
+#: src/subtyping.md:347
+msgid "However if `A` is used in multiple fields:"
+msgstr ""
+
+#: src/subtyping.md:349
+msgid "If all uses of `A` are covariant, then MyType is covariant over `A`"
+msgstr ""
+
+#: src/subtyping.md:350
+msgid ""
+"If all uses of `A` are contravariant, then MyType is contravariant over `A`"
+msgstr ""
+
+#: src/subtyping.md:351
+msgid "Otherwise, MyType is invariant over `A`"
+msgstr ""
+
+#: src/subtyping.md:357
+msgid "// covariant over 'a and A\n"
+msgstr ""
+
+#: src/subtyping.md:358
+msgid "// covariant over 'b and invariant over B\n"
+msgstr ""
+
+#: src/subtyping.md:360
+msgid "// covariant over C\n"
+msgstr ""
+
+#: src/subtyping.md:361
+msgid "// invariant over D\n"
+msgstr ""
+
+#: src/subtyping.md:363
+msgid "// covariant over E\n"
+msgstr ""
+
+#: src/subtyping.md:364
+msgid "// covariant over F\n"
+msgstr ""
+
+#: src/subtyping.md:365
+msgid "// invariant over G\n"
+msgstr ""
+
+#: src/subtyping.md:367
+msgid "// would also be covariant over H except...\n"
+msgstr ""
+
+#: src/subtyping.md:368
+msgid "// invariant over H, because invariance wins all conflicts\n"
+msgstr ""
+
+#: src/subtyping.md:370
+msgid "// contravariant over In, covariant over Out\n"
+msgstr ""
+
+#: src/subtyping.md:372
+msgid "// would be contravariant over Mixed except..\n"
+msgstr ""
+
+#: src/subtyping.md:373
+msgid "// invariant over Mixed, because invariance wins all conflicts\n"
+msgstr ""
