@@ -1,0 +1,108 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/vec/vec-raw.md:1
+msgid "RawVec"
+msgstr ""
+
+#: src/vec/vec-raw.md:3
+msgid ""
+"We've actually reached an interesting situation here: we've duplicated the "
+"logic for specifying a buffer and freeing its memory in Vec and IntoIter. "
+"Now that we've implemented it and identified _actual_ logic duplication, "
+"this is a good time to perform some logic compression."
+msgstr ""
+
+#: src/vec/vec-raw.md:8
+msgid ""
+"We're going to abstract out the `(ptr, cap)` pair and give them the logic "
+"for allocating, growing, and freeing:"
+msgstr ""
+
+#: src/vec/vec-raw.md:23
+msgid "\"TODO: implement ZST support\""
+msgstr ""
+
+#: src/vec/vec-raw.md:31
+msgid "// This can't overflow because we ensure self.cap <= isize::MAX.\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:34
+msgid ""
+"// Layout::array checks that the number of bytes is <= usize::MAX,\n"
+"        // but this is redundant since old_layout.size() <= isize::MAX,\n"
+"        // so the `unwrap` should never fail.\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:39
+msgid "// Ensure that the new allocation doesn't exceed `isize::MAX` bytes.\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:40
+msgid "\"Allocation too large\""
+msgstr ""
+
+#: src/vec/vec-raw.md:50
+msgid ""
+"// If allocation fails, `new_ptr` will be null, in which case we abort.\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:71
+msgid "And change Vec as follows:"
+msgstr ""
+
+#: src/vec/vec-raw.md:96
+msgid ""
+"// push/pop/insert/remove largely unchanged:\n"
+"    // * `self.ptr.as_ptr() -> self.ptr()`\n"
+"    // * `self.cap -> self.cap()`\n"
+"    // * `self.grow() -> self.buf.grow()`\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:105
+msgid "// deallocation is handled by RawVec\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:110
+msgid "And finally we can really simplify IntoIter:"
+msgstr ""
+
+#: src/vec/vec-raw.md:115
+msgid "// we don't actually care about this. Just need it to live.\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:119
+msgid ""
+"// next and next_back literally unchanged since they never referred to the "
+"buf\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:124
+msgid ""
+"// only need to ensure all our elements are read;\n"
+"        // buffer will clean itself up afterwards.\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:134
+msgid ""
+"// need to use ptr::read to unsafely move the buf out since it's\n"
+"        // not Copy, and Vec implements Drop (so we can't destructure it).\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:143
+msgid "// can't offset off of a pointer unless it's part of an allocation\n"
+msgstr ""
+
+#: src/vec/vec-raw.md:154
+msgid "Much better."
+msgstr ""
