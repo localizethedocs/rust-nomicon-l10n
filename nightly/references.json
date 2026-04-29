@@ -13,22 +13,22 @@
     },
     "zh_CN" : 
     {
-      "branch" : "",
+      "branch" : "main",
       "commit" : 
       {
-        "date" : "",
-        "hash" : "",
-        "title" : ""
+        "date" : "2026-04-29 04:15:02 +0000",
+        "hash" : "4f9e4e1aa6a9e97f9c96dec4b3ecebccfabd31e5",
+        "title" : "Auto merge of #155953 - ShoyuVanilla:rollup-BrmB2HL, r=ShoyuVanilla"
       }
     },
     "zh_TW" : 
     {
-      "branch" : "",
+      "branch" : "main",
       "commit" : 
       {
-        "date" : "",
-        "hash" : "",
-        "title" : ""
+        "date" : "2026-04-29 04:15:02 +0000",
+        "hash" : "4f9e4e1aa6a9e97f9c96dec4b3ecebccfabd31e5",
+        "title" : "Auto merge of #155953 - ShoyuVanilla:rollup-BrmB2HL, r=ShoyuVanilla"
       }
     }
   },

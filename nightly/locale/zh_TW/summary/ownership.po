@@ -1,0 +1,103 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/ownership.md:1
+msgid "Ownership and Lifetimes"
+msgstr ""
+
+#: src/ownership.md:3
+msgid ""
+"Ownership is the breakout feature of Rust. It allows Rust to be completely "
+"memory-safe and efficient, while avoiding garbage collection. Before getting "
+"into the ownership system in detail, we will consider the motivation of this "
+"design."
+msgstr ""
+
+#: src/ownership.md:8
+msgid ""
+"We will assume that you accept that garbage collection (GC) is not always an "
+"optimal solution, and that it is desirable to manually manage memory in some "
+"contexts. If you do not accept this, might I interest you in a different "
+"language?"
+msgstr ""
+
+#: src/ownership.md:13
+msgid ""
+"Regardless of your feelings on GC, it is pretty clearly a _massive_ boon to "
+"making code safe. You never have to worry about things going away _too soon_ "
+"(although whether you still wanted to be pointing at that thing is a "
+"different issue...). This is a pervasive problem that C and C++ programs "
+"need to deal with. Consider this simple mistake that all of us who have used "
+"a non-GC'd language have made at one point:"
+msgstr ""
+
+#: src/ownership.md:22
+msgid "// compute the string\n"
+msgstr ""
+
+#: src/ownership.md:23 src/ownership.md:59
+msgid "\"{}\""
+msgstr ""
+
+#: src/ownership.md:25
+msgid ""
+"// OH NO! We returned a reference to something that\n"
+"    // exists only in this function!\n"
+"    // Dangling pointer! Use after free! Alas!\n"
+"    // (this does not compile in Rust)\n"
+msgstr ""
+
+#: src/ownership.md:33
+msgid ""
+"This is exactly what Rust's ownership system was built to solve. Rust knows "
+"the scope in which the `&s` lives, and as such can prevent it from escaping. "
+"However this is a simple case that even a C compiler could plausibly catch. "
+"Things get more complicated as code gets bigger and pointers get fed through "
+"various functions. Eventually, a C compiler will fall down and won't be able "
+"to perform sufficient escape analysis to prove your code unsound. It will "
+"consequently be forced to accept your program on the assumption that it is "
+"correct."
+msgstr ""
+
+#: src/ownership.md:41
+msgid ""
+"This will never happen to Rust. It's up to the programmer to prove to the "
+"compiler that everything is sound."
+msgstr ""
+
+#: src/ownership.md:44
+msgid ""
+"Of course, Rust's story around ownership is much more complicated than just "
+"verifying that references don't escape the scope of their referent. That's "
+"because ensuring pointers are always valid is much more complicated than "
+"this. For instance in this code,"
+msgstr ""
+
+#: src/ownership.md:50
+msgid "// get an internal reference\n"
+msgstr ""
+
+#: src/ownership.md:53
+msgid ""
+"// OH NO! `push` causes the backing storage of `data` to be reallocated.\n"
+"// Dangling pointer! Use after free! Alas!\n"
+"// (this does not compile in Rust)\n"
+msgstr ""
+
+#: src/ownership.md:62
+msgid ""
+"naive scope analysis would be insufficient to prevent this bug, because "
+"`data` does in fact live as long as we needed. However it was _changed_ "
+"while we had a reference into it. This is why Rust requires any references "
+"to freeze the referent and its owners."
+msgstr ""

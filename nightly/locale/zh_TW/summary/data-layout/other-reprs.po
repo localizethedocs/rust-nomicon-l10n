@@ -1,0 +1,277 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/other-reprs.md:1
+msgid "Alternative representations"
+msgstr ""
+
+#: src/other-reprs.md:3
+msgid ""
+"Rust allows you to specify alternative data layout strategies from the "
+"default."
+msgstr ""
+
+#: src/other-reprs.md:5
+msgid "repr(C)"
+msgstr ""
+
+#: src/other-reprs.md:7
+msgid ""
+"This is the most important `repr`. It has fairly simple intent: do what C "
+"does. The order, size, and alignment of fields is exactly what you would "
+"expect from C or C++. The type is also passed across `extern \"C\"` function "
+"call boundaries the same way C would pass the corresponding type. Any type "
+"you expect to pass through an FFI boundary should have `repr(C)`, as C is "
+"the lingua-franca of the programming world. This is also necessary to "
+"soundly do more elaborate tricks with data layout such as reinterpreting "
+"values as a different type."
+msgstr ""
+
+#: src/other-reprs.md:15
+msgid ""
+"We strongly recommend using [rust-bindgen](https://rust-lang.github.io/rust-"
+"bindgen/) and/or [cbindgen](https://github.com/eqrion/cbindgen) to manage "
+"your FFI boundaries for you. The Rust team works closely with those projects "
+"to ensure that they work robustly and are compatible with current and future "
+"guarantees about type layouts and `repr`s."
+msgstr ""
+
+#: src/other-reprs.md:20
+msgid ""
+"The interaction of `repr(C)` with Rust's more exotic data layout features "
+"must be kept in mind. Due to its dual purpose as \"for FFI\" and \"for "
+"layout control\", `repr(C)` can be applied to types that will be nonsensical "
+"or problematic if passed through the FFI boundary."
+msgstr ""
+
+#: src/other-reprs.md:25
+msgid ""
+"ZSTs are still zero-sized, even though this is not a standard behavior in C, "
+"and is explicitly contrary to the behavior of an empty type in C++, which "
+"says they should still consume a byte of space."
+msgstr ""
+
+#: src/other-reprs.md:29
+msgid ""
+"DST pointers (wide pointers) and tuples are not a concept in C, and as such "
+"are never FFI-safe."
+msgstr ""
+
+#: src/other-reprs.md:32
+msgid ""
+"Enums with fields also aren't a concept in C or C++, but a valid bridging of "
+"the types [is defined](https://github.com/rust-lang/rfcs/blob/master/"
+"text/2195-really-tagged-unions.md)."
+msgstr ""
+
+#: src/other-reprs.md:35
+msgid ""
+"If `T` is an [FFI-safe non-nullable pointer type](ffi.html#the-nullable-"
+"pointer-optimization), `Option<T>` is guaranteed to have the same layout and "
+"ABI as `T` and is therefore also FFI-safe. As of this writing, this covers "
+"`&`, `&mut`, and function pointers, all of which can never be null."
+msgstr ""
+
+#: src/other-reprs.md:41
+msgid ""
+"Tuple structs are like structs with regards to `repr(C)`, as the only "
+"difference from a struct is that the fields aren’t named."
+msgstr ""
+
+#: src/other-reprs.md:44
+msgid ""
+"`repr(C)` is equivalent to one of `repr(u*)` (see the next section) for "
+"fieldless enums. The chosen size and sign is the default enum size and sign "
+"for the target platform's C application binary interface (ABI). Note that "
+"enum representation in C is implementation defined, so this is really a "
+"\"best guess\". In particular, this may be incorrect when the C code of "
+"interest is compiled with certain flags."
+msgstr ""
+
+#: src/other-reprs.md:50
+msgid ""
+"Fieldless enums with `repr(C)` or `repr(u*)` still may not be set to an "
+"integer value without a corresponding variant, even though this is permitted "
+"behavior in C or C++. It is undefined behavior to (unsafely) construct an "
+"instance of an enum that does not match one of its variants. (This allows "
+"exhaustive matches to continue to be written and compiled as normal.)"
+msgstr ""
+
+#: src/other-reprs.md:57
+msgid "repr(transparent)"
+msgstr ""
+
+#: src/other-reprs.md:59
+msgid ""
+"`#[repr(transparent)]` can only be used on a struct or single-variant enum "
+"that has a single non-zero-sized field (there may be additional zero-sized "
+"fields). The effect is that the layout and ABI of the whole struct/enum is "
+"guaranteed to be the same as that one field."
+msgstr ""
+
+#: src/other-reprs.md:62
+msgid ""
+"NOTE: There's a `transparent_unions` nightly feature to apply "
+"`repr(transparent)` to unions, but it hasn't been stabilized due to design "
+"concerns. See the [tracking issue](https://github.com/rust-lang/rust/"
+"issues/60405) for more details."
+msgstr ""
+
+#: src/other-reprs.md:65
+msgid ""
+"The goal is to make it possible to transmute between the single field and "
+"the struct/enum. An example of that is [`UnsafeCell`](../std/cell/struct."
+"UnsafeCell.html), which can be transmuted into the type it wraps "
+"([`UnsafeCell`](../std/cell/struct.UnsafeCell.html) also uses the unstable "
+"[no_niche](https://github.com/rust-lang/rust/pull/68491), so its ABI is not "
+"actually guaranteed to be the same when nested in other types)."
+msgstr ""
+
+#: src/other-reprs.md:70
+msgid ""
+"Also, passing the struct/enum through FFI where the inner field type is "
+"expected on the other side is guaranteed to work. In particular, this is "
+"necessary for `struct Foo(f32)` or `enum Foo { Bar(f32) }` to always have "
+"the same ABI as `f32`."
+msgstr ""
+
+#: src/other-reprs.md:74
+msgid ""
+"This repr is only considered part of the public ABI of a type if either the "
+"single field is `pub`, or if its layout is documented in prose. Otherwise, "
+"the layout should not be relied upon by other crates."
+msgstr ""
+
+#: src/other-reprs.md:78
+msgid ""
+"More details are in the [RFC 1758](https://github.com/rust-lang/rfcs/blob/"
+"master/text/1758-repr-transparent.md) and the [RFC 2645](https://rust-lang."
+"github.io/rfcs/2645-transparent-unions.html)."
+msgstr ""
+
+#: src/other-reprs.md:80
+msgid "repr(u\\*), repr(i\\*)"
+msgstr ""
+
+#: src/other-reprs.md:82
+msgid ""
+"These specify the size and sign to make a fieldless enum. If the "
+"discriminant overflows the integer it has to fit in, it will produce a "
+"compile-time error. You can manually ask Rust to allow this by setting the "
+"overflowing element to explicitly be 0. However Rust will not allow you to "
+"create an enum where two variants have the same discriminant."
+msgstr ""
+
+#: src/other-reprs.md:88
+msgid ""
+"The term \"fieldless enum\" only means that the enum doesn't have data in "
+"any of its variants. A fieldless enum without a `repr` is still a Rust "
+"native type, and does not have a stable layout or representation. Adding a "
+"`repr(u*)`/`repr(i*)` causes it to be treated exactly like the specified "
+"integer type for layout purposes (except that the compiler will still "
+"exploit its knowledge of \"invalid\" values at this type to optimize enum "
+"layout, such as when this enum is wrapped in `Option`). Note that the "
+"function call ABI for these types is still in general unspecified, except "
+"that across `extern \"C\"` calls they are ABI-compatible with C enums of the "
+"same sign and size."
+msgstr ""
+
+#: src/other-reprs.md:98
+msgid ""
+"If the enum has fields, the effect is similar to the effect of `repr(C)` in "
+"that there is a defined layout of the type. This makes it possible to pass "
+"the enum to C code, or access the type's raw representation and directly "
+"manipulate its tag and fields. See [the RFC](https://github.com/rust-lang/"
+"rfcs/blob/master/text/2195-really-tagged-unions.md) for details."
+msgstr ""
+
+#: src/other-reprs.md:103
+msgid "These `repr`s have no effect on a struct."
+msgstr ""
+
+#: src/other-reprs.md:105
+msgid ""
+"Adding an explicit `repr(u*)`, `repr(i*)`, or `repr(C)` to an enum with "
+"fields suppresses the null-pointer optimization, like:"
+msgstr ""
+
+#: src/other-reprs.md:124
+msgid ""
+"This optimization still applies to fieldless enums with an explicit "
+"`repr(u*)`, `repr(i*)`, or `repr(C)`."
+msgstr ""
+
+#: src/other-reprs.md:126
+msgid "repr(packed), repr(packed(n))"
+msgstr ""
+
+#: src/other-reprs.md:128
+msgid ""
+"`repr(packed(n))` (where `n` is a power of two) forces the type to have an "
+"alignment of _at most_ `n`. Most commonly used without an explicit `n`, "
+"`repr(packed)` is equivalent to `repr(packed(1))` which forces Rust to strip "
+"any padding, and only align the type to a byte. This may improve the memory "
+"footprint, but will likely have other negative side-effects."
+msgstr ""
+
+#: src/other-reprs.md:134
+msgid ""
+"In particular, most architectures _strongly_ prefer values to be naturally "
+"aligned. This may mean that unaligned loads are penalized (x86), or even "
+"fault (some ARM chips). For simple cases like directly loading or storing a "
+"packed field, the compiler might be able to paper over alignment issues with "
+"shifts and masks. However if you take a reference to a packed field, it's "
+"unlikely that the compiler will be able to emit code to avoid an unaligned "
+"load."
+msgstr ""
+
+#: src/other-reprs.md:141
+msgid ""
+"[As this can cause undefined behavior](https://github.com/rust-lang/rust/"
+"issues/27060), the lint has been implemented and it will become a hard error."
+msgstr ""
+
+#: src/other-reprs.md:144
+msgid ""
+"`repr(packed)/repr(packed(n))` is not to be used lightly. Unless you have "
+"extreme requirements, this should not be used."
+msgstr ""
+
+#: src/other-reprs.md:147
+msgid ""
+"This repr is a modifier on `repr(C)` and `repr(Rust)`. For FFI compatibility "
+"you most likely always want to be explicit: `repr(C, packed)`."
+msgstr ""
+
+#: src/other-reprs.md:150
+msgid "repr(align(n))"
+msgstr ""
+
+#: src/other-reprs.md:152
+msgid ""
+"`repr(align(n))` (where `n` is a power of two) forces the type to have an "
+"alignment of _at least_ `n`."
+msgstr ""
+
+#: src/other-reprs.md:155
+msgid ""
+"This enables several tricks, like making sure neighboring elements of an "
+"array never share the same cache line with each other (which may speed up "
+"certain kinds of concurrent code)."
+msgstr ""
+
+#: src/other-reprs.md:159
+msgid ""
+"This is a modifier on `repr(C)` and `repr(Rust)`. It is incompatible with "
+"`repr(packed)`."
+msgstr ""
