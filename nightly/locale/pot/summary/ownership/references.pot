@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/references.md:1
+msgid "References"
+msgstr ""
+
+#: src/references.md:3
+msgid "There are two kinds of references:"
+msgstr ""
+
+#: src/references.md:5
+msgid "Shared reference: `&`"
+msgstr ""
+
+#: src/references.md:6
+msgid "Mutable reference: `&mut`"
+msgstr ""
+
+#: src/references.md:8
+msgid "Which obey the following rules:"
+msgstr ""
+
+#: src/references.md:10
+msgid "A reference cannot outlive its referent"
+msgstr ""
+
+#: src/references.md:11
+msgid "A mutable reference cannot be aliased"
+msgstr ""
+
+#: src/references.md:13
+msgid "That's it. That's the whole model references follow."
+msgstr ""
+
+#: src/references.md:15
+msgid "Of course, we should probably define what _aliased_ means."
+msgstr ""
+
+#: src/references.md:17
+msgid ""
+"```text\n"
+"error[E0425]: cannot find value `aliased` in this scope\n"
+" --> <rust.rs>:2:20\n"
+"  |\n"
+"2 |     println!(\"{}\", aliased);\n"
+"  |                    ^^^^^^^ not found in this scope\n"
+"\n"
+"error: aborting due to previous error\n"
+"```"
+msgstr ""
+
+#: src/references.md:27
+msgid "Unfortunately, Rust hasn't actually defined its aliasing model. 🙀"
+msgstr ""
+
+#: src/references.md:29
+msgid ""
+"While we wait for the Rust devs to specify the semantics of their language, "
+"let's use the next section to discuss what aliasing is in general, and why "
+"it matters."
+msgstr ""

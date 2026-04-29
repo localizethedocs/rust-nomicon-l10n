@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/lifetime-elision.md:1
+msgid "Lifetime Elision"
+msgstr ""
+
+#: src/lifetime-elision.md:3
+msgid ""
+"In order to make common patterns more ergonomic, Rust allows lifetimes to be "
+"_elided_ in function signatures."
+msgstr ""
+
+#: src/lifetime-elision.md:6
+msgid "A _lifetime position_ is anywhere you can write a lifetime in a type:"
+msgstr ""
+
+#: src/lifetime-elision.md:15
+msgid "Lifetime positions can appear as either \"input\" or \"output\":"
+msgstr ""
+
+#: src/lifetime-elision.md:17
+msgid ""
+"For `fn` definitions, `fn` types, and the traits `Fn`, `FnMut`, and "
+"`FnOnce`, input refers to the types of the formal arguments, while output "
+"refers to result types. So `fn foo(s: &str) -> (&str, &str)` has elided one "
+"lifetime in input position and two lifetimes in output position. Note that "
+"the input positions of a `fn` method definition do not include the lifetimes "
+"that occur in the method's `impl` header (nor lifetimes that occur in the "
+"trait header, for a default method)."
+msgstr ""
+
+#: src/lifetime-elision.md:25
+msgid ""
+"For `impl` headers, all types are input. So `impl Trait<&T> for Struct<&T>` "
+"has elided two lifetimes in input position, while `impl Struct<&T>` has "
+"elided one."
+msgstr ""
+
+#: src/lifetime-elision.md:29
+msgid "Elision rules are as follows:"
+msgstr ""
+
+#: src/lifetime-elision.md:31
+msgid ""
+"Each elided lifetime in input position becomes a distinct lifetime parameter."
+msgstr ""
+
+#: src/lifetime-elision.md:34
+msgid ""
+"If there is exactly one input lifetime position (elided or not), that "
+"lifetime is assigned to _all_ elided output lifetimes."
+msgstr ""
+
+#: src/lifetime-elision.md:37
+msgid ""
+"If there are multiple input lifetime positions, but one of them is `&self` "
+"or `&mut self`, the lifetime of `self` is assigned to _all_ elided output "
+"lifetimes."
+msgstr ""
+
+#: src/lifetime-elision.md:40
+msgid "Otherwise, it is an error to elide an output lifetime."
+msgstr ""
+
+#: src/lifetime-elision.md:42
+msgid "Examples:"
+msgstr ""
+
+#: src/lifetime-elision.md:46 src/lifetime-elision.md:49
+#: src/lifetime-elision.md:52 src/lifetime-elision.md:59
+#: src/lifetime-elision.md:62 src/lifetime-elision.md:65
+msgid "// elided\n"
+msgstr ""
+
+#: src/lifetime-elision.md:47 src/lifetime-elision.md:50
+#: src/lifetime-elision.md:53 src/lifetime-elision.md:60
+#: src/lifetime-elision.md:63 src/lifetime-elision.md:67
+msgid "// expanded\n"
+msgstr ""
+
+#: src/lifetime-elision.md:55 src/lifetime-elision.md:57
+msgid "// ILLEGAL\n"
+msgstr ""
+
+#: src/lifetime-elision.md:66
+msgid "// elided (with `rust_2018_idioms`)\n"
+msgstr ""
