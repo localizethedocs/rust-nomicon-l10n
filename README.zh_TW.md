@@ -7,7 +7,7 @@
 </div>
 
 <div align="center">
-<h1 id="localization-of-the-rustonomicon">Localization of The Rustonomicon</h1>
+<h1 id="localization-of-the-rustonomicon">Rust 死靈之書的在地化</h1>
 </div>
 
 <details><summary><strong>切換語言</strong></summary>
