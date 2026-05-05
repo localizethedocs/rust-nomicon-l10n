@@ -109,7 +109,7 @@ msgstr ""
 
 #: src/other-reprs.md:57
 msgid "repr(transparent)"
-msgstr ""
+msgstr "repr(transparent)"
 
 #: src/other-reprs.md:59
 msgid ""

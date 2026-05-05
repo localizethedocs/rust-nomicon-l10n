@@ -13,7 +13,7 @@ msgstr ""
 
 #: src/arc-mutex/arc-final.md:1
 msgid "Final Code"
-msgstr ""
+msgstr "最終程式碼"
 
 #: src/arc-mutex/arc-final.md:3
 msgid "Here's the final code, with some added comments and re-ordered imports:"

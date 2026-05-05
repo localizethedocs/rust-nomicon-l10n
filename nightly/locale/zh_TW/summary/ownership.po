@@ -13,7 +13,7 @@ msgstr ""
 
 #: src/ownership.md:1
 msgid "Ownership and Lifetimes"
-msgstr ""
+msgstr "擁有權與生命週期"
 
 #: src/ownership.md:3
 msgid ""
@@ -43,11 +43,11 @@ msgstr ""
 
 #: src/ownership.md:22
 msgid "// compute the string\n"
-msgstr ""
+msgstr "// 計算字串\n"
 
 #: src/ownership.md:23 src/ownership.md:59
 msgid "\"{}\""
-msgstr ""
+msgstr "\"{}\""
 
 #: src/ownership.md:25
 msgid ""
