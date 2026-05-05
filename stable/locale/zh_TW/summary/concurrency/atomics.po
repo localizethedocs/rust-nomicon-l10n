@@ -152,7 +152,7 @@ msgstr ""
 
 #: src/atomics.md:109
 msgid "Data Accesses"
-msgstr ""
+msgstr "資料存取"
 
 #: src/atomics.md:111
 msgid ""

@@ -330,7 +330,7 @@ msgstr "`*const T` 遵循 `&T` 的邏輯"
 
 #: src/subtyping.md:165
 msgid "`*mut T` follows the logic of `&mut T` (or `UnsafeCell<T>`)"
-msgstr ""
+msgstr "`*mut T` 遵循 `&mut T`（或 `UnsafeCell<T>`）的邏輯"
 
 #: src/subtyping.md:167
 msgid ""

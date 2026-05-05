@@ -154,7 +154,7 @@ msgstr ""
 
 #: src/repr-rust.md:142
 msgid "// 0 = A, 1 = B, 2 = C\n"
-msgstr ""
+msgstr "// 0 = A, 1 = B, 2 = C\n"
 
 #: src/repr-rust.md:146
 msgid ""

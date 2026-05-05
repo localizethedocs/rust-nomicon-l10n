@@ -35,6 +35,11 @@ msgid ""
 "  |                    ^ use of possibly uninitialized `x`\n"
 "```"
 msgstr ""
+"```text\n"
+"  |\n"
+"3 |     println!(\"{}\", x);\n"
+"  |                    ^ use of possibly uninitialized `x`\n"
+"```"
 
 #: src/checked-uninit.md:20
 msgid ""
