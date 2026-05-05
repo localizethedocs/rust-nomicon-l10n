@@ -37,11 +37,11 @@ msgstr ""
 
 #: src/SUMMARY.md:9
 msgid "Data Layout"
-msgstr ""
+msgstr "資料配置"
 
 #: src/SUMMARY.md:10
 msgid "repr(Rust)"
-msgstr ""
+msgstr "repr(Rust)"
 
 #: src/SUMMARY.md:11
 msgid "Exotically Sized Types"
@@ -49,7 +49,7 @@ msgstr ""
 
 #: src/SUMMARY.md:12
 msgid "Other reprs"
-msgstr ""
+msgstr "其他 repr"
 
 #: src/SUMMARY.md:13
 msgid "Ownership"
@@ -225,7 +225,7 @@ msgstr ""
 
 #: src/SUMMARY.md:56 src/SUMMARY.md:63
 msgid "Final Code"
-msgstr ""
+msgstr "最終程式碼"
 
 #: src/SUMMARY.md:57
 msgid "Implementing Arc and Mutex"

@@ -35,6 +35,8 @@ msgid ""
 "If we insert at index `i`, we want to shift the `[i .. len]` to `[i+1 .. "
 "len+1]` using the old len."
 msgstr ""
+"如果在索引 `i` 處插入，我們需要使用舊的長度（len）將 `[i .. len]` 偏移到 "
+"`[i+1 .. len+1]`。"
 
 #: src/vec/vec-insert-remove.md:18
 msgid ""
