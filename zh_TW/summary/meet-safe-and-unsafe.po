@@ -1,0 +1,141 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/meet-safe-and-unsafe.md:1
+msgid "Meet Safe and Unsafe"
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:3
+msgid "![safe and unsafe](img/safeandunsafe.svg)"
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:5
+msgid ""
+"It would be great to not have to worry about low-level implementation "
+"details. Who could possibly care how much space the empty tuple occupies? "
+"Sadly, it sometimes matters and we need to worry about it. The most common "
+"reason developers start to care about implementation details is performance, "
+"but more importantly, these details can become a matter of correctness when "
+"interfacing directly with hardware, operating systems, or other languages."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:12
+msgid ""
+"When implementation details start to matter in a safe programming language, "
+"programmers usually have three options:"
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:15
+msgid ""
+"fiddle with the code to encourage the compiler/runtime to perform an "
+"optimization"
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:16
+msgid ""
+"adopt a more unidiomatic or cumbersome design to get the desired "
+"implementation"
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:17
+msgid ""
+"rewrite the implementation in a language that lets you deal with those "
+"details"
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:19
+msgid ""
+"For that last option, the language programmers tend to use is _C_. This is "
+"often necessary to interface with systems that only declare a C interface."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:22
+msgid ""
+"Unfortunately, C is incredibly unsafe to use (sometimes for good reason), "
+"and this unsafety is magnified when trying to interoperate with another "
+"language. Care must be taken to ensure C and the other language agree on "
+"what's happening, and that they don't step on each other's toes."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:27
+msgid "So what does this have to do with Rust?"
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:29
+msgid "Well, unlike C, Rust is a safe programming language."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:31
+msgid "But, like C, Rust is an unsafe programming language."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:33
+msgid ""
+"More accurately, Rust _contains_ both a safe and unsafe programming language."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:35
+msgid ""
+"Rust can be thought of as a combination of two programming languages: _Safe "
+"Rust_ and _Unsafe Rust_. Conveniently, these names mean exactly what they "
+"say: Safe Rust is Safe. Unsafe Rust is, well, not. In fact, Unsafe Rust lets "
+"us do some _really_ unsafe things. Things the Rust authors will implore you "
+"not to do, but we'll do anyway."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:41
+msgid ""
+"Safe Rust is the _true_ Rust programming language. If all you do is write "
+"Safe Rust, you will never have to worry about type-safety or memory-safety. "
+"You will never endure a dangling pointer, a use-after-free, or any other "
+"kind of Undefined Behavior (a.k.a. UB)."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:46
+msgid ""
+"The standard library also gives you enough utilities out of the box that "
+"you'll be able to write high-performance applications and libraries in pure "
+"idiomatic Safe Rust."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:50
+msgid ""
+"But maybe you want to talk to another language. Maybe you're writing a low-"
+"level abstraction not exposed by the standard library. Maybe you're "
+"_writing_ the standard library (which is written entirely in Rust). Maybe "
+"you need to do something the type-system doesn't understand and just _frob "
+"some dang bits_. Maybe you need Unsafe Rust."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:56
+msgid ""
+"Unsafe Rust is exactly like Safe Rust with all the same rules and semantics. "
+"It just lets you do some _extra_ things that are Definitely Not Safe (which "
+"we will define in the next section)."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:60
+msgid ""
+"The value of this separation is that we gain the benefits of using an unsafe "
+"language like C — low level control over implementation details — without "
+"most of the problems that come with trying to integrate it with a completely "
+"different safe language."
+msgstr ""
+
+#: src/meet-safe-and-unsafe.md:65
+msgid ""
+"There are still some problems — most notably, we must become aware of "
+"properties that the type system assumes and audit them in any code that "
+"interacts with Unsafe Rust. That's the purpose of this book: to teach you "
+"about these assumptions and how to manage them."
+msgstr ""
