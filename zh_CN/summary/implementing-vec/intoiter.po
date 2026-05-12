@@ -1,0 +1,113 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/vec/vec-into-iter.md:1
+msgid "IntoIter"
+msgstr ""
+
+#: src/vec/vec-into-iter.md:3
+msgid ""
+"Let's move on to writing iterators. `iter` and `iter_mut` have already been "
+"written for us thanks to The Magic of Deref. However there's two interesting "
+"iterators that Vec provides that slices can't: `into_iter` and `drain`."
+msgstr ""
+
+#: src/vec/vec-into-iter.md:7
+msgid ""
+"IntoIter consumes the Vec by-value, and can consequently yield its elements "
+"by-value. In order to enable this, IntoIter needs to take control of Vec's "
+"allocation."
+msgstr ""
+
+#: src/vec/vec-into-iter.md:11
+msgid ""
+"IntoIter needs to be DoubleEnded as well, to enable reading from both ends. "
+"Reading from the back could just be implemented as calling `pop`, but "
+"reading from the front is harder. We could call `remove(0)` but that would "
+"be insanely expensive. Instead we're going to just use ptr::read to copy "
+"values out of either end of the Vec without mutating the buffer at all."
+msgstr ""
+
+#: src/vec/vec-into-iter.md:17
+msgid ""
+"To do this we're going to use a very common C idiom for array iteration. "
+"We'll make two pointers; one that points to the start of the array, and one "
+"that points to one-element past the end. When we want an element from one "
+"end, we'll read out the value pointed to at that end and move the pointer "
+"over by one. When the two pointers are equal, we know we're done."
+msgstr ""
+
+#: src/vec/vec-into-iter.md:23
+msgid ""
+"Note that the order of read and offset are reversed for `next` and "
+"`next_back` For `next_back` the pointer is always after the element it wants "
+"to read next, while for `next` the pointer is always at the element it wants "
+"to read next. To see why this is, consider the case where every element but "
+"one has been yielded."
+msgstr ""
+
+#: src/vec/vec-into-iter.md:29
+msgid "The array looks like this:"
+msgstr ""
+
+#: src/vec/vec-into-iter.md:36
+msgid ""
+"If E pointed directly at the element it wanted to yield next, it would be "
+"indistinguishable from the case where there are no more elements to yield."
+msgstr ""
+
+#: src/vec/vec-into-iter.md:39
+msgid ""
+"Although we don't actually care about it during iteration, we also need to "
+"hold onto the Vec's allocation information in order to free it once IntoIter "
+"is dropped."
+msgstr ""
+
+#: src/vec/vec-into-iter.md:43
+msgid "So we're going to use the following struct:"
+msgstr ""
+
+#: src/vec/vec-into-iter.md:55
+msgid "And this is what we end up with for initialization:"
+msgstr ""
+
+#: src/vec/vec-into-iter.md:63
+msgid "// Make sure not to drop Vec since that would free the buffer\n"
+msgstr ""
+
+#: src/vec/vec-into-iter.md:66
+msgid "// Can't destructure Vec since it's Drop\n"
+msgstr ""
+
+#: src/vec/vec-into-iter.md:76
+msgid "// can't offset off this pointer, it's not allocated!\n"
+msgstr ""
+
+#: src/vec/vec-into-iter.md:86
+msgid "Here's iterating forward:"
+msgstr ""
+
+#: src/vec/vec-into-iter.md:112
+msgid "And here's iterating backwards."
+msgstr ""
+
+#: src/vec/vec-into-iter.md:130
+msgid ""
+"Because IntoIter takes ownership of its allocation, it needs to implement "
+"Drop to free it. However it also wants to implement Drop to drop any "
+"elements it contains that weren't yielded."
+msgstr ""
+
+#: src/vec/vec-into-iter.md:139
+msgid "// drop any remaining elements\n"
+msgstr ""
