@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Rustonomicon\n"
-"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"POT-Creation-Date: 2026-06-09T12:08:42Z\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/exception-safety.md:1
@@ -74,11 +74,11 @@ msgid ""
 "reliably efficient without specialization. Here's a simple implementation:"
 msgstr ""
 
-#: src/exception-safety.md:44
+#: src/exception-safety.md:46
 msgid "// can't overflow because we just reserved this\n"
 msgstr ""
 
-#: src/exception-safety.md:55
+#: src/exception-safety.md:57
 msgid ""
 "We bypass `push` in order to avoid redundant capacity and `len` checks on "
 "the Vec that we definitely know has capacity. The logic is totally correct, "
@@ -87,14 +87,14 @@ msgid ""
 "over-looked."
 msgstr ""
 
-#: src/exception-safety.md:60
+#: src/exception-safety.md:62
 msgid ""
 "Clone is completely out of our control, and is totally free to panic. If it "
 "does, our function will exit early with the length of the Vec set too large. "
 "If the Vec is looked at or dropped, uninitialized memory will be read!"
 msgstr ""
 
-#: src/exception-safety.md:64
+#: src/exception-safety.md:66
 msgid ""
 "The fix in this case is fairly simple. If we want to guarantee that the "
 "values we _did_ clone are dropped, we can set the `len` every loop "
@@ -102,24 +102,24 @@ msgid ""
 "observed, we can set the `len` after the loop."
 msgstr ""
 
-#: src/exception-safety.md:69
+#: src/exception-safety.md:71
 msgid "BinaryHeap::sift_up"
 msgstr ""
 
-#: src/exception-safety.md:71
+#: src/exception-safety.md:73
 msgid ""
 "Bubbling an element up a heap is a bit more complicated than extending a "
 "Vec. The pseudocode is as follows:"
 msgstr ""
 
-#: src/exception-safety.md:81
+#: src/exception-safety.md:83
 msgid ""
 "A literal transcription of this code to Rust is totally fine, but has an "
 "annoying performance characteristic: the `self` element is swapped over and "
 "over again uselessly. We would rather have the following:"
 msgstr ""
 
-#: src/exception-safety.md:94
+#: src/exception-safety.md:96
 msgid ""
 "This code ensures that each element is copied as little as possible (it is "
 "in fact necessary that elem be copied twice in general). However it now "
@@ -129,13 +129,13 @@ msgid ""
 "is user-defined!"
 msgstr ""
 
-#: src/exception-safety.md:101
+#: src/exception-safety.md:103
 msgid ""
 "Unlike Vec, the fix isn't as easy here. One option is to break the user-"
 "defined code and the unsafe code into two separate phases:"
 msgstr ""
 
-#: src/exception-safety.md:117
+#: src/exception-safety.md:119
 msgid ""
 "If the user-defined code blows up, that's no problem anymore, because we "
 "haven't actually touched the state of the heap yet. Once we do start messing "
@@ -143,19 +143,19 @@ msgid ""
 "there's no concern of panics."
 msgstr ""
 
-#: src/exception-safety.md:122
+#: src/exception-safety.md:124
 msgid ""
 "Perhaps you're not happy with this design. Surely it's cheating! And we have "
 "to do the complex heap traversal _twice_! Alright, let's bite the bullet. "
 "Let's intermix untrusted and unsafe code _for reals_."
 msgstr ""
 
-#: src/exception-safety.md:126
+#: src/exception-safety.md:128
 msgid ""
 "If Rust had `try` and `finally` like in Java, we could do the following:"
 msgstr ""
 
-#: src/exception-safety.md:139
+#: src/exception-safety.md:141
 msgid ""
 "The basic idea is simple: if the comparison panics, we just toss the loose "
 "element in the logically uninitialized index and bail out. Anyone who "
@@ -165,7 +165,7 @@ msgid ""
 "regardless."
 msgstr ""
 
-#: src/exception-safety.md:145
+#: src/exception-safety.md:147
 msgid ""
 "Sadly, Rust has no such construct, so we're going to need to roll our own! "
 "The way to do this is to store the algorithm's state in a separate struct "
@@ -173,18 +173,18 @@ msgid ""
 "destructor will run and clean up after us."
 msgstr ""
 
-#: src/exception-safety.md:154
+#: src/exception-safety.md:156
 msgid "/// `elt` is always `Some` from new until drop.\n"
 msgstr ""
 
-#: src/exception-safety.md:187
+#: src/exception-safety.md:189
 msgid "// fill the hole again\n"
 msgstr ""
 
-#: src/exception-safety.md:198
+#: src/exception-safety.md:200
 msgid "// Take out the value at `pos` and create a hole.\n"
 msgstr ""
 
-#: src/exception-safety.md:206
+#: src/exception-safety.md:208
 msgid "// Hole will be unconditionally filled here; panic or not!\n"
 msgstr ""
