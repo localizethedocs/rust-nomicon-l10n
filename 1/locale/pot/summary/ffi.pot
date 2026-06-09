@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Rustonomicon\n"
-"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"POT-Creation-Date: 2026-06-09T12:08:42Z\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/ffi.md:1
@@ -114,9 +114,10 @@ msgstr ""
 msgid "\"snappy\""
 msgstr ""
 
-#: src/ffi.md:59 src/ffi.md:92 src/ffi.md:280 src/ffi.md:411 src/ffi.md:712
-#: src/ffi.md:714 src/ffi.md:716 src/ffi.md:723 src/ffi.md:844 src/ffi.md:861
-#: src/ffi.md:894 src/ffi.md:929
+#: src/ffi.md:59 src/ffi.md:92 src/ffi.md:280 src/ffi.md:359 src/ffi.md:411
+#: src/ffi.md:420 src/ffi.md:551 src/ffi.md:571 src/ffi.md:712 src/ffi.md:714
+#: src/ffi.md:716 src/ffi.md:723 src/ffi.md:844 src/ffi.md:861 src/ffi.md:894
+#: src/ffi.md:929
 msgid "\"C\""
 msgstr ""
 
@@ -736,6 +737,21 @@ msgid ""
 "In C, functions can be 'variadic', meaning they accept a variable number of "
 "arguments. This can be achieved in Rust by specifying `...` within the "
 "argument list of a foreign function declaration:"
+msgstr ""
+
+#: src/ffi.md:661
+msgid ""
+"```no_run\n"
+"unsafe extern \"C\" {\n"
+"    fn foo(x: i32, ...);\n"
+"}\n"
+"\n"
+"fn main() {\n"
+"    unsafe {\n"
+"        foo(10, 20, 30, 40, 50);\n"
+"    }\n"
+"}\n"
+"```"
 msgstr ""
 
 #: src/ffi.md:673
