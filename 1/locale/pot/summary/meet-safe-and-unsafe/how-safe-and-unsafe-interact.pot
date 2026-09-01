@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Rustonomicon\n"
-"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"POT-Creation-Date: 2026-09-01T13:59:03Z\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/safe-unsafe-meaning.md:1
@@ -137,7 +137,7 @@ msgid ""
 msgstr ""
 
 #: src/safe-unsafe-meaning.md:61
-msgid "**No matter what, Safe Rust can't cause Undefined Behavior.**"
+msgid "**No matter what, Safe Rust clients can't cause Undefined Behavior.**"
 msgstr ""
 
 #: src/safe-unsafe-meaning.md:63
@@ -145,10 +145,12 @@ msgid ""
 "The design of the safe/unsafe split means that there is an asymmetric trust "
 "relationship between Safe and Unsafe Rust. Safe Rust inherently has to trust "
 "that any Unsafe Rust it touches has been written correctly. On the other "
-"hand, Unsafe Rust cannot trust Safe Rust without care."
+"hand, Unsafe Rust cannot trust Safe Rust without care. It can trust Safe "
+"Rust it is a client of, but it cannot trust Safe Rust chosen or supplied by "
+"its clients."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:68
+#: src/safe-unsafe-meaning.md:70
 msgid ""
 "As an example, Rust has the [`PartialOrd`](../std/cmp/trait.PartialOrd.html) "
 "and [`Ord`](../std/cmp/trait.Ord.html) traits to differentiate between types "
@@ -156,7 +158,7 @@ msgid ""
 "(which basically means that comparison behaves reasonably)."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:72
+#: src/safe-unsafe-meaning.md:74
 msgid ""
 "[`BTreeMap`](../std/collections/struct.BTreeMap.html) doesn't really make "
 "sense for partially-ordered types, and so it requires that its keys "
@@ -168,7 +170,7 @@ msgid ""
 "point of requiring `Ord`."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:79
+#: src/safe-unsafe-meaning.md:81
 msgid ""
 "The Unsafe Rust code just can't trust the Safe Rust code to be written "
 "correctly. That said, `BTreeMap` will still behave completely erratically if "
@@ -176,14 +178,14 @@ msgid ""
 "cause Undefined Behavior."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:84
+#: src/safe-unsafe-meaning.md:86
 msgid ""
 "One may wonder, if `BTreeMap` cannot trust `Ord` because it's Safe, why can "
 "it trust _any_ Safe code? For instance `BTreeMap` relies on integers and "
 "slices to be implemented correctly. Those are safe too, right?"
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:88
+#: src/safe-unsafe-meaning.md:90
 msgid ""
 "The difference is one of scope. When `BTreeMap` relies on integers and "
 "slices, it's relying on one very specific implementation. This is a measured "
@@ -193,23 +195,31 @@ msgid ""
 "to keep tabs on them."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:94
+#: src/safe-unsafe-meaning.md:96
 msgid ""
-"On the other hand, `BTreeMap`'s key type is generic. Trusting its `Ord` "
-"implementation means trusting every `Ord` implementation in the past, "
-"present, and future. Here the risk is high: someone somewhere is going to "
-"make a mistake and mess up their `Ord` implementation, or even just straight "
-"up lie about providing a total ordering because \"it seems to work\". When "
-"that happens, `BTreeMap` needs to be prepared."
+"The same can be true across crate boundaries. Say crate `foo` depends on "
+"crate `bar`, then Unsafe Rust in crate `foo` may trust Safe Rust in crate "
+"`bar`. This is because crate `foo` chose to depend on crate `bar`, and by "
+"doing so trusted crate `bar` to be implemented correctly."
 msgstr ""
 
 #: src/safe-unsafe-meaning.md:101
+msgid ""
+"On the other hand, `BTreeMap`'s key type is generic. Trusting its `Ord` "
+"implementation means trusting the `Ord` implementation of arbitrary clients. "
+"Here the risk is high: someone somewhere is going to make a mistake and mess "
+"up their `Ord` implementation, or even just straight up lie about providing "
+"a total ordering because \"it seems to work\". When that happens, `BTreeMap` "
+"needs to be prepared."
+msgstr ""
+
+#: src/safe-unsafe-meaning.md:108
 msgid ""
 "The same logic applies to trusting a closure that's passed to you to behave "
 "correctly."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:104
+#: src/safe-unsafe-meaning.md:111
 msgid ""
 "This problem of unbounded generic trust is the problem that `unsafe` traits "
 "exist to resolve. The `BTreeMap` type could theoretically require that keys "
@@ -217,7 +227,7 @@ msgid ""
 "like this:"
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:117
+#: src/safe-unsafe-meaning.md:124
 msgid ""
 "Then, a type would use `unsafe` to implement `UnsafeOrd`, indicating that "
 "they've ensured their implementation maintains whatever contracts the trait "
@@ -227,7 +237,7 @@ msgid ""
 "implementation, which is consistent with Rust's safety guarantees."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:124
+#: src/safe-unsafe-meaning.md:131
 msgid ""
 "The decision of whether to mark a trait `unsafe` is an API design choice. A "
 "safe trait is easier to implement, but any unsafe code that relies on it "
@@ -237,7 +247,7 @@ msgid ""
 "desirable."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:130
+#: src/safe-unsafe-meaning.md:137
 msgid ""
 "`Send` and `Sync` are marked unsafe because thread safety is a _fundamental "
 "property_ that unsafe code can't possibly hope to defend against in the way "
@@ -248,7 +258,7 @@ msgid ""
 "in use), there's no chance to detect that and do anything about it."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:138
+#: src/safe-unsafe-meaning.md:145
 msgid ""
 "The decision of whether to mark your own traits `unsafe` depends on the same "
 "sort of consideration. If `unsafe` code can't reasonably expect to defend "
@@ -256,7 +266,7 @@ msgid ""
 "`unsafe` is a reasonable choice."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:143
+#: src/safe-unsafe-meaning.md:150
 msgid ""
 "As an aside, while `Send` and `Sync` are `unsafe` traits, they are _also_ "
 "automatically implemented for types when such derivations are provably safe "
@@ -268,7 +278,7 @@ msgid ""
 "directly, for that matter)."
 msgstr ""
 
-#: src/safe-unsafe-meaning.md:152
+#: src/safe-unsafe-meaning.md:159
 msgid ""
 "This is the balance between Safe and Unsafe Rust. The separation is designed "
 "to make using Safe Rust as ergonomic as possible, but requires extra effort "
