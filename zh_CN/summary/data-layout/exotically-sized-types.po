@@ -1,0 +1,252 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/exotic-sizes.md:1
+msgid "Exotically Sized Types"
+msgstr ""
+
+#: src/exotic-sizes.md:3
+msgid ""
+"Most of the time, we expect types to have a statically known and positive "
+"size. This isn't always the case in Rust."
+msgstr ""
+
+#: src/exotic-sizes.md:6
+msgid "Dynamically Sized Types (DSTs)"
+msgstr ""
+
+#: src/exotic-sizes.md:8
+msgid ""
+"Rust supports Dynamically Sized Types (DSTs): types without a statically "
+"known size or alignment. On the surface, this is a bit nonsensical: Rust "
+"_must_ know the size and alignment of something in order to correctly work "
+"with it! In this regard, DSTs are not normal types. Since they lack a "
+"statically known size, these types can only exist behind a pointer. Any "
+"pointer to a DST consequently becomes a _wide_ pointer consisting of the "
+"pointer and the information that \"completes\" them (more on this below)."
+msgstr ""
+
+#: src/exotic-sizes.md:16
+msgid "There are two major DSTs exposed by the language:"
+msgstr ""
+
+#: src/exotic-sizes.md:18
+msgid "trait objects: `dyn MyTrait`"
+msgstr ""
+
+#: src/exotic-sizes.md:19
+msgid ""
+"slices: [`[T]`](../std/primitive.slice.html), [`str`](../std/primitive.str."
+"html), and others"
+msgstr ""
+
+#: src/exotic-sizes.md:21
+msgid ""
+"A trait object represents some type that implements the traits it specifies. "
+"The exact original type is _erased_ in favor of runtime reflection with a "
+"vtable containing all the information necessary to use the type. The "
+"information that completes a trait object pointer is the vtable pointer. The "
+"runtime size of the pointee can be dynamically requested from the vtable."
+msgstr ""
+
+#: src/exotic-sizes.md:27
+msgid ""
+"A slice is simply a view into some contiguous storage -- typically an array "
+"or `Vec`. The information that completes a slice pointer is just the number "
+"of elements it points to. The runtime size of the pointee is just the "
+"statically known size of an element multiplied by the number of elements."
+msgstr ""
+
+#: src/exotic-sizes.md:32
+msgid ""
+"Structs can actually store a single DST directly as their last field, but "
+"this makes them a DST as well:"
+msgstr ""
+
+#: src/exotic-sizes.md:36
+msgid "// Can't be stored on the stack directly\n"
+msgstr ""
+
+#: src/exotic-sizes.md:43
+msgid ""
+"Unfortunately, such a type is largely useless without a way to construct it. "
+"Currently the only properly supported way to create a custom DST is by "
+"making your type generic and performing an _unsizing coercion_:"
+msgstr ""
+
+#: src/exotic-sizes.md:61
+msgid "// prints: \"17 [0, 0, 0, 0, 0, 0, 0, 0]\"\n"
+msgstr ""
+
+#: src/exotic-sizes.md:62
+msgid "\"{} {:?}\""
+msgstr ""
+
+#: src/exotic-sizes.md:66
+msgid "(Yes, custom DSTs are a largely half-baked feature for now.)"
+msgstr ""
+
+#: src/exotic-sizes.md:68
+msgid "Zero Sized Types (ZSTs)"
+msgstr ""
+
+#: src/exotic-sizes.md:70
+msgid "Rust also allows types to be specified that occupy no space:"
+msgstr ""
+
+#: src/exotic-sizes.md:73
+msgid "// No fields = no size\n"
+msgstr ""
+
+#: src/exotic-sizes.md:74
+msgid "// All fields have no size = no size\n"
+msgstr ""
+
+#: src/exotic-sizes.md:78
+msgid "// empty tuple has no size\n"
+msgstr ""
+
+#: src/exotic-sizes.md:79
+msgid "// empty array has no size\n"
+msgstr ""
+
+#: src/exotic-sizes.md:83
+msgid ""
+"On their own, Zero Sized Types (ZSTs) are, for obvious reasons, pretty "
+"useless. However as with many curious layout choices in Rust, their "
+"potential is realized in a generic context: Rust largely understands that "
+"any operation that produces or stores a ZST can be reduced to a no-op. First "
+"off, storing it doesn't even make sense -- it doesn't occupy any space. Also "
+"there's only one value of that type, so anything that loads it can just "
+"produce it from the aether -- which is also a no-op since it doesn't occupy "
+"any space."
+msgstr ""
+
+#: src/exotic-sizes.md:91
+msgid ""
+"One of the most extreme examples of this is Sets and Maps. Given a `Map<Key, "
+"Value>`, it is common to implement a `Set<Key>` as just a thin wrapper "
+"around `Map<Key, UselessJunk>`. In many languages, this would necessitate "
+"allocating space for UselessJunk and doing work to store and load "
+"UselessJunk only to discard it. Proving this unnecessary would be a "
+"difficult analysis for the compiler."
+msgstr ""
+
+#: src/exotic-sizes.md:98
+msgid ""
+"However in Rust, we can just say that  `Set<Key> = Map<Key, ()>`. Now Rust "
+"statically knows that every load and store is useless, and no allocation has "
+"any size. The result is that the monomorphized code is basically a custom "
+"implementation of a HashSet with none of the overhead that HashMap would "
+"have to support values."
+msgstr ""
+
+#: src/exotic-sizes.md:104
+msgid ""
+"Safe code need not worry about ZSTs, but _unsafe_ code must be careful about "
+"the consequence of types with no size. In particular, pointer offsets are no-"
+"ops, and allocators typically [require a non-zero size](../std/alloc/trait."
+"GlobalAlloc.html#tymethod.alloc)."
+msgstr ""
+
+#: src/exotic-sizes.md:108
+msgid ""
+"Note that references to ZSTs (including empty slices), just like all other "
+"references, must be non-null and suitably aligned. However, loading or "
+"storing through a null pointer to a ZST is not [undefined behavior](what-"
+"unsafe-does.html), unlike pointers to other types."
+msgstr ""
+
+#: src/exotic-sizes.md:116
+msgid "Empty Types"
+msgstr ""
+
+#: src/exotic-sizes.md:118
+msgid ""
+"Rust also enables types to be declared that _cannot even be instantiated_. "
+"These types can only be talked about at the type level, and never at the "
+"value level. Empty types can be declared by specifying an enum with no "
+"variants:"
+msgstr ""
+
+#: src/exotic-sizes.md:123
+msgid "// No variants = EMPTY\n"
+msgstr ""
+
+#: src/exotic-sizes.md:126
+msgid ""
+"Empty types are even more marginal than ZSTs. The primary motivating example "
+"for an empty type is type-level unreachability. For instance, suppose an API "
+"needs to return a Result in general, but a specific case actually is "
+"infallible. It's actually possible to communicate this at the type level by "
+"returning a `Result<T, Void>`. Consumers of the API can confidently unwrap "
+"such a Result knowing that it's _statically impossible_ for this value to be "
+"an `Err`, as this would require providing a value of type `Void`."
+msgstr ""
+
+#: src/exotic-sizes.md:134
+msgid ""
+"In principle, Rust can do some interesting analyses and optimizations based "
+"on this fact. For instance, `Result<T, Void>` is represented as just `T`, "
+"because the `Err` case doesn't actually exist (strictly speaking, this is "
+"only an optimization that is not guaranteed, so for example transmuting one "
+"into the other is still Undefined Behavior)."
+msgstr ""
+
+#: src/exotic-sizes.md:140
+msgid "The following also compiles:"
+msgstr ""
+
+#: src/exotic-sizes.md:146
+msgid "// Err doesn't exist anymore, so Ok is actually irrefutable.\n"
+msgstr ""
+
+#: src/exotic-sizes.md:151
+msgid ""
+"One final subtle detail about empty types is that raw pointers to them are "
+"actually valid to construct, but dereferencing them is Undefined Behavior "
+"because that wouldn't make sense."
+msgstr ""
+
+#: src/exotic-sizes.md:155
+msgid ""
+"We recommend against modelling C's `void*` type with `*const Void`. A lot of "
+"people started doing that but quickly ran into trouble because Rust doesn't "
+"really have any safety guards against trying to instantiate empty types with "
+"unsafe code, and if you do it, it's Undefined Behavior. This was especially "
+"problematic because developers had a habit of converting raw pointers to "
+"references and `&Void` is _also_ Undefined Behavior to construct."
+msgstr ""
+
+#: src/exotic-sizes.md:163
+msgid ""
+"`*const ()` (or equivalent) works reasonably well for `void*`, and can be "
+"made into a reference without any safety problems. It still doesn't prevent "
+"you from trying to read or write values, but at least it compiles to a no-op "
+"instead of Undefined Behavior."
+msgstr ""
+
+#: src/exotic-sizes.md:168
+msgid "Extern Types"
+msgstr ""
+
+#: src/exotic-sizes.md:170
+msgid ""
+"There is [an accepted RFC](https://github.com/rust-lang/rfcs/blob/master/"
+"text/1861-extern-types.md) to add proper types with an unknown size, called "
+"_extern types_, which would let Rust developers model things like C's "
+"`void*` and other \"declared but never defined\" types more accurately. "
+"However as of Rust 2018, [the feature is stuck in limbo over how "
+"`size_of_val::<MyExternType>()` should behave](https://github.com/rust-lang/"
+"rust/issues/43467)."
+msgstr ""

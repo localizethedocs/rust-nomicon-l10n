@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/vec/vec-dealloc.md:1
+msgid "Deallocating"
+msgstr ""
+
+#: src/vec/vec-dealloc.md:3
+msgid ""
+"Next we should implement Drop so that we don't massively leak tons of "
+"resources. The easiest way is to just call `pop` until it yields None, and "
+"then deallocate our buffer. Note that calling `pop` is unneeded if `T: !"
+"Drop`. In theory we can ask Rust if `T` `needs_drop` and omit the calls to "
+"`pop`. However in practice LLVM is _really_ good at removing simple side-"
+"effect free code like this, so I wouldn't bother unless you notice it's not "
+"being stripped (in this case it is)."
+msgstr ""
+
+#: src/vec/vec-dealloc.md:10
+msgid ""
+"We must not call `alloc::dealloc` when `self.cap == 0`, as in this case we "
+"haven't actually allocated any memory."
+msgstr ""
