@@ -1,0 +1,122 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/drop-flags.md:1
+msgid "Drop Flags"
+msgstr ""
+
+#: src/drop-flags.md:3
+msgid ""
+"The examples in the previous section introduce an interesting problem for "
+"Rust. We have seen that it's possible to conditionally initialize, "
+"deinitialize, and reinitialize locations of memory totally safely. For Copy "
+"types, this isn't particularly notable since they're just a random pile of "
+"bits. However types with destructors are a different story: Rust needs to "
+"know whether to call a destructor whenever a variable is assigned to, or a "
+"variable goes out of scope. How can it do this with conditional "
+"initialization?"
+msgstr ""
+
+#: src/drop-flags.md:11
+msgid ""
+"Note that this is not a problem that all assignments need worry about. In "
+"particular, assigning through a dereference unconditionally drops, and "
+"assigning in a `let` unconditionally doesn't drop:"
+msgstr ""
+
+#: src/drop-flags.md:16
+msgid "// let makes a fresh variable, so never need to drop\n"
+msgstr ""
+
+#: src/drop-flags.md:18
+msgid "// Deref assumes the referent is initialized, so always drops\n"
+msgstr ""
+
+#: src/drop-flags.md:21
+msgid ""
+"This is only a problem when overwriting a previously initialized variable or "
+"one of its subfields."
+msgstr ""
+
+#: src/drop-flags.md:24
+msgid ""
+"It turns out that Rust actually tracks whether a type should be dropped or "
+"not _at runtime_. As a variable becomes initialized and uninitialized, a "
+"_drop flag_ for that variable is toggled. When a variable might need to be "
+"dropped, this flag is evaluated to determine if it should be dropped."
+msgstr ""
+
+#: src/drop-flags.md:29
+msgid ""
+"Of course, it is often the case that a value's initialization state can be "
+"statically known at every point in the program. If this is the case, then "
+"the compiler can theoretically generate more efficient code! For instance, "
+"straight- line code has such _static drop semantics_:"
+msgstr ""
+
+#: src/drop-flags.md:35 src/drop-flags.md:37 src/drop-flags.md:48
+#: src/drop-flags.md:65
+msgid "// x was uninit; just overwrite.\n"
+msgstr ""
+
+#: src/drop-flags.md:36
+msgid "// y was uninit; just overwrite and make x uninit.\n"
+msgstr ""
+
+#: src/drop-flags.md:38
+msgid ""
+"// y was init; Drop y, overwrite it, and make x uninit!\n"
+"                         // y goes out of scope; y was init; Drop y!\n"
+"                         // x goes out of scope; x was uninit; do nothing.\n"
+msgstr ""
+
+#: src/drop-flags.md:43
+msgid ""
+"Similarly, branched code where all branches have the same behavior with "
+"respect to initialization has static drop semantics:"
+msgstr ""
+
+#: src/drop-flags.md:50 src/drop-flags.md:53
+msgid "// x gets moved out; make x uninit.\n"
+msgstr ""
+
+#: src/drop-flags.md:52 src/drop-flags.md:66 src/drop-flags.md:78
+msgid "\"{}\""
+msgstr ""
+
+#: src/drop-flags.md:55
+msgid ""
+"// x was uninit; just overwrite.\n"
+"                            // x goes out of scope; x was init; Drop x!\n"
+msgstr ""
+
+#: src/drop-flags.md:59
+msgid ""
+"However code like this _requires_ runtime information to correctly Drop:"
+msgstr ""
+
+#: src/drop-flags.md:68
+msgid ""
+"// x goes out of scope; x might be uninit;\n"
+"                            // check the flag!\n"
+msgstr ""
+
+#: src/drop-flags.md:72
+msgid "Of course, in this case it's trivial to retrieve static drop semantics:"
+msgstr ""
+
+#: src/drop-flags.md:82
+msgid ""
+"The drop flags are tracked on the stack. In old Rust versions, drop flags "
+"were stashed in a hidden field of types that implement `Drop`."
+msgstr ""
