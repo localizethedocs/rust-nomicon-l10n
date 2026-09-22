@@ -37,9 +37,9 @@
     "branch" : "main",
     "commit" : 
     {
-      "date" : "2026-04-29 04:15:02 +0000",
-      "hash" : "4f9e4e1aa6a9e97f9c96dec4b3ecebccfabd31e5",
-      "title" : "Auto merge of #155953 - ShoyuVanilla:rollup-BrmB2HL, r=ShoyuVanilla"
+      "date" : "2026-09-22 08:08:25 +0000",
+      "hash" : "c64de18c55c70d62aa88a5722dea8f8e263bacf3",
+      "title" : "Auto merge of #162499 - GuillaumeGomez:subtree-update_cg_gcc_2026-09-08, r=antoyo"
     }
   },
   "type" : "branch",
