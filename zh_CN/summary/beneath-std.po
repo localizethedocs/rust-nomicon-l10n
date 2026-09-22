@@ -1,0 +1,127 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:14Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/beneath-std.md:1
+msgid "Beneath `std`"
+msgstr ""
+
+#: src/beneath-std.md:3
+msgid ""
+"This section documents features that are normally provided by the `std` "
+"crate and that `#![no_std]` developers have to deal with (i.e. provide) to "
+"build `#![no_std]` binary crates."
+msgstr ""
+
+#: src/beneath-std.md:7
+msgid "Using `libc`"
+msgstr ""
+
+#: src/beneath-std.md:9
+msgid ""
+"In order to build a `#[no_std]` executable we will need `libc` as a "
+"dependency. We can specify this using our `Cargo.toml` file:"
+msgstr ""
+
+#: src/beneath-std.md:12
+msgid ""
+"```toml\n"
+"[dependencies]\n"
+"libc = { version = \"0.2.146\", default-features = false }\n"
+"```"
+msgstr ""
+
+#: src/beneath-std.md:17
+msgid ""
+"Note that the default features have been disabled. This is a critical step - "
+"**the default features of `libc` include the `std` crate and so must be "
+"disabled.**"
+msgstr ""
+
+#: src/beneath-std.md:21
+msgid ""
+"Alternatively, we can use the unstable `rustc_private` private feature "
+"together with an `extern crate libc;` declaration as shown in the examples "
+"below. Note that windows-msvc targets do not require a libc, and "
+"correspondingly there is no `libc` crate in their sysroot. We do not need "
+"the `extern crate libc;` below, and having it on a windows-msvc target would "
+"be a compile error."
+msgstr ""
+
+#: src/beneath-std.md:27
+msgid "Writing an executable without `std`"
+msgstr ""
+
+#: src/beneath-std.md:29
+msgid ""
+"We will probably need a nightly version of the compiler to produce a `#!"
+"[no_std]` executable because on many platforms, we have to provide the "
+"`eh_personality` [lang item](https://doc.rust-lang.org/nightly/unstable-book/"
+"language-features/lang-items.html), which is unstable."
+msgstr ""
+
+#: src/beneath-std.md:33
+msgid ""
+"You will need to define a symbol for the entry point that is suitable for "
+"your target. For example, `main`, `_start`, `WinMain`, or whatever starting "
+"point is relevant for your target. Additionally, you need to use the `#!"
+"[no_main]` attribute to prevent the compiler from attempting to generate an "
+"entry point itself."
+msgstr ""
+
+#: src/beneath-std.md:36
+msgid ""
+"Additionally, it's required to define a [panic handler function](panic-"
+"handler.html)."
+msgstr ""
+
+#: src/beneath-std.md:43
+msgid "// Necessary for `panic = \"unwind\"` builds on cfg(unix) platforms.\n"
+msgstr ""
+
+#: src/beneath-std.md:47
+msgid "// Pull in the system libc library for what crt0.o likely requires.\n"
+msgstr ""
+
+#: src/beneath-std.md:54
+msgid "// Entry point for this program.\n"
+msgstr ""
+
+#: src/beneath-std.md:56
+msgid "// ensure that this symbol is included in the output as `main`\n"
+msgstr ""
+
+#: src/beneath-std.md:57
+msgid "\"C\""
+msgstr ""
+
+#: src/beneath-std.md:60
+msgid ""
+"// These functions are used by the compiler, but not for an empty program "
+"like this.\n"
+"// They are normally provided by `std`.\n"
+msgstr ""
+
+#: src/beneath-std.md:63
+msgid "\"eh_personality\""
+msgstr ""
+
+#: src/beneath-std.md:69
+msgid ""
+"If you are working with a target that doesn't have binary releases of the "
+"standard library available via rustup (this probably means you are building "
+"the `core` crate yourself) and need compiler-rt intrinsics (i.e. you are "
+"probably getting linker errors when building an executable: ``undefined "
+"reference to `__aeabi_memcpy'``), you need to manually link to the "
+"[`compiler_builtins` crate](https://crates.io/crates/compiler_builtins) to "
+"get those intrinsics and solve the linker errors."
+msgstr ""
