@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/hrtb.md:1
+msgid "Higher-Rank Trait Bounds (HRTBs)"
+msgstr ""
+
+#: src/hrtb.md:3
+msgid ""
+"Rust's `Fn` traits are a little bit magic. For instance, we can write the "
+"following code:"
+msgstr ""
+
+#: src/hrtb.md:24 src/hrtb.md:52 src/hrtb.md:105
+msgid "\"{}\""
+msgstr ""
+
+#: src/hrtb.md:28
+msgid ""
+"If we try to naively desugar this code in the same way that we did in the "
+"[lifetimes section](lifetimes.html), we run into some trouble:"
+msgstr ""
+
+#: src/hrtb.md:33
+msgid "// NOTE: `&'b data.0` and `'x: {` is not valid syntax!\n"
+msgstr ""
+
+#: src/hrtb.md:40
+msgid "// where F: Fn(&'??? (u8, u16)) -> &'??? u8,\n"
+msgstr ""
+
+#: src/hrtb.md:57
+msgid ""
+"How on earth are we supposed to express the lifetimes on `F`'s trait bound? "
+"We need to provide some lifetime there, but the lifetime we care about can't "
+"be named until we enter the body of `call`! Also, that isn't some fixed "
+"lifetime; `call` works with _any_ lifetime `&self` happens to have at that "
+"point."
+msgstr ""
+
+#: src/hrtb.md:62
+msgid ""
+"This job requires The Magic of Higher-Rank Trait Bounds (HRTBs). The way we "
+"desugar this is as follows:"
+msgstr ""
+
+#: src/hrtb.md:70
+msgid "Alternatively:"
+msgstr ""
+
+#: src/hrtb.md:77
+msgid ""
+"(Where `Fn(a, b, c) -> d` is itself just sugar for the unstable _real_ `Fn` "
+"trait)"
+msgstr ""
+
+#: src/hrtb.md:80
+msgid ""
+"`for<'a>` can be read as \"for all choices of `'a`\", and basically produces "
+"an _infinite list_ of trait bounds that F must satisfy. Intense. There "
+"aren't many places outside of the `Fn` traits where we encounter HRTBs, and "
+"even for those we have a nice magic sugar for the common cases."
+msgstr ""
+
+#: src/hrtb.md:85
+msgid "In summary, we can rewrite the original code more explicitly as:"
+msgstr ""
