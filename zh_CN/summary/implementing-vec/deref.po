@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/vec/vec-deref.md:1
+msgid "Deref"
+msgstr ""
+
+#: src/vec/vec-deref.md:3
+msgid ""
+"Alright! We've got a decent minimal stack implemented. We can push, we can "
+"pop, and we can clean up after ourselves. However there's a whole mess of "
+"functionality we'd reasonably want. In particular, we have a proper array, "
+"but none of the slice functionality. That's actually pretty easy to solve: "
+"we can implement `Deref<Target=[T]>`. This will magically make our Vec "
+"coerce to, and behave like, a slice in all sorts of conditions."
+msgstr ""
+
+#: src/vec/vec-deref.md:10
+msgid ""
+"All we need is `slice::from_raw_parts`. It will correctly handle empty "
+"slices for us. Later once we set up zero-sized type support it will also "
+"Just Work for those too."
+msgstr ""
+
+#: src/vec/vec-deref.md:28
+msgid "And let's do DerefMut too:"
+msgstr ""
+
+#: src/vec/vec-deref.md:43
+msgid ""
+"Now we have `len`, `first`, `last`, indexing, slicing, sorting, `iter`, "
+"`iter_mut`, and all other sorts of bells and whistles provided by slice. "
+"Sweet!"
+msgstr ""
