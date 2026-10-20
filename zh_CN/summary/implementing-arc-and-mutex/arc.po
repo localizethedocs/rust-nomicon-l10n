@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/arc-mutex/arc.md:1
+msgid "Implementing Arc"
+msgstr ""
+
+#: src/arc-mutex/arc.md:3
+msgid ""
+"In this section, we'll be implementing a simpler version of `std::sync::"
+"Arc`. Similarly to [the implementation of `Vec` we made earlier](../vec/vec."
+"md), we won't be taking advantage of as many optimizations, intrinsics, or "
+"unstable code as the standard library may."
+msgstr ""
+
+#: src/arc-mutex/arc.md:8
+msgid ""
+"This implementation is loosely based on the standard library's "
+"implementation (technically taken from `alloc::sync` in 1.49, as that's "
+"where it's actually implemented), but it will not support weak references at "
+"the moment as they make the implementation slightly more complex."
+msgstr ""
+
+#: src/arc-mutex/arc.md:13
+msgid "Please note that this section is very work-in-progress at the moment."
+msgstr ""
