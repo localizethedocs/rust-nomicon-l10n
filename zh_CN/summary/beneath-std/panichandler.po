@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: The Rustonomicon\n"
+"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/panic-handler.md:1
+msgid "\\#\\[panic_handler\\]"
+msgstr ""
+
+#: src/panic-handler.md:3
+msgid ""
+"`#[panic_handler]` is used to define the behavior of `panic!` in `#!"
+"[no_std]` applications. The `#[panic_handler]` attribute must be applied to "
+"a function with signature `fn(&PanicInfo) -> !` and such function must "
+"appear _once_ in the dependency graph of a binary / dylib / cdylib crate. "
+"The API of `PanicInfo` can be found in the [API docs](../core/panic/struct."
+"PanicInfo.html)."
+msgstr ""
+
+#: src/panic-handler.md:10
+msgid ""
+"Given that `#![no_std]` applications have no _standard_ output and that some "
+"`#![no_std]` applications, e.g. embedded applications, need different "
+"panicking behaviors for development and for release it can be helpful to "
+"have panic crates, crate that only contain a `#[panic_handler]`. This way "
+"applications can easily swap the panicking behavior by simply linking to a "
+"different panic crate."
+msgstr ""
+
+#: src/panic-handler.md:16
+msgid ""
+"Below is shown an example where an application has a different panicking "
+"behavior depending on whether is compiled using the dev profile (`cargo "
+"build`) or using the release profile (`cargo build --release`)."
+msgstr ""
+
+#: src/panic-handler.md:20
+msgid ""
+"`panic-semihosting` crate -- log panic messages to the host stderr using "
+"semihosting:"
+msgstr ""
+
+#: src/panic-handler.md:30 src/panic-handler.md:82
+msgid "// ..\n"
+msgstr ""
+
+#: src/panic-handler.md:46
+msgid ""
+"// logs \"panicked at '$reason', src/main.rs:27:4\" to the host stderr\n"
+msgstr ""
+
+#: src/panic-handler.md:47
+msgid "\"{}\""
+msgstr ""
+
+#: src/panic-handler.md:53
+msgid "`panic-halt` crate -- halt the thread on panic; messages are discarded:"
+msgstr ""
+
+#: src/panic-handler.md:67
+msgid "`app` crate:"
+msgstr ""
+
+#: src/panic-handler.md:72
+msgid "// dev profile\n"
+msgstr ""
+
+#: src/panic-handler.md:76
+msgid "// release profile\n"
+msgstr ""
