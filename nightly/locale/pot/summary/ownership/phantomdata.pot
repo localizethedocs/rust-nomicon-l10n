@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Rustonomicon\n"
-"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"POT-Creation-Date: 2026-10-20T13:25:19Z\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/phantom-data.md:1
@@ -299,141 +299,143 @@ msgstr ""
 
 #: src/phantom-data.md:232
 msgid ""
-"Raw pointers that own an allocation is such a pervasive pattern that the "
-"standard library made a utility for itself called `Unique<T>` which:"
+"Raw pointers that own an allocation are such a pervasive pattern that the "
+"standard library's own types bundle the same pieces together every time:"
 msgstr ""
 
 #: src/phantom-data.md:235
-msgid "wraps a `*const T` for variance"
+msgid "a `NonNull<T>`, for variance and the null-pointer optimization"
 msgstr ""
 
 #: src/phantom-data.md:236
-msgid "includes a `PhantomData<T>`"
+msgid "a `PhantomData<T>`"
 msgstr ""
 
 #: src/phantom-data.md:237
-msgid "auto-derives `Send`/`Sync` as if T was contained"
+msgid "`Send`/`Sync` impls as if a `T` was contained"
 msgstr ""
 
-#: src/phantom-data.md:238
-msgid "marks the pointer as `NonZero` for the null-pointer optimization"
-msgstr ""
-
-#: src/phantom-data.md:240
-msgid "Table of `PhantomData` patterns"
+#: src/phantom-data.md:239
+msgid ""
+"(For many years the standard library packaged these up as an internal "
+"`Unique<T>` type. It was never stable, and it has since been removed.)"
 msgstr ""
 
 #: src/phantom-data.md:242
+msgid "Table of `PhantomData` patterns"
+msgstr ""
+
+#: src/phantom-data.md:244
 msgid "Here’s a table of all the wonderful ways `PhantomData` could be used:"
 msgstr ""
 
-#: src/phantom-data.md:244
+#: src/phantom-data.md:246
 msgid "Phantom type"
 msgstr ""
 
-#: src/phantom-data.md:244
+#: src/phantom-data.md:246
 msgid "variance of `'a`"
 msgstr ""
 
-#: src/phantom-data.md:244
+#: src/phantom-data.md:246
 msgid "variance of `T`"
 msgstr ""
 
-#: src/phantom-data.md:244
+#: src/phantom-data.md:246
 msgid "`Send`/`Sync`<br/>(or lack thereof)"
 msgstr ""
 
-#: src/phantom-data.md:244
+#: src/phantom-data.md:246
 msgid "dangling `'a` or `T` in drop glue<br/>(_e.g._, `#[may_dangle] Drop`)"
 msgstr ""
 
-#: src/phantom-data.md:246
+#: src/phantom-data.md:248
 msgid "`PhantomData<T>`"
 msgstr ""
 
-#: src/phantom-data.md:246 src/phantom-data.md:249 src/phantom-data.md:250
-#: src/phantom-data.md:251 src/phantom-data.md:252 src/phantom-data.md:253
-#: src/phantom-data.md:254
+#: src/phantom-data.md:248 src/phantom-data.md:251 src/phantom-data.md:252
+#: src/phantom-data.md:253 src/phantom-data.md:254 src/phantom-data.md:255
+#: src/phantom-data.md:256
 msgid "\\-"
 msgstr ""
 
-#: src/phantom-data.md:246 src/phantom-data.md:247 src/phantom-data.md:248
-#: src/phantom-data.md:249 src/phantom-data.md:252
+#: src/phantom-data.md:248 src/phantom-data.md:249 src/phantom-data.md:250
+#: src/phantom-data.md:251 src/phantom-data.md:254
 msgid "**cov**ariant"
 msgstr ""
 
-#: src/phantom-data.md:246 src/phantom-data.md:248
+#: src/phantom-data.md:248 src/phantom-data.md:250
 msgid "inherited"
 msgstr ""
 
-#: src/phantom-data.md:246
+#: src/phantom-data.md:248
 msgid "disallowed (\"owns `T`\")"
 msgstr ""
 
-#: src/phantom-data.md:247
+#: src/phantom-data.md:249
 msgid "`PhantomData<&'a T>`"
 msgstr ""
 
-#: src/phantom-data.md:247
+#: src/phantom-data.md:249
 msgid "`Send + Sync`<br/>requires<br/>`T : Sync`"
 msgstr ""
 
-#: src/phantom-data.md:247 src/phantom-data.md:248 src/phantom-data.md:249
-#: src/phantom-data.md:250 src/phantom-data.md:251 src/phantom-data.md:252
-#: src/phantom-data.md:253 src/phantom-data.md:254
+#: src/phantom-data.md:249 src/phantom-data.md:250 src/phantom-data.md:251
+#: src/phantom-data.md:252 src/phantom-data.md:253 src/phantom-data.md:254
+#: src/phantom-data.md:255 src/phantom-data.md:256
 msgid "allowed"
 msgstr ""
 
-#: src/phantom-data.md:248
+#: src/phantom-data.md:250
 msgid "`PhantomData<&'a mut T>`"
 msgstr ""
 
-#: src/phantom-data.md:248 src/phantom-data.md:250 src/phantom-data.md:253
-#: src/phantom-data.md:254
+#: src/phantom-data.md:250 src/phantom-data.md:252 src/phantom-data.md:255
+#: src/phantom-data.md:256
 msgid "**inv**ariant"
 msgstr ""
 
-#: src/phantom-data.md:249
+#: src/phantom-data.md:251
 msgid "`PhantomData<*const T>`"
 msgstr ""
 
-#: src/phantom-data.md:249 src/phantom-data.md:250
+#: src/phantom-data.md:251 src/phantom-data.md:252
 msgid "`!Send + !Sync`"
 msgstr ""
 
-#: src/phantom-data.md:250
+#: src/phantom-data.md:252
 msgid "`PhantomData<*mut T>`"
 msgstr ""
 
-#: src/phantom-data.md:251
+#: src/phantom-data.md:253
 msgid "`PhantomData<fn(T)>`"
 msgstr ""
 
-#: src/phantom-data.md:251
+#: src/phantom-data.md:253
 msgid "**contra**variant"
 msgstr ""
 
-#: src/phantom-data.md:251 src/phantom-data.md:252 src/phantom-data.md:253
+#: src/phantom-data.md:253 src/phantom-data.md:254 src/phantom-data.md:255
 msgid "`Send + Sync`"
 msgstr ""
 
-#: src/phantom-data.md:252
+#: src/phantom-data.md:254
 msgid "`PhantomData<fn() -> T>`"
 msgstr ""
 
-#: src/phantom-data.md:253
+#: src/phantom-data.md:255
 msgid "`PhantomData<fn(T) -> T>`"
 msgstr ""
 
-#: src/phantom-data.md:254
+#: src/phantom-data.md:256
 msgid "`PhantomData<Cell<&'a ()>>`"
 msgstr ""
 
-#: src/phantom-data.md:254
+#: src/phantom-data.md:256
 msgid "`Send + !Sync`"
 msgstr ""
 
-#: src/phantom-data.md:256
+#: src/phantom-data.md:258
 msgid ""
 "Note: opting out of the `Unpin` auto-trait requires the dedicated "
 "[`PhantomPinned`](../core/marker/struct.PhantomPinned.html) type instead."
