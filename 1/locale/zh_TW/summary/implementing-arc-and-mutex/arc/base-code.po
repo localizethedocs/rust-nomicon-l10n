@@ -96,9 +96,9 @@ msgstr ""
 
 #: src/arc-mutex/arc-base.md:63
 msgid ""
-"To dereference the `NonNull<T>` pointer into a `&T`, we can call `NonNull::"
-"as_ref`. This is unsafe, unlike the typical `as_ref` function, so we must "
-"call it like this:"
+"To dereference the `NonNull<T>` pointer into a `&T`, we can call "
+"`NonNull::as_ref`. This is unsafe, unlike the typical `as_ref` function, so "
+"we must call it like this:"
 msgstr ""
 
 #: src/arc-mutex/arc-base.md:72

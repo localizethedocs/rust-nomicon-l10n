@@ -33,9 +33,9 @@ msgid ""
 "Trying to fully explain the model in this book is fairly hopeless. It's "
 "defined in terms of madness-inducing causality graphs that require a full "
 "book to properly understand in a practical way. If you want all the nitty-"
-"gritty details, you should check out the [C++ specification](https://en."
-"cppreference.com/w/cpp/atomic/memory_order). Still, we'll try to cover the "
-"basics and some of the problems Rust developers face."
+"gritty details, you should check out the [C++ specification](https://"
+"en.cppreference.com/w/cpp/atomic/memory_order). Still, we'll try to cover "
+"the basics and some of the problems Rust developers face."
 msgstr ""
 
 #: src/atomics.md:20

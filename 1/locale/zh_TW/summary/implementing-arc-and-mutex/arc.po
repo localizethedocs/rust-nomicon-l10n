@@ -17,10 +17,10 @@ msgstr ""
 
 #: src/arc-mutex/arc.md:3
 msgid ""
-"In this section, we'll be implementing a simpler version of `std::sync::"
-"Arc`. Similarly to [the implementation of `Vec` we made earlier](../vec/vec."
-"md), we won't be taking advantage of as many optimizations, intrinsics, or "
-"unstable code as the standard library may."
+"In this section, we'll be implementing a simpler version of "
+"`std::sync::Arc`. Similarly to [the implementation of `Vec` we made earlier]"
+"(../vec/vec.md), we won't be taking advantage of as many optimizations, "
+"intrinsics, or unstable code as the standard library may."
 msgstr ""
 
 #: src/arc-mutex/arc.md:8
