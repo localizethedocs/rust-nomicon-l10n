@@ -46,8 +46,8 @@ msgstr ""
 
 #: src/exotic-sizes.md:19
 msgid ""
-"slices: [`[T]`](../std/primitive.slice.html), [`str`](../std/primitive.str."
-"html), and others"
+"slices: [`[T]`](../std/primitive.slice.html), [`str`](../std/"
+"primitive.str.html), and others"
 msgstr ""
 
 #: src/exotic-sizes.md:21
@@ -155,8 +155,8 @@ msgstr ""
 msgid ""
 "Safe code need not worry about ZSTs, but _unsafe_ code must be careful about "
 "the consequence of types with no size. In particular, pointer offsets are no-"
-"ops, and allocators typically [require a non-zero size](../std/alloc/trait."
-"GlobalAlloc.html#tymethod.alloc)."
+"ops, and allocators typically [require a non-zero size](../std/alloc/"
+"trait.GlobalAlloc.html#tymethod.alloc)."
 msgstr ""
 
 #: src/exotic-sizes.md:108

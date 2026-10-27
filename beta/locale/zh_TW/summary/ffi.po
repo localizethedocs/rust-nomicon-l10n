@@ -726,8 +726,8 @@ msgid ""
 "Vectors and strings share the same basic memory layout, and utilities are "
 "available in the `vec` and `str` modules for working with C APIs. However, "
 "strings are not terminated with `\\0`. If you need a NUL-terminated string "
-"for interoperability with C, you should use the `CString` type in the `std::"
-"ffi` module."
+"for interoperability with C, you should use the `CString` type in the "
+"`std::ffi` module."
 msgstr ""
 
 #: src/ffi.md:652
@@ -943,8 +943,8 @@ msgstr ""
 #: src/ffi.md:854
 msgid ""
 "If you are writing Rust code that may panic, and you don't wish to abort the "
-"process if it panics, you must use [`catch_unwind`](../std/panic/fn."
-"catch_unwind.html):"
+"process if it panics, you must use [`catch_unwind`](../std/panic/"
+"fn.catch_unwind.html):"
 msgstr ""
 
 #: src/ffi.md:863

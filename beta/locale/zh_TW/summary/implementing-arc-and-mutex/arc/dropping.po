@@ -79,8 +79,8 @@ msgstr ""
 
 #: src/arc-mutex/arc-drop.md:44
 msgid ""
-"As explained in the [Boost documentation](https://www.boost.org/doc/"
-"libs/1_55_0/doc/html/atomic/usage_examples.html),"
+"As explained in the [Boost documentation](https://www.boost.org/doc/libs/"
+"1_55_0/doc/html/atomic/usage_examples.html),"
 msgstr ""
 
 #: src/arc-mutex/arc-drop.md:46
