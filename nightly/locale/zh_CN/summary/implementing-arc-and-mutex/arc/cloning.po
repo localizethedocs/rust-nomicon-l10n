@@ -50,8 +50,8 @@ msgid ""
 "the Arc, however, we'll need to atomically synchronize when decrementing the "
 "reference count. This is described more in [the section on the `Drop` "
 "implementation for `Arc`](arc-drop.md). For more information on atomic "
-"relationships and Relaxed ordering, see [the section on atomics](../atomics."
-"md)."
+"relationships and Relaxed ordering, see [the section on atomics](../"
+"atomics.md)."
 msgstr ""
 
 #: src/arc-mutex/arc-clone.md:33

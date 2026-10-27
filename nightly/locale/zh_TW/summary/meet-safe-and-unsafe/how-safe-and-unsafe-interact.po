@@ -53,8 +53,8 @@ msgstr ""
 msgid ""
 "You can use `unsafe` on a block to declare that all unsafe actions performed "
 "within are verified to uphold the contracts of those operations. For "
-"instance, the index passed to [`slice::get_unchecked`](../std/primitive."
-"slice.html#method.get_unchecked) is in-bounds."
+"instance, the index passed to [`slice::get_unchecked`](../std/"
+"primitive.slice.html#method.get_unchecked) is in-bounds."
 msgstr ""
 
 #: src/safe-unsafe-meaning.md:29
@@ -85,9 +85,10 @@ msgstr ""
 
 #: src/safe-unsafe-meaning.md:39
 msgid ""
-"Every raw pointer to a sized type has an [`offset`](../std/primitive.pointer."
-"html#method.offset) method that invokes Undefined Behavior if the passed "
-"offset is not [\"in bounds\"](../std/primitive.pointer.html#method.offset)."
+"Every raw pointer to a sized type has an [`offset`](../std/"
+"primitive.pointer.html#method.offset) method that invokes Undefined Behavior "
+"if the passed offset is not [\"in bounds\"](../std/"
+"primitive.pointer.html#method.offset)."
 msgstr ""
 
 #: src/safe-unsafe-meaning.md:41
