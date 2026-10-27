@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Rustonomicon\n"
-"POT-Creation-Date: 2026-04-29T10:51:10Z\n"
+"POT-Creation-Date: 2026-10-27T14:12:13Z\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/other-reprs.md:1
@@ -70,8 +70,8 @@ msgstr ""
 #: src/other-reprs.md:32
 msgid ""
 "Enums with fields also aren't a concept in C or C++, but a valid bridging of "
-"the types [is defined](https://github.com/rust-lang/rfcs/blob/master/"
-"text/2195-really-tagged-unions.md)."
+"the types [is defined](https://github.com/rust-lang/rfcs/blob/master/text/"
+"2195-really-tagged-unions.md)."
 msgstr ""
 
 #: src/other-reprs.md:35
@@ -123,15 +123,15 @@ msgstr ""
 msgid ""
 "NOTE: There's a `transparent_unions` nightly feature to apply "
 "`repr(transparent)` to unions, but it hasn't been stabilized due to design "
-"concerns. See the [tracking issue](https://github.com/rust-lang/rust/"
-"issues/60405) for more details."
+"concerns. See the [tracking issue](https://github.com/rust-lang/rust/issues/"
+"60405) for more details."
 msgstr ""
 
 #: src/other-reprs.md:65
 msgid ""
 "The goal is to make it possible to transmute between the single field and "
-"the struct/enum. An example of that is [`UnsafeCell`](../std/cell/struct."
-"UnsafeCell.html), which can be transmuted into the type it wraps "
+"the struct/enum. An example of that is [`UnsafeCell`](../std/cell/"
+"struct.UnsafeCell.html), which can be transmuted into the type it wraps "
 "([`UnsafeCell`](../std/cell/struct.UnsafeCell.html) also uses the unstable "
 "[no_niche](https://github.com/rust-lang/rust/pull/68491), so its ABI is not "
 "actually guaranteed to be the same when nested in other types)."
@@ -155,8 +155,8 @@ msgstr ""
 #: src/other-reprs.md:78
 msgid ""
 "More details are in the [RFC 1758](https://github.com/rust-lang/rfcs/blob/"
-"master/text/1758-repr-transparent.md) and the [RFC 2645](https://rust-lang."
-"github.io/rfcs/2645-transparent-unions.html)."
+"master/text/1758-repr-transparent.md) and the [RFC 2645](https://rust-"
+"lang.github.io/rfcs/2645-transparent-unions.html)."
 msgstr ""
 
 #: src/other-reprs.md:80
