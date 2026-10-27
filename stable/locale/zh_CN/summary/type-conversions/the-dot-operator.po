@@ -34,9 +34,10 @@ msgstr ""
 
 #: src/dot-operator.md:15
 msgid ""
-"We will use [fully-qualified syntax](../book/ch19-03-advanced-traits."
-"html#fully-qualified-syntax-for-disambiguation-calling-methods-with-the-same-"
-"name) to be more clear about exactly which type we are calling a function on."
+"We will use [fully-qualified syntax](../book/ch19-03-advanced-"
+"traits.html#fully-qualified-syntax-for-disambiguation-calling-methods-with-"
+"the-same-name) to be more clear about exactly which type we are calling a "
+"function on."
 msgstr ""
 
 #: src/dot-operator.md:18
@@ -49,9 +50,9 @@ msgstr ""
 msgid ""
 "If it can't call this function (for example, if the function has the wrong "
 "type or a trait isn't implemented for `Self`), then the compiler tries to "
-"add in an automatic reference. This means that the compiler tries `<&T>::"
-"foo(value)` and `<&mut T>::foo(value)`. This is called an \"autoref\" method "
-"call."
+"add in an automatic reference. This means that the compiler tries "
+"`<&T>::foo(value)` and `<&mut T>::foo(value)`. This is called an \"autoref\" "
+"method call."
 msgstr ""
 
 #: src/dot-operator.md:25

@@ -128,12 +128,12 @@ msgstr ""
 
 #: src/unchecked-uninit.md:81
 msgid ""
-"The correct alternative, if for some reason we cannot use `MaybeUninit::"
-"new`, is to use the [`ptr`](../core/ptr/index.html) module. In particular, "
-"it provides three functions that allow us to assign bytes to a location in "
-"memory without dropping the old value: [`write`](../core/ptr/fn.write.html), "
-"[`copy`](../std/ptr/fn.copy.html), and [`copy_nonoverlapping`](../std/ptr/fn."
-"copy_nonoverlapping.html)."
+"The correct alternative, if for some reason we cannot use "
+"`MaybeUninit::new`, is to use the [`ptr`](../core/ptr/index.html) module. In "
+"particular, it provides three functions that allow us to assign bytes to a "
+"location in memory without dropping the old value: [`write`](../core/ptr/"
+"fn.write.html), [`copy`](../std/ptr/fn.copy.html), and "
+"[`copy_nonoverlapping`](../std/ptr/fn.copy_nonoverlapping.html)."
 msgstr ""
 
 #: src/unchecked-uninit.md:86
@@ -206,9 +206,9 @@ msgstr ""
 msgid ""
 "For a struct, however, in general we do not know how it is laid out, and we "
 "also cannot use `&mut base_ptr.field` as that would be creating a reference. "
-"So, you must carefully use the [raw reference](../reference/types/pointer."
-"html#r-type.pointer.raw.constructor) syntax. This creates a raw pointer to "
-"the field without creating an intermediate reference:"
+"So, you must carefully use the [raw reference](../reference/types/"
+"pointer.html#r-type.pointer.raw.constructor) syntax. This creates a raw "
+"pointer to the field without creating an intermediate reference:"
 msgstr ""
 
 #: src/unchecked-uninit.md:136

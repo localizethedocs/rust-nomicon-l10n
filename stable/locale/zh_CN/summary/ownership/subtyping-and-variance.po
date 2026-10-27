@@ -334,8 +334,8 @@ msgstr ""
 
 #: src/subtyping.md:167
 msgid ""
-"For more types, see the [\"Variance\" section](../reference/subtyping."
-"html#variance) on the reference."
+"For more types, see the [\"Variance\" section](../reference/"
+"subtyping.html#variance) on the reference."
 msgstr ""
 
 #: src/subtyping.md:171
