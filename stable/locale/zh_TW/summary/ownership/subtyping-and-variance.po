@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Rustonomicon\n"
-"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"POT-Creation-Date: 2026-11-03T15:43:27Z\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -183,9 +183,10 @@ msgstr ""
 
 #: src/subtyping.md:121
 msgid ""
-"The problem is that we cannot assume that `&mut &'static str` and `&mut &'b "
-"str` are compatible. This means that `&mut &'static str` **cannot** be a "
-"_subtype_ of `&mut &'b str`, even if `'static` is a subtype of `'b`."
+"The problem is that we cannot assume `&'static str` can still be downgraded "
+"into `&'world str` to satisfy `T`, once it's behind a `&mut` reference. This "
+"means that `&mut &'static str` **cannot** be a _subtype_ of `&mut &'world "
+"str`, even if `'static` is a subtype of `'world`."
 msgstr ""
 
 #: src/subtyping.md:125
@@ -471,9 +472,9 @@ msgstr ""
 
 #: src/subtyping.md:279
 msgid ""
-"So when the function is called, all it's expecting is a `&str` which lives "
-"at least the lifetime of `'a`, it doesn't matter if the value actually lives "
-"longer."
+"So when the function is called, all its caller is expecting is a `&str` "
+"which lives at least the lifetime of `'a`, it doesn't matter if the value "
+"actually lives longer."
 msgstr ""
 
 #: src/subtyping.md:282
