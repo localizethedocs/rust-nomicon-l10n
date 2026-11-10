@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Rustonomicon\n"
-"POT-Creation-Date: 2026-04-29T10:51:13Z\n"
+"POT-Creation-Date: 2026-11-03T15:43:27Z\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
