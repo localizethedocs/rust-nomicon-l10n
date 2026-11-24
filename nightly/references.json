@@ -37,9 +37,9 @@
     "branch" : "main",
     "commit" : 
     {
-      "date" : "2026-11-03 06:39:27 +0000",
-      "hash" : "6a98084e4a21b04504c034dfc640e35e32ab9854",
-      "title" : "Auto merge of #165375 - JonathanBrouwer:rollup-TB0TYng, r=JonathanBrouwer"
+      "date" : "2026-11-24 14:28:06 +0000",
+      "hash" : "4cedc6bd576618ca90bc479c67e4ba16892a6188",
+      "title" : "Auto merge of #166384 - scrabsha:perf/remove-cache-deepresolverignoringregions, r=nnethercote"
     }
   },
   "type" : "branch",
